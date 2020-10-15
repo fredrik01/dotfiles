@@ -43,9 +43,6 @@ vnoremap K :m '<-2<CR>gv=gv
 " Reveal current file
 nmap <leader>n :Fern . -reveal=%<CR>
 
-" Quickly open/reload vim
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
 " Git blame current line
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 
