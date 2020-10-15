@@ -17,7 +17,7 @@ nmap <leader>f :BLines<CR>
 nmap <leader>rg :Rg<CR>
 " Search in all workspace files (The Silver Searcher)
 nmap <leader>ag :Ag<CR>
-"
+
 " <tab> for next buffer and shift+<tab> for previous
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
@@ -36,6 +36,10 @@ nmap <leader>l :noh<CR>
 nmap ö m`o<Esc>``
 nmap Ö m`O<Esc>``
 
+" Move selection up or down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " Reveal current file
 nmap <leader>n :Fern . -reveal=%<CR>
 
@@ -47,13 +51,12 @@ nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 
 set ignorecase " Case-insensitive searching
 set smartcase  " But case-sensitive if expression contains a capital letter
-
-set number
+set number relativenumber " Hybrid line numbers
 set hlsearch      " highlight all search matches
 set laststatus=2  " make lightline work with single window
 set noshowmode    " hide mode since lightline handles that
 set autoread      " Automatically re-read files changed outside Vim
-set updatetime=750
+set updatetime=500
 set signcolumn=yes " Always show sign column
 set clipboard+=unnamedplus " Use clipboard for y and p
 set noswapfile
@@ -89,10 +92,6 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install bat <- Enable syntax highlight in preview
-
-" Show trailing whitespaces
-Plug 'ntpeters/vim-better-whitespace'
-let g:better_whitespace_guicolor ='DarkRed'
 
 Plug 'tmsvg/pear-tree'
 let g:pear_tree_repeatable_expand = 0
@@ -180,4 +179,6 @@ endfunction
 command! FormatJSON :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
 command! CountLastSearch :execute '%s///gn'
+command! ShowTrailingWhitespace :execute '/\s\+$'
+command! ReloadVim :execute ':source $MYVIMRC'
 
