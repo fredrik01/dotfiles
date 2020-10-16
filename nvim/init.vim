@@ -128,6 +128,11 @@ Plug '907th/vim-auto-save'
 let g:auto_save        = 1
 let g:auto_save_silent = 1
 let g:auto_save_events = ["InsertLeave", "TextChanged", "FocusLost"]
+
+Plug 'rhysd/clever-f.vim'
+let g:clever_f_across_no_line    = 1
+let g:clever_f_fix_key_direction = 1
+let g:clever_f_smart_case        = 1
 call plug#end()
 
 if (has('termguicolors'))
