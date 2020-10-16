@@ -40,6 +40,10 @@ nmap Ö m`O<Esc>``
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" Better tabbing
+vnoremap < <gv
+vnoremap > >gv
+
 " Reveal current file
 nmap <leader>n :Fern . -reveal=%<CR>
 
@@ -53,13 +57,18 @@ set hlsearch      " highlight all search matches
 set laststatus=2  " make lightline work with single window
 set noshowmode    " hide mode since lightline handles that
 set autoread      " Automatically re-read files changed outside Vim
-set updatetime=500
+set updatetime=300
 set signcolumn=yes " Always show sign column
 set clipboard+=unnamedplus " Use clipboard for y and p
 set noswapfile
 set exrc
 set secure
-
+set cmdheight=2                         " More space for displaying messages
+set hidden                              " Required to be able to open another buffer without saving the current one
+set background=dark                     " tell vim what the background color looks like
+set cursorline                          " Enable highlighting of the current line
+set nobackup                            " This is recommended by coc
+set nowritebackup                       " This is recommended by coc
 call plug#begin('~/.vim/plugged')
 
 Plug 'itchyny/lightline.vim'
@@ -133,6 +142,9 @@ Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case        = 1
+
+Plug 'justinmk/vim-sneak'
+let g:sneak#s_next = 1
 call plug#end()
 
 if (has('termguicolors'))
