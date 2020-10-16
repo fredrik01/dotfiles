@@ -8,7 +8,9 @@
     ~/.config/nvim:
       create: true
       path: nvim
-    ~/.config/kitty/kitty.conf: kitty.conf
+    ~/.config/kitty/kitty.conf:
+      create: true
+      path: kitty.conf
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
