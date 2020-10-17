@@ -21,6 +21,7 @@ nmap <leader>ag :Ag<CR>
 " <tab> for next buffer and shift+<tab> for previous
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+nmap <leader>w :bd<CR> " Close current buffer
 
 " Find symbol of current document
 nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
@@ -50,6 +51,12 @@ nmap <leader>n :Fern . -reveal=%<CR>
 " Git blame current line
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 set ignorecase " Case-insensitive searching
 set smartcase  " But case-sensitive if expression contains a capital letter
 set number relativenumber " Hybrid line numbers
@@ -57,18 +64,19 @@ set hlsearch      " highlight all search matches
 set laststatus=2  " make lightline work with single window
 set noshowmode    " hide mode since lightline handles that
 set autoread      " Automatically re-read files changed outside Vim
-set updatetime=300
+set updatetime=100
 set signcolumn=yes " Always show sign column
 set clipboard+=unnamedplus " Use clipboard for y and p
 set noswapfile
 set exrc
 set secure
-set cmdheight=2                         " More space for displaying messages
+" set cmdheight=2                         " More space for displaying messages (is this useful?)
 set hidden                              " Required to be able to open another buffer without saving the current one
 set background=dark                     " tell vim what the background color looks like
 set cursorline                          " Enable highlighting of the current line
 set nobackup                            " This is recommended by coc
 set nowritebackup                       " This is recommended by coc
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'itchyny/lightline.vim'
@@ -145,6 +153,9 @@ let g:clever_f_smart_case        = 1
 
 Plug 'justinmk/vim-sneak'
 let g:sneak#s_next = 1
+
+Plug 'ap/vim-buftabline'
+let g:buftabline_show = 1
 call plug#end()
 
 if (has('termguicolors'))
@@ -169,6 +180,11 @@ let g:lightline = {
 
 " Make vim-highlightedyank work with this color theme
 highlight HighlightedyankRegion cterm=reverse gui=reverse
+
+" Make buftabline more discrete
+hi TabLineFill guibg=#000
+hi TabLine guibg=#000
+hi TabLineSel guibg=#000
 
 " Disable netrw
 let g:loaded_netrw             = 1
