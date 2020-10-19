@@ -57,6 +57,16 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Adjust split size
+nnoremap <c-Left> :vertical resize +3<CR>
+nnoremap <c-Right> :vertical resize -3<CR>
+nnoremap <c-Up> :resize +3<CR>
+nnoremap <c-Down> :resize -3<CR>
+
+" Change 2 split windows form horizontal to vertical or the other way around
+map <Leader>th <C-w>t<C-w>H
+map <Leader>tk <C-w>t<C-w>K
+
 set ignorecase " Case-insensitive searching
 set smartcase  " But case-sensitive if expression contains a capital letter
 set number relativenumber " Hybrid line numbers
