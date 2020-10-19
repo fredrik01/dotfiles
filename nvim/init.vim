@@ -156,6 +156,12 @@ let g:sneak#s_next = 1
 
 Plug 'ap/vim-buftabline'
 let g:buftabline_show = 1
+
+Plug 'vim-vdebug/vdebug'
+if !exists('g:vdebug_options')
+  let g:vdebug_options = {}
+endif
+" Example: let g:vdebug_options.path_maps = {'/app': '/Users/Username/Apps/MyApp'}
 call plug#end()
 
 if (has('termguicolors'))
@@ -185,6 +191,10 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 hi TabLineFill guibg=#000
 hi TabLine guibg=#000
 hi TabLineSel guibg=#000
+
+" vdebug breakpoint color
+hi default DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
+hi default DbgBreakptSign term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
 
 " Disable netrw
 let g:loaded_netrw             = 1
