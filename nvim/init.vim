@@ -97,8 +97,15 @@ Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
+
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
+Plug 'antoinemadec/FixCursorHold.nvim' " https://github.com/lambdalisue/fern.vim/issues/120
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+let g:fern#renderer = "nerdfont"
+
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Eenhances the . operator to work with vim-surround
@@ -108,6 +115,7 @@ Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the
 Plug 'sheerun/vim-polyglot'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'zivyangll/git-blame.vim'
+Plug 'rhysd/conflict-marker.vim'
 
 " Themes
 Plug 'bluz71/vim-moonfly-colors'
@@ -130,7 +138,8 @@ let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
 let g:ale_linters = {'php': ['php', 'phpcs']}
 
 Plug 'vim-test/vim-test'
-let test#strategy = "neovim"
+let test#strategy = 'shtuff'
+let g:shtuff_receiver = 'tests'
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
 nmap <leader>ts :TestSuite<CR>
@@ -217,6 +226,7 @@ augroup my-fern-hijack
   autocmd!
   autocmd BufEnter * ++nested call s:hijack_directory()
 augroup END
+
 function! s:hijack_directory() abort
   let path = expand('%:p')
   if !isdirectory(path)
@@ -225,6 +235,12 @@ function! s:hijack_directory() abort
   bwipeout %
   execute printf('Fern %s', fnameescape(path))
 endfunction
+
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
 
 command! FormatJSON :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
