@@ -83,6 +83,7 @@ set secure
 " set cmdheight=2                         " More space for displaying messages (is this useful?)
 set hidden                              " Required to be able to open another buffer without saving the current one
 set background=dark                     " tell vim what the background color looks like
+set cursorline                          " Enable highlighting of the current line
 set nobackup                            " This is recommended by coc
 set nowritebackup                       " This is recommended by coc
 
