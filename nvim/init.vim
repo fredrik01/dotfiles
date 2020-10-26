@@ -46,7 +46,10 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Reveal current file
-nmap <leader>n :Fern . -reveal=%<CR>
+nmap <leader><leader> :Fern . -reveal=%<CR>
+
+" Notational FZF
+nnoremap <silent><leader>n :NV<CR>
 
 " Git blame current line
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
@@ -112,14 +115,11 @@ Plug 'tpope/vim-repeat' " Eenhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
-Plug 'sheerun/vim-polyglot'
-Plug 'michaeljsmith/vim-indent-object'
+" Plug 'sheerun/vim-polyglot' " Slow!
 Plug 'zivyangll/git-blame.vim'
-Plug 'rhysd/conflict-marker.vim'
 
 " Themes
 Plug 'bluz71/vim-moonfly-colors'
-Plug 'dracula/vim', { 'as': 'dracula' }
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -134,8 +134,11 @@ let g:indentLine_setConceal = 1
 let g:indentLine_enabled = 1
 
 Plug 'dense-analysis/ale'
+let g:ale_linters = {'php': ['phpcs']}
 let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
-let g:ale_linters = {'php': ['php', 'phpcs']}
+let g:ale_linters_explicit = 1
+let g:ale_virtualenv_dir_names = []
+let g:ale_cache_executable_check_failures = 1
 
 Plug 'vim-test/vim-test'
 let test#strategy = 'shtuff'
@@ -150,15 +153,15 @@ if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
 
-Plug 'mbbill/undotree'
-let g:undotree_HighlightChangedWithSign = 0
-let g:undotree_WindowLayout             = 4
-let g:undotree_SetFocusWhenToggle       = 1
-nnoremap <Leader>u :UndotreeToggle<CR>
-
-Plug 'hrsh7th/vim-vsnip'
-imap <expr> <C-j> vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"
-imap <expr> <C-k> vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)"      : "<C-k>"
+" Plug 'mbbill/undotree'
+" let g:undotree_HighlightChangedWithSign = 0
+" let g:undotree_WindowLayout             = 4
+" let g:undotree_SetFocusWhenToggle       = 1
+" nnoremap <Leader>u :UndotreeToggle<CR>
+"
+" Plug 'hrsh7th/vim-vsnip'
+" imap <expr> <C-j> vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"
+" imap <expr> <C-k> vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)"      : "<C-k>"
 
 Plug '907th/vim-auto-save'
 let g:auto_save        = 1
@@ -181,6 +184,10 @@ if !exists('g:vdebug_options')
   let g:vdebug_options = {}
 endif
 " Example: let g:vdebug_options.path_maps = {'/app': '/Users/Username/Apps/MyApp'}
+
+Plug 'https://github.com/alok/notational-fzf-vim'
+let g:nv_search_paths = ['~/wiki']
+let g:nv_create_note_window = 'tabedit'
 call plug#end()
 
 if (has('termguicolors'))
