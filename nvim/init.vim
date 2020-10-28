@@ -19,14 +19,14 @@ nmap <leader>rg :Rg<CR>
 nmap <leader>ag :Ag<CR>
 
 " <tab> for next buffer and shift+<tab> for previous
-nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
-nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap <silent><s-tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 nmap <leader>w :bd<CR> " Close current buffer
 
 " Find symbol of current document
-nnoremap <silent><nowait> <leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent><nowait> <leader>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait><leader>s :<C-u>CocList -I symbols<cr>
 " Go to definition
 nmap <leader>gd <Plug>(coc-definition)
 
@@ -50,6 +50,9 @@ nmap <leader><leader> :Fern . -reveal=%<CR>
 
 " Notational FZF
 nnoremap <silent><leader>n :NV<CR>
+
+" Toggle spellcheck
+nmap <leader>sc :setlocal spell! spelllang=en,sv<CR>
 
 " Git blame current line
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
@@ -111,7 +114,7 @@ let g:fern#renderer = "nerdfont"
 
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat' " Eenhances the . operator to work with vim-surround
+Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
@@ -186,7 +189,7 @@ endif
 " Example: let g:vdebug_options.path_maps = {'/app': '/Users/Username/Apps/MyApp'}
 
 Plug 'https://github.com/alok/notational-fzf-vim'
-let g:nv_search_paths = ['~/wiki']
+let g:nv_search_paths = ['~/notes']
 let g:nv_create_note_window = 'tabedit'
 call plug#end()
 
