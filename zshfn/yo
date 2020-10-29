@@ -15,12 +15,12 @@ if [[ $(git -C $notes_dir status --porcelain) ]]; then
     git -C $notes_dir push
     echo ''
 else
-    echo 'Notes - No changes'
+    echo 'Notes - No local changes'
 fi
 
 if [[ $(git -C $dotfiles_dir status --porcelain) ]]; then
-    echo 'Dotfiles - Has changes *'
+    echo 'Dotfiles - Has local changes *'
 else
-    echo 'Dotfiles - No changes'
+    echo 'Dotfiles - No local changes'
 fi
 
