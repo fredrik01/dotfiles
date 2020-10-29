@@ -73,6 +73,20 @@ nnoremap <c-Down> :resize -3<CR>
 map <Leader>th <C-w>t<C-w>H
 map <Leader>tk <C-w>t<C-w>K
 
+" Search for a term and replace it
+nnoremap <Leader>r :%s///g<left><left><left>
+nnoremap <Leader>rc :%s///gc<left><left><left>
+
+" Same as above but restict to a visual selection.
+" First search for something and then visually select a range.
+xnoremap <Leader>r :%s///g<left><left><left>
+xnoremap <Leader>rc :%s///gc<left><left><left>
+
+" Type replacement term and press . to repeat the replacement again
+" (comparable to multiple cursors)
+nnoremap <Leader>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
+
 set ignorecase " Case-insensitive searching
 set smartcase  " But case-sensitive if expression contains a capital letter
 set number relativenumber " Hybrid line numbers
