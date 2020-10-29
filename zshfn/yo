@@ -1,0 +1,26 @@
+local notes_dir=~/.notes
+local dotfiles_dir=~/.dotfiles
+
+echo 'Updating notes'
+echo ''
+git -C $notes_dir checkout master
+git -C $notes_dir pull
+echo ''
+
+if [[ $(git -C $notes_dir status --porcelain) ]]; then
+    echo 'notes - has local changes, auto committing...'
+    echo ''
+    git -C $notes_dir add .
+    git -C $notes_dir commit -m "Auto commit"
+    git -C $notes_dir push
+    echo ''
+else
+    echo 'notes - no changes'
+fi
+
+if [[ $(git -C $dotfiles_dir status --porcelain) ]]; then
+    echo 'dotfiles - has changes *'
+else
+    echo 'dotfiles - no changes'
+fi
+

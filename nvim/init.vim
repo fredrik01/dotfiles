@@ -206,7 +206,7 @@ endif
 " Example: let g:vdebug_options.path_maps = {'/app': '/Users/Username/Apps/MyApp'}
 
 Plug 'https://github.com/alok/notational-fzf-vim'
-let g:nv_search_paths = ['~/notes']
+let g:nv_search_paths = ['~/.notes']
 let g:nv_create_note_window = 'tabedit'
 call plug#end()
 
