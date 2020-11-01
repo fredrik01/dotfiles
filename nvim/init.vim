@@ -116,6 +116,7 @@ Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
+Plug 'honza/vim-snippets'
 
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
@@ -178,9 +179,6 @@ endif
 " let g:undotree_SetFocusWhenToggle       = 1
 " nnoremap <Leader>u :UndotreeToggle<CR>
 "
-" Plug 'hrsh7th/vim-vsnip'
-" imap <expr> <C-j> vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"
-" imap <expr> <C-k> vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)"      : "<C-k>"
 
 Plug '907th/vim-auto-save'
 let g:auto_save        = 1
@@ -208,6 +206,18 @@ Plug 'https://github.com/alok/notational-fzf-vim'
 let g:nv_search_paths = ['~/.notes']
 let g:nv_create_note_window = 'tabedit'
 call plug#end()
+
+let g:coc_global_extensions = [
+  \'coc-phpls',
+  \'coc-tsserver',
+  \'coc-markdownlint',
+  \'coc-vetur',
+  \'coc-json',
+  \'coc-snippets',
+\]
+
+imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
+vmap <C-j> <Plug>(coc-snippets-select) " Jump to next selection
 
 if (has('termguicolors'))
   set termguicolors
