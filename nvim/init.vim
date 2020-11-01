@@ -87,23 +87,22 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 nnoremap <Leader>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
-set ignorecase " Case-insensitive searching
-set smartcase  " But case-sensitive if expression contains a capital letter
-set number relativenumber " Hybrid line numbers
-set hlsearch      " highlight all search matches
-set laststatus=2  " make lightline work with single window
-set noshowmode    " hide mode since lightline handles that
-set autoread      " Automatically re-read files changed outside Vim
-set updatetime=100
-set signcolumn=yes " Always show sign column
-set clipboard+=unnamedplus " Use clipboard for y and p
+set ignorecase                  " Case-insensitive searching
+set smartcase                   " But case-sensitive if expression contains a capital letter
+set number                      " Regular line numbers since relative are slow
+set hlsearch                    " highlight all search matches
+set laststatus=2                " make lightline work with single window
+set noshowmode                  " hide mode since lightline handles that
+set autoread                    " Automatically re-read files changed outside Vim
+set updatetime=300
+set signcolumn=yes              " Always show sign column
+set clipboard+=unnamedplus      " Use clipboard for y and p
 set noswapfile
 set exrc
 set secure
 " set cmdheight=2                         " More space for displaying messages (is this useful?)
 set hidden                              " Required to be able to open another buffer without saving the current one
 set background=dark                     " tell vim what the background color looks like
-set cursorline                          " Enable highlighting of the current line
 set nobackup                            " This is recommended by coc
 set nowritebackup                       " This is recommended by coc
 
@@ -135,7 +134,7 @@ Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
-" Plug 'sheerun/vim-polyglot' " Slow!
+Plug 'sheerun/vim-polyglot' " Slow?
 Plug 'zivyangll/git-blame.vim'
 
 " Themes
