@@ -133,6 +133,7 @@ Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 let g:fern#renderer = "nerdfont"
+let g:fern#default_hidden = 1
 
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-surround'
@@ -154,6 +155,7 @@ Plug 'Yggdroot/indentLine'
 let g:indentLine_char       = '▏'
 let g:indentLine_setConceal = 1
 let g:indentLine_enabled = 1
+let g:indentLine_setColors = 0 " Moonfly color theme says this
 
 Plug 'dense-analysis/ale'
 let g:ale_linters = {'php': ['phpcs']}
