@@ -178,7 +178,6 @@ endif
 " let g:undotree_WindowLayout             = 4
 " let g:undotree_SetFocusWhenToggle       = 1
 " nnoremap <Leader>u :UndotreeToggle<CR>
-"
 
 Plug '907th/vim-auto-save'
 let g:auto_save        = 1
@@ -210,7 +209,6 @@ call plug#end()
 let g:coc_global_extensions = [
   \'coc-phpls',
   \'coc-tsserver',
-  \'coc-markdownlint',
   \'coc-vetur',
   \'coc-json',
   \'coc-snippets',
