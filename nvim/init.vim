@@ -29,6 +29,10 @@ nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
 nnoremap <silent><nowait><leader>s :<C-u>CocList -I symbols<cr>
 " Go to definition
 nmap <leader>gd <Plug>(coc-definition)
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Disable search highlighting until the next search
 nmap <leader>l :noh<CR>
@@ -105,6 +109,7 @@ set hidden                              " Required to be able to open another bu
 set background=dark                     " tell vim what the background color looks like
 set nobackup                            " This is recommended by coc
 set nowritebackup                       " This is recommended by coc
+set shortmess+=c                        " A coc thing
 
 call plug#begin('~/.vim/plugged')
 
@@ -144,9 +149,6 @@ Plug 'bluz71/vim-moonfly-colors'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install bat <- Enable syntax highlight in preview
-
-Plug 'tmsvg/pear-tree'
-let g:pear_tree_repeatable_expand = 0
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_char       = '▏'
@@ -212,6 +214,7 @@ let g:coc_global_extensions = [
   \'coc-vetur',
   \'coc-json',
   \'coc-snippets',
+  \'coc-pairs',
 \]
 
 imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
