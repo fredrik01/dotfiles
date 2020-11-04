@@ -143,6 +143,7 @@ Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'sheerun/vim-polyglot' " Slow?
 Plug 'zivyangll/git-blame.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " Themes
 Plug 'bluz71/vim-moonfly-colors'
