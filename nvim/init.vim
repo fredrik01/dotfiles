@@ -91,6 +91,11 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 nnoremap <Leader>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
+" Don't yank with these
+nnoremap x "_x
+nnoremap c "_c
+nnoremap C "_C
+
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
