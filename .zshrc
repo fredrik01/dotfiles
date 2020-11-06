@@ -42,10 +42,10 @@
 
 export ZSH=~/.oh-my-zsh
 ZSH_THEME=""
-
 plugins=(git jump zsh-autosuggestions vi-mode)
-
 source $ZSH/oh-my-zsh.sh
+
+export BAT_THEME="Dracula"
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
