@@ -126,7 +126,7 @@ Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
-Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets' " Pre made snippets
 
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
