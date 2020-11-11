@@ -294,4 +294,5 @@ command! FormatXML :execute '%!xmllint --format %'
 command! CountLastSearch :execute '%s///gn'
 command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
+command! Today :execute ":put =strftime('%Y-%m-%d')"
 
