@@ -58,6 +58,13 @@ nnoremap <silent><leader>n :NV<CR>
 " Toggle spellcheck
 nmap <leader>sc :setlocal spell! spelllang=en,sv<CR>
 
+" Generate .spl files on startup
+for d in glob('~/.config/nvim/spell/*.add', 1, 1)
+    if filereadable(d) && (!filereadable(d . '.spl') || getftime(d) > getftime(d . '.spl'))
+        exec 'mkspell! ' . fnameescape(d)
+    endif
+endfor
+
 " Git blame current line
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 
@@ -126,7 +133,7 @@ Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
-Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets' " Pre made snippets
 
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
