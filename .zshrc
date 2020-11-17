@@ -59,6 +59,10 @@ gpush() {
 gpush-ci-skip() {
     git push -u origin $(current-branch) --push-option=ci.skip;
 }
+git-clean-branches() {
+    git branch -d $(git branch --merged=master | grep -v master)
+    git fetch --prune
+}
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
