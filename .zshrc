@@ -50,7 +50,15 @@ export BAT_THEME="Dracula"
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# source ~/apps/docker-aliases/aliases.sh
+current-branch() {
+    git branch | grep \* | cut -d ' ' -f2
+}
+gpush() {
+    git push -u origin $(current-branch);
+}
+gpush-ci-skip() {
+    git push -u origin $(current-branch) --push-option=ci.skip;
+}
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
