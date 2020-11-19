@@ -175,6 +175,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Yggdroot/indentLine'
 let g:indentLine_char       = '▏'
 let g:indentLine_setColors = 0 " Moonfly color theme says this
+let g:indentLine_fileTypeExclude = ['markdown']
 
 Plug 'dense-analysis/ale'
 let g:ale_linters = {'php': ['phpcs']}
