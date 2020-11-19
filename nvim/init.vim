@@ -21,7 +21,7 @@ nmap <leader>ag :Ag<CR>
 " <tab> for next buffer and shift+<tab> for previous
 nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap <silent><s-tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
-nmap <leader>w :bd<CR> " Close current buffer
+nmap <leader>q :bd<CR> " Close current buffer
 
 " Find symbol of current document
 nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
@@ -148,6 +148,12 @@ let g:fern#renderer = "nerdfont"
 let g:fern#default_hidden = 1
 
 Plug 'chaoren/vim-wordmotion'
+" Add mappings for vims original word definition
+xnoremap io iw
+xnoremap ao aw
+onoremap io iw
+onoremap ao aw
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
@@ -168,8 +174,6 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_char       = '▏'
-let g:indentLine_setConceal = 1
-let g:indentLine_enabled = 1
 let g:indentLine_setColors = 0 " Moonfly color theme says this
 
 Plug 'dense-analysis/ale'
