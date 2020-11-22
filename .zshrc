@@ -64,6 +64,14 @@ git-clean-branches() {
     git fetch --prune
 }
 
+weather() {
+    if [ $1 = "-s" ]; then
+        curl -s "wttr.in/{$2}?format=3"
+    else
+        curl wttr.in/$1
+    fi
+}
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
