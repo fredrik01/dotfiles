@@ -162,6 +162,8 @@ Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the
 Plug 'sheerun/vim-polyglot' " Slow?
 Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'jkramer/vim-checkbox'
+
 Plug 'mhinz/vim-grepper'
 nnoremap <leader>gr :Grepper -tool git<cr>
 
