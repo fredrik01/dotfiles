@@ -14,8 +14,9 @@ nmap <leader>h :History<CR>
 " Search lines in current buffer
 nmap <leader>f :BLines<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
-nmap <leader>rg :Rg<CR>
+nmap <leader>rg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
+" TODO: Chage to some sort of rg command
 nmap <leader>ag :Ag<CR>
 
 " <tab> for next buffer and shift+<tab> for previous
@@ -310,3 +311,8 @@ command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
 
+" rg including hidden files (but not .git folder), respects .gitignore
+command! -bang -nargs=* RgWithHidden
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob "!.git" -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
