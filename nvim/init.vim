@@ -283,9 +283,11 @@ let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
 
-" Show fern when opening a dir
-augroup my-fern-hijack
-  autocmd!
+augroup autocmds
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+  " Show fern when opening a dir
   autocmd BufEnter * ++nested call s:hijack_directory()
 augroup END
 
@@ -297,12 +299,6 @@ function! s:hijack_directory() abort
   bwipeout %
   execute printf('Fern %s', fnameescape(path))
 endfunction
-
-augroup my-glyph-palette
-  autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-augroup END
 
 command! FormatJSON :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
