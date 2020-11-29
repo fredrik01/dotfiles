@@ -75,6 +75,15 @@ weather() {
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Git diff with fzf. Arguments are passed to git diff, so it can be used in the same way as git diff
+# Examples:
+#       fd (regular git diff)
+#       fd 8387eff8..350500cb
+fd() {
+  preview="git diff $@ --color=always -- {-1}"
+  git diff $@ --name-only | fzf -m --ansi --preview $preview
+}
+
 # Vi mode
 bindkey -v
 
