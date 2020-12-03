@@ -129,7 +129,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
 Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
@@ -160,10 +159,13 @@ Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
-Plug 'sheerun/vim-polyglot' " Slow?
 Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
+
+" Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
+Plug 'sheerun/vim-polyglot' " Automatically includes a version of vim-sleuth
+let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go']
 
 Plug 'mhinz/vim-grepper'
 nnoremap <leader>gr :Grepper -tool git<cr>
@@ -175,10 +177,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install bat <- Enable syntax highlight in preview
 
-Plug 'Yggdroot/indentLine'
-let g:indentLine_char       = '▏'
-let g:indentLine_setColors = 0 " Moonfly color theme says this
-let g:indentLine_fileTypeExclude = ['markdown']
+Plug 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 0
+" let g:indent_guides_enable_on_vim_startup = 1
 
 Plug 'dense-analysis/ale'
 let g:ale_linters = {'php': ['phpcs']}
@@ -231,12 +232,23 @@ endif
 Plug 'https://github.com/alok/notational-fzf-vim'
 let g:nv_search_paths = ['~/.notes']
 let g:nv_create_note_window = 'tabedit'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
 
 let g:coc_global_extensions = [
   \'coc-phpls',
   \'coc-tsserver',
-  \'coc-vetur',
   \'coc-json',
   \'coc-snippets',
   \'coc-pairs',
@@ -289,6 +301,9 @@ augroup autocmds
   autocmd FileType nerdtree,startify call glyph_palette#apply()
   " Show fern when opening a dir
   autocmd BufEnter * ++nested call s:hijack_directory()
+  " IndentGuides colors
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=black
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey6
 augroup END
 
 function! s:hijack_directory() abort
