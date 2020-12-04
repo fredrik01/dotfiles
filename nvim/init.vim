@@ -163,8 +163,8 @@ Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
 
-" Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
-Plug 'sheerun/vim-polyglot' " Automatically includes a version of vim-sleuth
+Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
+Plug 'sheerun/vim-polyglot' " Includes a version of vim-sleuth but that doesn't work well with oO
 let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go']
 
 Plug 'mhinz/vim-grepper'
