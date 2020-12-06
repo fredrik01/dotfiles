@@ -42,6 +42,12 @@ nmap <leader>l :noh<CR>
 nmap ö m`o<Esc>``
 nmap Ö m`O<Esc>``
 
+" Jump to next/prev function start/end
+nmap å ]m
+nmap Å [m
+nmap ä ]M
+nmap Ä [M
+
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -188,9 +194,11 @@ let g:ale_linters_explicit = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_cache_executable_check_failures = 1
 
+Plug 'drzel/vim-scroll-in-place'
+Plug 'AndrewRadev/splitjoin.vim'
+
 Plug 'vim-test/vim-test'
-let test#strategy = 'shtuff'
-let g:shtuff_receiver = 'tests'
+let test#strategy = 'kitty'
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
 nmap <leader>ts :TestSuite<CR>
