@@ -1,23 +1,23 @@
 let mapleader = ","
 
 " Search files
-nmap <leader>a :Files<CR>
+nmap <leader>a :Files!<CR>
 " Git files (git ls-files)
-nmap <leader>p :GFiles<CR>
+nmap <leader>p :GFiles!<CR>
 " Git files (git status) (edited files)
-nmap <leader>e :GFiles?<CR>
+nmap <leader>e :GFiles!?<CR>
 " Files in buffer
-nmap <leader>b :Buffers<CR>
+nmap <leader>b :Buffers!<CR>
 " Files in history
-nmap <leader>h :History<CR>
+nmap <leader>h :History!<CR>
 
 " Search lines in current buffer
-nmap <leader>f :BLines<CR>
+nmap <leader>f :BLines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
 nmap <leader>rg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
 " TODO: Chage to some sort of rg command
-nmap <leader>ag :Ag<CR>
+nmap <leader>ag :Ag!<CR>
 
 " <tab> for next buffer and shift+<tab> for previous
 nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
@@ -169,8 +169,8 @@ Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
 
-Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
-Plug 'sheerun/vim-polyglot' " Includes a version of vim-sleuth but that doesn't work well with oO
+" Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
+Plug 'sheerun/vim-polyglot' " Includes a version of vim-sleuth
 let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go']
 
 Plug 'mhinz/vim-grepper'
@@ -334,4 +334,4 @@ command! Today :execute ":put =strftime('%Y-%m-%d')"
 command! -bang -nargs=* RgWithHidden
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob "!.git" -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
+  \   fzf#vim#with_preview(), <bang>1)
