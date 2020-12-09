@@ -23,6 +23,7 @@ nmap <leader>ag :Ag!<CR>
 nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap <silent><s-tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 nmap <leader>q :bd<CR> " Close current buffer
+nmap <leader>n :enew<CR> " New empty buffer
 
 " Find symbol of current document
 nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
@@ -60,7 +61,7 @@ vnoremap > >gv
 nmap <leader><leader> :Fern . -reveal=%<CR>
 
 " Notational FZF
-nnoremap <silent><leader>n :NV<CR>
+nnoremap <silent><leader>ww :NV<CR>
 
 " Toggle spellcheck
 nmap <leader>sc :setlocal spell! spelllang=en,sv<CR>
@@ -73,7 +74,7 @@ for d in glob('~/.config/nvim/spell/*.add', 1, 1)
 endfor
 
 " Git blame current line
-nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
+nnoremap <Leader>gb :Git blame<CR>
 
 " Better window navigation
 nnoremap <C-h> <C-w>h
@@ -165,7 +166,6 @@ Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
-Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
 
