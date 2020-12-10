@@ -134,13 +134,15 @@ set shortmess+=c                        " A coc thing
 call plug#begin('~/.vim/plugged')
 
 Plug 'itchyny/lightline.vim'
-Plug 'tomtom/tcomment_vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'honza/vim-snippets' " Pre made snippets
+
+Plug 'tomtom/tcomment_vim'
+let g:tcomment#filetype#guess_php = 1 " I think treesitter broke comments for php, but this solves that problem
 
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
