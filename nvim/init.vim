@@ -211,11 +211,11 @@ if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
 
-" Plug 'mbbill/undotree'
-" let g:undotree_HighlightChangedWithSign = 0
-" let g:undotree_WindowLayout             = 4
-" let g:undotree_SetFocusWhenToggle       = 1
-" nnoremap <Leader>u :UndotreeToggle<CR>
+Plug 'mbbill/undotree'
+let g:undotree_HighlightChangedWithSign = 0
+let g:undotree_WindowLayout             = 4
+let g:undotree_SetFocusWhenToggle       = 1
+nnoremap <Leader>u :UndotreeToggle<CR>
 
 Plug '907th/vim-auto-save'
 let g:auto_save        = 1
