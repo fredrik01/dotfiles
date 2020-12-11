@@ -77,6 +77,7 @@ endfor
 nnoremap <Leader>gb :Git blame<CR>
 
 " Better window navigation
+" TODO: Conflicts with scroll-in-place
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
