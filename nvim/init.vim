@@ -123,8 +123,6 @@ set updatetime=300
 set signcolumn=yes              " Always show sign column
 set clipboard+=unnamedplus      " Use clipboard for y and p
 set noswapfile
-set exrc
-set secure
 " set cmdheight=2                         " More space for displaying messages (is this useful?)
 set hidden                              " Required to be able to open another buffer without saving the current one
 set background=dark                     " tell vim what the background color looks like
@@ -141,6 +139,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'honza/vim-snippets' " Pre made snippets
+
+" Cache file stored in ~/.cache/nvim
+Plug 'ii14/exrc.vim'
+let exrc#names = ['.exrc']
 
 Plug 'tomtom/tcomment_vim'
 let g:tcomment#filetype#guess_php = 1 " I think treesitter broke comments for php, but this solves that problem
@@ -315,6 +317,8 @@ augroup autocmds
   " IndentGuides colors
   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=black
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey6
+  " exrc.vim - Trust .exrc on save
+  autocmd BufWritePost .exrc ExrcTrust
 augroup END
 
 function! s:hijack_directory() abort
