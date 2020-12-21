@@ -96,6 +96,8 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
+path+=$HOME/.dotfiles/cli-tools
+
 # Pure prompt
 # https://github.com/sindresorhus/pure
 fpath+=$HOME/.zsh/pure
