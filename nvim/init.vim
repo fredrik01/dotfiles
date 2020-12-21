@@ -77,7 +77,6 @@ endfor
 nnoremap <Leader>gb :Git blame<CR>
 
 " Better window navigation
-" TODO: Conflicts with scroll-in-place
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -197,9 +196,6 @@ let g:ale_linters_explicit = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_cache_executable_check_failures = 1
 
-Plug 'drzel/vim-scroll-in-place'
-Plug 'AndrewRadev/splitjoin.vim'
-
 Plug 'vim-test/vim-test'
 let test#strategy = 'kitty'
 nmap <leader>tn :TestNearest<CR>
@@ -269,6 +265,8 @@ imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
 vmap <C-j> <Plug>(coc-snippets-select) " Jump to next selection
 
 if (has('termguicolors'))
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 
