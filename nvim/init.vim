@@ -122,12 +122,12 @@ set updatetime=300
 set signcolumn=yes              " Always show sign column
 set clipboard+=unnamedplus      " Use clipboard for y and p
 set noswapfile
-" set cmdheight=2                         " More space for displaying messages (is this useful?)
-set hidden                              " Required to be able to open another buffer without saving the current one
-set background=dark                     " tell vim what the background color looks like
-set nobackup                            " This is recommended by coc
-set nowritebackup                       " This is recommended by coc
-set shortmess+=c                        " A coc thing
+set scrolloff=8                 " Keep cursor centered vertically on the screen
+set hidden                      " Required to be able to open another buffer without saving the current one
+set background=dark             " tell vim what the background color looks like
+set nobackup                    " This is recommended by coc
+set nowritebackup               " This is recommended by coc
+set shortmess+=c                " A coc thing
 
 call plug#begin('~/.vim/plugged')
 
