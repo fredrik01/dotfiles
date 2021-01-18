@@ -110,6 +110,7 @@ xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 nnoremap x "_x
 nnoremap c "_c
 nnoremap C "_C
+vnoremap c "_c
 
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
