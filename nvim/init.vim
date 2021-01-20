@@ -229,9 +229,6 @@ let g:clever_f_smart_case        = 1
 Plug 'justinmk/vim-sneak'
 let g:sneak#s_next = 1
 
-Plug 'ap/vim-buftabline'
-let g:buftabline_show = 1
-
 Plug 'vim-vdebug/vdebug'
 if !exists('g:vdebug_options')
   let g:vdebug_options = {}
@@ -290,11 +287,6 @@ let g:lightline = {
 
 " Make vim-highlightedyank work with this color theme
 highlight HighlightedyankRegion cterm=reverse gui=reverse
-
-" Make buftabline more discrete
-hi TabLineFill guibg=#000
-hi TabLine guibg=#000
-hi TabLineSel guibg=#000
 
 " vdebug breakpoint color
 hi default DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
