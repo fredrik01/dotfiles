@@ -1,23 +1,23 @@
 let mapleader = ","
 
-" Search files
-nmap <leader>a :Files!<CR>
+" Search for all workspace files
+nmap <leader>fa :Files!<CR>
 " Git files (git ls-files)
 nmap <leader>p :GFiles!<CR>
 " Git files (git status) (edited files)
 nmap <leader>e :GFiles!?<CR>
-" Files in buffer
+" Files in buffers
 nmap <leader>b :Buffers!<CR>
 " Files in history
 nmap <leader>h :History!<CR>
 
 " Search lines in current buffer
-nmap <leader>f :BLines!<CR>
+nmap <leader>lb :BLines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
-nmap <leader>rg :RgWithHidden<CR>
+nmap <leader>lg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
 " TODO: Chage to some sort of rg command
-nmap <leader>ag :Ag!<CR>
+nmap <leader>la :Ag!<CR>
 
 " <tab> for next buffer and shift+<tab> for previous
 nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
@@ -73,7 +73,6 @@ for d in glob('~/.config/nvim/spell/*.add', 1, 1)
     endif
 endfor
 
-" Git blame current line
 nnoremap <Leader>gb :Git blame<CR>
 
 " Better window navigation
