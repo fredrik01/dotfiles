@@ -37,7 +37,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Disable search highlighting until the next search
-nmap <leader>l :noh<CR>
+nmap <leader>ll :noh<CR>
 
 " Insert new line without leaving normal mode
 nmap ö m`o<Esc>``
@@ -58,7 +58,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Reveal current file
-nmap <leader><leader> :Fern . -reveal=%<CR>
+nmap <leader><leader> :Fern . -reveal=% -wait<CR>
 
 " Notational FZF
 nnoremap <silent><leader>ww :NV<CR>
