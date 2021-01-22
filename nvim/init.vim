@@ -19,9 +19,13 @@ nmap <leader>lg :RgWithHidden<CR>
 " TODO: Chage to some sort of rg command
 nmap <leader>la :Ag!<CR>
 
-" <tab> for next buffer and shift+<tab> for previous
-nnoremap <silent><tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
-nnoremap <silent><s-tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+" c-6 is the same as c-^ => go to previous buffer
+nnoremap <silent>§ <c-^><cr>
+
+" Up and down in the jump list
+" Regular tab already equals to <c-i>
+nnoremap <silent><s-tab> <c-o><cr>
+
 nmap <leader>q :bd<CR> " Close current buffer
 nmap <leader>n :enew<CR> " New empty buffer
 
