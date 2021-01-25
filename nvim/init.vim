@@ -26,8 +26,12 @@ nnoremap <silent>§ <c-^><cr>
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
 
-nmap <leader>q :bd<CR> " Close current buffer
-nmap <leader>n :enew<CR> " New empty buffer
+" Close current buffer
+nmap <leader>q :bd<CR>
+" Save all edited buffers
+nmap <Space> :wa<CR>
+" New empty buffer
+nmap <leader>n :enew<CR>
 
 " Find symbol of current document
 nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
@@ -41,7 +45,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Disable search highlighting until the next search
-nmap <leader>ll :noh<CR>
+nmap <leader>ö :noh<CR>
 
 " Insert new line without leaving normal mode
 nmap ö m`o<Esc>``
@@ -220,10 +224,10 @@ let g:undotree_WindowLayout             = 4
 let g:undotree_SetFocusWhenToggle       = 1
 nnoremap <Leader>u :UndotreeToggle<CR>
 
-Plug '907th/vim-auto-save'
-let g:auto_save        = 1
-let g:auto_save_silent = 1
-let g:auto_save_events = ["InsertLeave", "TextChanged", "FocusLost"]
+" Plug '907th/vim-auto-save'
+" let g:auto_save        = 1
+" let g:auto_save_silent = 1
+" let g:auto_save_events = ["InsertLeave", "TextChanged", "FocusLost"]
 
 Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
@@ -295,6 +299,17 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 " vdebug breakpoint color
 hi default DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
 hi default DbgBreakptSign term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
+
+if has('persistent_undo')
+    let target_path = expand('~/.config/vim-persisted-undo/')
+
+    if !isdirectory(target_path)
+        call system('mkdir -p ' . target_path)
+    endif
+
+    let &undodir = target_path
+    set undofile
+endif
 
 " Disable netrw
 let g:loaded_netrw             = 1
