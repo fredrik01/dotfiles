@@ -8,6 +8,8 @@ export BAT_THEME="Dracula"
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
+alias ssh="kitty +kitten ssh"
+
 current-branch() {
     git branch | grep \* | cut -d ' ' -f2
 }
