@@ -82,6 +82,8 @@ for d in glob('~/.config/nvim/spell/*.add', 1, 1)
 endfor
 
 nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>gh :Glog! -- %<CR>
+nnoremap <Leader>gl :Glog!<CR>
 
 " Better window navigation
 nnoremap <C-h> <C-w>h
