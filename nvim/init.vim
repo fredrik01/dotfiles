@@ -342,6 +342,7 @@ command! CountLastSearch :execute '%s///gn'
 command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
+command! RefLine :execute ':let @+=expand("%") . ":" . line(".")'
 
 " rg including hidden files (but not .git folder), respects .gitignore
 command! -bang -nargs=* RgWithHidden
