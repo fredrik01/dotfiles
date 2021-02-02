@@ -233,6 +233,7 @@ let g:clever_f_smart_case        = 1
 
 Plug 'justinmk/vim-sneak'
 let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 
 Plug 'vim-vdebug/vdebug'
 if !exists('g:vdebug_options')
