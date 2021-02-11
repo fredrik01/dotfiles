@@ -12,7 +12,9 @@ nmap <leader>b :Buffers!<CR>
 nmap <leader>h :History!<CR>
 
 " Search lines in current buffer
-nmap <leader>lb :BLines!<CR>
+nmap <leader>lc :BLines!<CR>
+" Lines in loaded buffers
+nmap <leader>lb :Lines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
 nmap <leader>lg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
