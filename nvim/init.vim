@@ -18,11 +18,27 @@ nmap <leader>lb :Lines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
 nmap <leader>lg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
-" TODO: Chage to some sort of rg command
+" TODO: Change to some sort of rg command
 nmap <leader>la :Ag!<CR>
 
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
+
+" Jump to previous/next diff start
+nmap öd [c
+nmap äd ]c
+
+" Jump to previous/next in change list
+nmap öc g;
+nmap äc g,
+
+" Jump to previous/next method start
+nmap öm [m
+nmap äm ]m
+
+" Insert new line without leaving normal mode
+nmap å m`o<Esc>``
+nmap Å m`O<Esc>``
 
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
@@ -48,16 +64,6 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 
 " Disable search highlighting until the next search
 nmap <leader>ö :noh<CR>
-
-" Insert new line without leaving normal mode
-nmap ö m`o<Esc>``
-nmap Ö m`O<Esc>``
-
-" Jump to next/prev function start/end
-nmap å ]m
-nmap Å [m
-nmap ä ]M
-nmap Ä [M
 
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
