@@ -121,6 +121,9 @@ nnoremap c "_c
 nnoremap C "_C
 vnoremap c "_c
 
+" Yank to the end of the line
+nnoremap Y y$
+
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
