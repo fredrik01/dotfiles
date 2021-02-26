@@ -24,22 +24,6 @@ nmap <leader>la :Ag!<CR>
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
 
-" Jump to previous/next diff start
-nmap öd [c
-nmap äd ]c
-
-" Jump to previous/next in change list
-nmap öc g;
-nmap äc g,
-
-" Jump to previous/next method start
-nmap öm [m
-nmap äm ]m
-
-" Insert new line without leaving normal mode
-nmap å m`o<Esc>``
-nmap Å m`O<Esc>``
-
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
@@ -62,8 +46,8 @@ nmap <leader>gd <Plug>(coc-definition)
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Disable search highlighting until the next search
-nmap <leader>ö :noh<CR>
+" Clear last used search pattern (clear search)
+nmap <leader>cs :let @/ = ""<CR>
 
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
@@ -78,9 +62,6 @@ nmap <leader><leader> :Fern . -reveal=% -wait<CR>
 
 " Notational FZF
 nnoremap <silent><leader>ww :NV<CR>
-
-" Toggle spellcheck
-nmap <leader>sc :setlocal spell! spelllang=en,sv<CR>
 
 " Generate .spl files on startup
 for d in glob('~/.config/nvim/spell/*.add', 1, 1)
@@ -149,6 +130,7 @@ set background=dark             " tell vim what the background color looks like
 set nobackup                    " This is recommended by coc
 set nowritebackup               " This is recommended by coc
 set shortmess+=c                " A coc thing
+set spelllang=en,sv
 
 call plug#begin('~/.vim/plugged')
 
@@ -157,7 +139,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
 Plug 'honza/vim-snippets' " Pre made snippets
 
 " Cache file stored in ~/.cache/nvim
@@ -186,8 +167,10 @@ xnoremap ao aw
 onoremap io iw
 onoremap ao aw
 
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
+Plug 'tpope/vim-unimpaired'
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
@@ -354,7 +337,7 @@ command! CountLastSearch :execute '%s///gn'
 command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
-command! RefLine :execute ':let @+=expand("%") . ":" . line(".")'
+command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
 
 " rg including hidden files (but not .git folder), respects .gitignore
 command! -bang -nargs=* RgWithHidden
