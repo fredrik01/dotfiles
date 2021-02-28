@@ -214,11 +214,8 @@ if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
 
-Plug 'mbbill/undotree'
-let g:undotree_HighlightChangedWithSign = 0
-let g:undotree_WindowLayout             = 4
-let g:undotree_SetFocusWhenToggle       = 1
-nnoremap <Leader>u :UndotreeToggle<CR>
+Plug 'simnalamburt/vim-mundo'
+nnoremap <Leader>u :MundoToggle<CR>
 
 Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
