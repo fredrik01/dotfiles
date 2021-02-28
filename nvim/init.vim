@@ -136,7 +136,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'farmergreg/vim-lastplace' " Remember last place in files
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'honza/vim-snippets' " Pre made snippets
@@ -317,6 +316,11 @@ augroup autocmds
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey6
   " exrc.vim - Trust .exrc on save
   autocmd BufWritePost .exrc ExrcTrust
+  " Open files at last position
+  autocmd BufReadPost *
+      \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
 augroup END
 
 function! s:hijack_directory() abort
