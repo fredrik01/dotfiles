@@ -116,7 +116,7 @@ nnoremap Y y$
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
-set hlsearch                    " highlight all search matches
+set nohlsearch                  " Don't highlight search matches
 set laststatus=2                " make lightline work with single window
 set noshowmode                  " hide mode since lightline handles that
 set autoread                    " Automatically re-read files changed outside Vim
