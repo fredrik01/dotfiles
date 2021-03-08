@@ -303,6 +303,14 @@ let g:lightline = {
 " Make vim-highlightedyank work with this color theme
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
+" Highlight current line: https://vimtricks.com/p/highlight-specific-lines/
+" define line highlight color
+highlight LineHighlight ctermbg=darkgrey guibg=#222222
+" highlight the current line
+nnoremap <silent> <Leader>lh :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
+" clear all the highlighted lines
+nnoremap <silent> <Leader>lc :call clearmatches()<CR>
+
 if has('persistent_undo')
     let target_path = expand('~/.config/vim-persisted-undo/')
 
