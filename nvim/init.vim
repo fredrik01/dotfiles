@@ -109,6 +109,8 @@ nnoremap x "_x
 nnoremap c "_c
 nnoremap C "_C
 vnoremap c "_c
+" replace currently selected text with default register without yanking it
+vnoremap p "_dP
 
 " Yank to the end of the line
 nnoremap Y y$
