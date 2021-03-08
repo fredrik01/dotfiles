@@ -225,11 +225,17 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#s_next = 1
 let g:sneak#use_ic_scs = 1
 
-Plug 'vim-vdebug/vdebug'
-if !exists('g:vdebug_options')
-  let g:vdebug_options = {}
-endif
-" Example: let g:vdebug_options.path_maps = {'/app': '/Users/Username/Apps/MyApp'}
+Plug 'puremourning/vimspector'
+nmap <Leader>dd :call vimspector#Continue()<CR>
+nmap <Leader>dq :call vimspector#Reset()<CR>
+nmap <Leader>db :call vimspector#ToggleBreakpoint()<CR>
+nmap <Leader>dc :call vimspector#ClearBreakpoints()<CR>
+nmap <Leader>dk :call vimspector#StepOut()<CR>
+nmap <Leader>dl :call vimspector#StepInto()<CR>
+nmap <Leader>dj :call vimspector#StepOver()<CR>
+" 'di' = 'debug inspect'
+nmap <Leader>di <Plug>VimspectorBalloonEval
+xmap <Leader>di <Plug>VimspectorBalloonEval
 
 Plug 'https://github.com/alok/notational-fzf-vim'
 let g:nv_search_paths = ['~/.notes']
@@ -283,10 +289,6 @@ let g:lightline = {
 
 " Make vim-highlightedyank work with this color theme
 highlight HighlightedyankRegion cterm=reverse gui=reverse
-
-" vdebug breakpoint color
-hi default DbgBreakptLine term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
-hi default DbgBreakptSign term=reverse ctermfg=White ctermbg=Green guifg=#ffffff guibg=none
 
 if has('persistent_undo')
     let target_path = expand('~/.config/vim-persisted-undo/')
