@@ -134,6 +134,17 @@ set nowritebackup               " This is recommended by coc
 set shortmess+=c                " A coc thing
 set spelllang=en,sv
 
+function! OpenURLUnderCursor()
+  let s:uri = expand('<cWORD>')
+  let s:uri = substitute(s:uri, '?', '\\?', '')
+  let s:uri = shellescape(s:uri, 1)
+  if s:uri != ''
+    silent exec "!open '".s:uri."'"
+    :redraw!
+  endif
+endfunction
+nnoremap gx :call OpenURLUnderCursor()<CR>
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'itchyny/lightline.vim'
