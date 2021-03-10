@@ -11,8 +11,8 @@ nmap <leader>b :Buffers!<CR>
 " Files in history
 nmap <leader>h :History!<CR>
 
-" Search lines in current buffer
-nmap <leader>lc :BLines!<CR>
+" Search lines in current buffer (file)
+nmap <leader>lf :BLines!<CR>
 " Lines in loaded buffers
 nmap <leader>lb :Lines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
@@ -307,7 +307,7 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 " define line highlight color
 highlight LineHighlight ctermbg=darkgrey guibg=#222222
 " highlight the current line
-nnoremap <silent> <Leader>lh :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
+nnoremap <silent> <Leader>ll :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
 " clear all the highlighted lines
 nnoremap <silent> <Leader>lc :call clearmatches()<CR>
 
