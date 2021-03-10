@@ -115,6 +115,13 @@ vnoremap p "_dP
 " Yank to the end of the line
 nnoremap Y y$
 
+" Keep cursor at the bottom of the visual selection after yanking it
+vmap y ygv<Esc>
+
+" Automatically fix the last misspelled word and jump back to where you were
+" https://github.com/nickjj/dotfiles/blob/master/.vimrc
+nnoremap <leader>sp :normal! mz[s1z=`z<CR>
+
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
@@ -173,7 +180,7 @@ let g:fern#renderer = "nerdfont"
 let g:fern#default_hidden = 1
 
 Plug 'chaoren/vim-wordmotion'
-" Add mappings for vims original word definition
+" Add mappings for Vims original word definition
 xnoremap io iw
 xnoremap ao aw
 onoremap io iw
