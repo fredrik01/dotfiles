@@ -24,6 +24,10 @@ git-clean-branches() {
     git fetch --prune
 }
 
+cb() {
+  current-branch | pbcopy
+}
+
 weather() {
     if [ $1 = "-s" ]; then
         curl -s "wttr.in/{$2}?format=3"
