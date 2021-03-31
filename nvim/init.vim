@@ -24,12 +24,34 @@ nmap <leader>la :Ag!<CR>
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
 
+" Close all other windows
+nmap <leader>wo :only<CR>
+" Close all other tabs
+nmap <leader>to :tabonly<CR>
+
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
 
-" Close current buffer
-nmap <leader>q :bd<CR>
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+
+" Toggle quickfix window
+nmap <leader>q :call ToggleQuickFix()<cr>
+
+" Delete all term buffers
+nmap <silent><leader>td :bd! term://<C-a><CR><CR>
+
+" Exit terminal mode
+tnoremap <C-o> <C-\><C-n>
+" Open new terminal buffer
+nmap <silent><leader><space> :term<CR>
+
 " Save all edited buffers
 nmap <Space> :wa<CR>
 " New empty buffer
@@ -40,7 +62,19 @@ nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent><nowait><leader>s :<C-u>CocList -I symbols<cr>
 " Go to definition
-nmap <leader>gd <Plug>(coc-definition)
+nmap <silent>gd <Plug>(coc-definition)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
@@ -221,8 +255,10 @@ let g:ale_linters_explicit = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_cache_executable_check_failures = 1
 
+Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-test/vim-test'
-let test#strategy = 'kitty'
+let test#strategy = 'asyncrun_background_term'
+
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
 nmap <leader>ts :TestSuite<CR>
