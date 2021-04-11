@@ -18,8 +18,7 @@ nmap <leader>lb :Lines!<CR>
 " Search in all workspace files, respects .gitignore (ripgrep)
 nmap <leader>lg :RgWithHidden<CR>
 " Search in all workspace files (The Silver Searcher)
-" TODO: Change to some sort of rg command
-nmap <leader>la :Ag!<CR>
+nmap <leader>la :RgAll<CR>
 
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
@@ -114,12 +113,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Adjust split size
-nnoremap <c-Left> :vertical resize +3<CR>
-nnoremap <c-Right> :vertical resize -3<CR>
-nnoremap <c-Up> :resize +3<CR>
-nnoremap <c-Down> :resize -3<CR>
-
 " Change 2 split windows form horizontal to vertical or the other way around
 map <Leader>th <C-w>t<C-w>H
 map <Leader>tk <C-w>t<C-w>K
@@ -174,6 +167,8 @@ set nobackup                    " This is recommended by coc
 set nowritebackup               " This is recommended by coc
 set shortmess+=c                " A coc thing
 set spelllang=en,sv
+set splitright
+set splitbelow
 
 function! OpenURLUnderCursor()
   let s:uri = expand('<cWORD>')
@@ -193,6 +188,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-signify'
 Plug 'honza/vim-snippets' " Pre made snippets
+
+Plug 'simeji/winresizer'
 
 " Cache file stored in ~/.cache/nvim
 Plug 'ii14/exrc.vim'
@@ -229,13 +226,24 @@ Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
+Plug 'rust-lang/rust.vim'
 
 " Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
 Plug 'sheerun/vim-polyglot' " Includes a version of vim-sleuth
 let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go']
 
+packadd! Cfilter
 Plug 'mhinz/vim-grepper'
-nnoremap <leader>gr :Grepper -tool git<cr>
+" Grep git
+" nnoremap <leader>gg :Grepper -tool git -grepprg git grep -nGIi<cr>
+nnoremap <leader>gg :Grepper -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob "!.git"<cr>
+" Grep with context
+nnoremap <leader>gc :Grepper -side -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob "!.git"<cr>
+" Grep all
+nnoremap <leader>ga :Grepper -tool rg -grepprg rg --smart-case --hidden --no-ignore-vcs --vimgrep --glob "!.git"<cr>
+" Examples: gsw or gsiW or gsi' (case sensitive)
+nmap gs  <plug>(GrepperOperator)
+xmap gs  <plug>(GrepperOperator)
 
 " Themes
 Plug 'bluz71/vim-moonfly-colors'
@@ -258,6 +266,9 @@ let g:ale_cache_executable_check_failures = 1
 Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-test/vim-test'
 let test#strategy = 'asyncrun_background_term'
+" Easily change between test strategies
+nmap <leader>ts1 :let test#strategy = 'asyncrun_background_term'<CR>
+nmap <leader>ts2 :let test#strategy = 'asyncrun'<CR>
 
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
@@ -306,7 +317,6 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "c", "rust" },  -- list of language that will be disabled
   },
   textobjects = {
     select = {
@@ -423,4 +433,10 @@ command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
 command! -bang -nargs=* RgWithHidden
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob "!.git" -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>1)
+
+" rg including hidden files (not .git folder), ignores .gitignore
+command! -bang -nargs=* RgAll
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob "!.git" -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>1)
