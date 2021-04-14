@@ -285,6 +285,9 @@ let test#strategy = 'asyncrun_background_term'
 " Easily change between test strategies
 nmap <leader>ts1 :let test#strategy = 'asyncrun_background_term'<CR>
 nmap <leader>ts2 :let test#strategy = 'asyncrun'<CR>
+nmap <leader>ts3 :let test#strategy = 'neovim'<CR>
+
+let test#neovim#term_position = "vert botright 100"
 
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
