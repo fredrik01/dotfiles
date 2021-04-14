@@ -186,8 +186,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'mhinz/vim-signify'
 Plug 'honza/vim-snippets' " Pre made snippets
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'simeji/winresizer'
 
@@ -195,8 +197,7 @@ Plug 'simeji/winresizer'
 Plug 'ii14/exrc.vim'
 let exrc#names = ['.exrc']
 
-Plug 'tomtom/tcomment_vim'
-let g:tcomment#filetype#guess_php = 1 " I think treesitter broke comments for php, but this solves that problem
+Plug 'b3nj5m1n/kommentary'
 
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
@@ -331,6 +332,61 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+EOF
+
+" Config for lewis6991/gitsigns.nvim
+lua <<EOF
+  require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  numhl = false,
+  linehl = false,
+  keymaps = {
+    noremap = true,
+    buffer = true,
+
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+
+    ['n <leader>hs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+    ['n <leader>hu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+    ['n <leader>hr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+    ['n <leader>hR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+    ['n <leader>hp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+    ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+    ['n <leader>ht'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
+
+    -- Text objects
+    ['o ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
+    ['x ih'] = ':<C-U>lua require"gitsigns".select_hunk()<CR>'
+  },
+  watch_index = {
+    interval = 1000
+  },
+  current_line_blame = false,
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  use_decoration_api = true,
+  use_internal_diff = true,  -- If luajit is present
+}
+EOF
+
+lua << EOF
+  require('kommentary.config').configure_language("default", {
+    prefer_single_line_comments = true,
+    use_consistent_indentation = true,
+    ignore_whitespace = false,
+  })
+  require('kommentary.config').configure_language("php", {
+    -- default does not work so...
+    prefer_single_line_comments = true,
+  })
 EOF
 
 let g:coc_global_extensions = [
