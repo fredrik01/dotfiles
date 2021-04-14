@@ -6,10 +6,10 @@ nmap <leader>fa :Files!<CR>
 nmap <leader>p :GFiles!<CR>
 " Git files (git status) (edited files)
 nmap <leader>e :GFiles!?<CR>
-" Files in buffers
+" Buffers
 nmap <leader>b :Buffers!<CR>
 " Files in history
-nmap <leader>h :History!<CR>
+nmap <leader>fh :History!<CR>
 
 " Search lines in current buffer (file)
 nmap <leader>lf :BLines!<CR>
