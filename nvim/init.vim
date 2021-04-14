@@ -253,9 +253,24 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install bat <- Enable syntax highlight in preview
 
-Plug 'nathanaelkane/vim-indent-guides'
-let g:indent_guides_auto_colors = 0
-" let g:indent_guides_enable_on_vim_startup = 1
+Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+let g:indent_blankline_enabled = v:false
+let g:indent_blankline_char = '▏'
+let g:indent_blankline_show_first_indent_level = v:false
+let g:indent_blankline_buftype_exclude = ['terminal']
+let g:indent_blankline_filetype_exclude = ['fern', 'man', 'help', 'markdown']
+nmap <leader>ig :call IndendGuidesToggle()<CR>
+
+" IndentBlanklineToggle does not work as expected
+function! IndendGuidesToggle()
+  if g:indent_blankline_enabled == v:false
+    let g:indent_blankline_enabled = v:true
+    IndentBlanklineEnable
+  else
+    let g:indent_blankline_enabled = v:false
+    IndentBlanklineDisable
+  endif
+endfunction
 
 Plug 'dense-analysis/ale'
 let g:ale_linters = {'php': ['phpcs']}
@@ -318,6 +333,9 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
+  },
+  indent = {
+    enable = true,
   },
   textobjects = {
     select = {
