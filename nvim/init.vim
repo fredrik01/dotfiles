@@ -48,8 +48,6 @@ nmap <silent><leader>td :bd! term://<C-a><CR><CR>
 
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
-" Open new terminal buffer
-nmap <silent><leader><space> :term<CR>
 
 " Save all edited buffers
 nmap <Space> :wa<CR>
@@ -91,7 +89,9 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Reveal current file
-nmap <leader><leader> :Fern . -reveal=% -wait<CR>
+" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 vifm<CR>
+" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 ranger<CR>
+nmap <leader><leader> :Lf<CR>
 
 " Notational FZF
 nnoremap <silent><leader>ww :NV<CR>
@@ -202,14 +202,16 @@ Plug 'b3nj5m1n/kommentary'
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<CR>
 
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'antoinemadec/FixCursorHold.nvim' " https://github.com/lambdalisue/fern.vim/issues/120
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/glyph-palette.vim'
-let g:fern#renderer = "nerdfont"
-let g:fern#default_hidden = 1
+" lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper.
+Plug 'ptzz/lf.vim'
+let g:lf_map_keys = 0
+let g:lf_replace_netrw = 1 " Open lf when vim opens a directory
+let g:lf_command_override = 'lf -command "set hidden"'
+Plug 'voldikss/vim-floaterm'
+let g:floaterm_width = 0.9
+let g:floaterm_height = 0.9
+nnoremap <silent><leader>. :FloatermToggle<CR>
+tnoremap <silent><leader>. <C-\><C-n>:FloatermToggle<CR>
 
 Plug 'chaoren/vim-wordmotion'
 " Add mappings for Vims original word definition
@@ -465,21 +467,8 @@ if has('persistent_undo')
     set undofile
 endif
 
-" Disable netrw
-let g:loaded_netrw             = 1
-let g:loaded_netrwPlugin       = 1
-let g:loaded_netrwSettings     = 1
-let g:loaded_netrwFileHandlers = 1
-
 augroup autocmds
   autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-  " Show fern when opening a dir
-  autocmd BufEnter * ++nested call s:hijack_directory()
-  " IndentGuides colors
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=black
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grey6
   " exrc.vim - Trust .exrc on save
   autocmd BufWritePost .exrc ExrcTrust
   " Open files at last position
@@ -488,15 +477,6 @@ augroup autocmds
       \   exe "normal! g`\"" |
       \ endif
 augroup END
-
-function! s:hijack_directory() abort
-  let path = expand('%:p')
-  if !isdirectory(path)
-    return
-  endif
-  bwipeout %
-  execute printf('Fern %s', fnameescape(path))
-endfunction
 
 command! FormatJSON :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
