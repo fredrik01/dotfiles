@@ -474,6 +474,8 @@ augroup autocmds
   autocmd! *
   " exrc.vim - Trust .exrc on save
   autocmd BufWritePost .exrc ExrcTrust
+  " Disable line numbers in terminal buffers
+  autocmd TermOpen * setlocal nonumber norelativenumber
   " Open files at last position
   autocmd BufReadPost *
       \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
