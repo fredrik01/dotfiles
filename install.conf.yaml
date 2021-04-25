@@ -4,6 +4,10 @@
 
 - clean: ['~']
 
+- clean:
+    ~/.config:
+      recursive: true
+
 - link:
     ~/.config/nvim:
       create: true
@@ -13,6 +17,12 @@
       path: kitty.conf
     ~/.zshrc:
       path: .zshrc
+    ~/.config/lf:
+      create: true
+      path: lf
+    ~/.config/xplr:
+      create: true
+      path: xplr
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
