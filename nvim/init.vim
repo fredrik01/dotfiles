@@ -445,6 +445,9 @@ let g:lightline = {
   \ },
   \ }
 
+" Thin border on vertical splits
+hi VertSplit ctermbg=NONE guibg=NONE
+
 " Make vim-highlightedyank work with this color theme
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
