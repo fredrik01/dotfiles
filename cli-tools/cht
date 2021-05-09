@@ -1,0 +1,6 @@
+#!/bin/bash
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
+query=$(join_by + "${@:2}")
+curl https://cht.sh/$1/$query
