@@ -154,12 +154,26 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'itchyny/lightline.vim'
+" Requires: universal-ctags
+" brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'hoob3rt/lualine.nvim'
+
+" Used by lualine and telescope
+Plug 'kyazdani42/nvim-web-devicons'
+
+" Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets' " Pre made snippets
 
+" Required by telescope and gitsigns
 Plug 'nvim-lua/plenary.nvim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'simeji/winresizer'
@@ -317,16 +331,21 @@ colorscheme moonfly
 
 let g:moonflyCursorColor = 1
 let g:moonflyUnderlineMatchParen = 1
-let g:lightline = {
-  \ 'colorscheme': 'moonfly',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead'
-  \ },
-  \ }
+
+lua<<EOF
+  require('lualine').setup{
+    options = {
+      theme = 'modus_vivendi',
+      icons_enabled = false,
+      section_separators = '',
+      component_separators = '',
+    },
+    sections = {
+      lualine_c = { {'filename', file_status = true, full_path = false, shorten = false} },
+      lualine_x = {{'diagnostics', sources = {'coc', 'ale'}}, {'diff', colored = false}, 'encoding', 'fileformat', 'filetype'},
+    }
+  }
+EOF
 
 " Thin border on vertical splits
 hi VertSplit ctermbg=NONE guibg=NONE
