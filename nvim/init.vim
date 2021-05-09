@@ -49,15 +49,6 @@ nmap <silent><leader>td :bd! term://<C-a><CR><CR>
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
 
-" Save all edited buffers
-nmap <Space> :wa<CR>
-" New empty buffer
-nmap <leader>n :enew<CR>
-
-" Find symbol of current document
-nnoremap <silent><nowait><leader>o :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent><nowait><leader>s :<C-u>CocList -I symbols<cr>
 " Go to definition
 nmap <silent>gd <Plug>(coc-definition)
 
@@ -77,9 +68,6 @@ endfunction
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Clear last used search pattern (clear search)
-nmap <leader>cs :let @/ = ""<CR>
-
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -87,11 +75,6 @@ vnoremap K :m '<-2<CR>gv=gv
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
-
-" Reveal current file
-" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 vifm<CR>
-" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 ranger<CR>
-nmap <leader><leader> :Lf<CR>
 
 " Notational FZF
 nnoremap <silent><leader>ww :NV<CR>
@@ -103,19 +86,11 @@ for d in glob('~/.config/nvim/spell/*.add', 1, 1)
     endif
 endfor
 
-nnoremap <Leader>gb :Git blame<CR>
-nnoremap <Leader>gh :Glog! -- %<CR>
-nnoremap <Leader>gl :Glog!<CR>
-
 " Better window navigation
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-" Change 2 split windows form horizontal to vertical or the other way around
-map <Leader>th <C-w>t<C-w>H
-map <Leader>tk <C-w>t<C-w>K
 
 " Search for a term and replace it
 nnoremap <Leader>r :%s///g<left><left><left>
@@ -144,10 +119,6 @@ nnoremap Y y$
 
 " Keep cursor at the bottom of the visual selection after yanking it
 vmap y ygv<Esc>
-
-" Automatically fix the last misspelled word and jump back to where you were
-" https://github.com/nickjj/dotfiles/blob/master/.vimrc
-nnoremap <leader>sp :normal! mz[s1z=`z<CR>
 
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
@@ -199,8 +170,16 @@ let exrc#names = ['.exrc']
 
 Plug 'b3nj5m1n/kommentary'
 
-Plug 'junegunn/goyo.vim'
-nmap <leader>go :Goyo<CR>
+" Plugins in this block has to be BEFORE folke/which-key.nvim
+Plug 'wellle/targets.vim'
+Plug 'chaoren/vim-wordmotion'
+" Add mappings for Vims original word definition
+xnoremap io iw
+xnoremap ao aw
+onoremap io iw
+onoremap ao aw
+
+Plug 'folke/which-key.nvim'
 
 " lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper.
 Plug 'ptzz/lf.vim'
@@ -210,15 +189,6 @@ let g:lf_command_override = 'lf -command "set hidden"'
 Plug 'voldikss/vim-floaterm'
 let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
-nnoremap <silent><leader>. :FloatermToggle<CR>
-tnoremap <silent><leader>. <C-\><C-n>:FloatermToggle<CR>
-
-Plug 'chaoren/vim-wordmotion'
-" Add mappings for Vims original word definition
-xnoremap io iw
-xnoremap ao aw
-onoremap io iw
-onoremap ao aw
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -237,13 +207,6 @@ let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'py
 
 packadd! Cfilter
 Plug 'mhinz/vim-grepper'
-" Grep git
-" nnoremap <leader>gg :Grepper -tool git -grepprg git grep -nGIi<cr>
-nnoremap <leader>gg :Grepper -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob "!.git"<cr>
-" Grep with context
-nnoremap <leader>gc :Grepper -side -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob "!.git"<cr>
-" Grep all
-nnoremap <leader>ga :Grepper -tool rg -grepprg rg --smart-case --hidden --no-ignore-vcs --vimgrep --glob "!.git"<cr>
 " Examples: gsw or gsiW or gsi' (case sensitive)
 nmap gs  <plug>(GrepperOperator)
 xmap gs  <plug>(GrepperOperator)
@@ -261,7 +224,6 @@ let g:indent_blankline_char = '▏'
 let g:indent_blankline_show_first_indent_level = v:false
 let g:indent_blankline_buftype_exclude = ['terminal']
 let g:indent_blankline_filetype_exclude = ['fern', 'man', 'help', 'markdown']
-nmap <leader>ig :call IndendGuidesToggle()<CR>
 
 " IndentBlanklineToggle does not work as expected
 function! IndendGuidesToggle()
