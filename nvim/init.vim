@@ -198,7 +198,7 @@ Plug 'folke/which-key.nvim'
 " lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper.
 Plug 'ptzz/lf.vim'
 let g:lf_map_keys = 0
-let g:lf_replace_netrw = 1 " Open lf when vim opens a directory
+" let g:lf_replace_netrw = 1 " Open lf when vim opens a directory
 let g:lf_command_override = 'lf -command "set hidden"'
 Plug 'voldikss/vim-floaterm'
 let g:floaterm_width = 0.9
