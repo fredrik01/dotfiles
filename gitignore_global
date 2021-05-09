@@ -1,0 +1,6 @@
+/* Add this file to the global git config
+git config --global core.excludesFile '~/.gitignore' */
+
+tags
+tags.lock
+tags.temp
