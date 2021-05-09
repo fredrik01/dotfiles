@@ -1,4 +1,6 @@
 nvim/spell/*.spl
+lf/.lfrc.swp
 
 # Because I might want to have machine specific functions, those can be ignored in zshfn/.gitignore
 zshfn/.gitignore
+

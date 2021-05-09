@@ -1,51 +1,20 @@
 let mapleader = ","
 
-" Search for all workspace files
-nmap <leader>fa :Files!<CR>
-" Git files (git ls-files)
-nmap <leader>p :GFiles!<CR>
-" Git files (git status) (edited files)
-nmap <leader>e :GFiles!?<CR>
-" Buffers
-nmap <leader>b :Buffers!<CR>
-" Files in history
-nmap <leader>fh :History!<CR>
-
-" Search lines in current buffer (file)
-nmap <leader>lf :BLines!<CR>
-" Lines in loaded buffers
-nmap <leader>lb :Lines!<CR>
-" Search in all workspace files, respects .gitignore (ripgrep)
-nmap <leader>lg :RgWithHidden<CR>
-" Search in all workspace files (The Silver Searcher)
-nmap <leader>la :RgAll<CR>
+" Save all edited buffers
+nmap <Space> :wa<CR>
 
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
-
-" Close all other windows
-nmap <leader>wo :only<CR>
-" Close all other tabs
-nmap <leader>to :tabonly<CR>
 
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
 
-function! ToggleQuickFix()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-        copen
-    else
-        cclose
-    endif
-endfunction
-
-" Toggle quickfix window
-nmap <leader>q :call ToggleQuickFix()<cr>
-
-" Delete all term buffers
-nmap <silent><leader>td :bd! term://<C-a><CR><CR>
-
+" Terminal maps
+tnoremap <silent><leader>. <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent><leader>n <C-\><C-n>:FloatermNew<CR>
+tnoremap <silent><leader>l <C-\><C-n>:FloatermNext<CR>
+tnoremap <silent><leader>d <C-\><C-n>:FloatermKill<CR>
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
 
@@ -204,12 +173,13 @@ Plug 'voldikss/vim-floaterm'
 let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
 
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'tpope/vim-unimpaired'
-Plug 'wellle/targets.vim'
-Plug 'machakann/vim-highlightedyank' " Briefly highlight which text was yanked
+
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
@@ -256,29 +226,26 @@ let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
 let g:ale_linters_explicit = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_cache_executable_check_failures = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
 
 Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-test/vim-test'
-let test#strategy = 'asyncrun_background_term'
+let test#strategy = 'floaterm'
 " Easily change between test strategies
-nmap <leader>ts1 :let test#strategy = 'asyncrun_background_term'<CR>
-nmap <leader>ts2 :let test#strategy = 'asyncrun'<CR>
-nmap <leader>ts3 :let test#strategy = 'neovim'<CR>
+nmap <leader>ts1 :let test#strategy = 'floaterm'<CR>
+nmap <leader>ts2 :let test#strategy = 'asyncrun_background_term'<CR>
+nmap <leader>ts3 :let test#strategy = 'asyncrun'<CR>
+nmap <leader>ts4 :let test#strategy = 'neovim'<CR>
 
 let test#neovim#term_position = "vert botright 100"
 
-nmap <leader>tn :TestNearest<CR>
-nmap <leader>tf :TestFile<CR>
-nmap <leader>ts :TestSuite<CR>
-nmap <leader>tl :TestLast<CR>
-nmap <leader>tg :TestVisit<CR>
 " To scroll in test results
 if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
 
 Plug 'simnalamburt/vim-mundo'
-nnoremap <Leader>u :MundoToggle<CR>
 
 Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
@@ -350,9 +317,6 @@ EOF
 " Thin border on vertical splits
 hi VertSplit ctermbg=NONE guibg=NONE
 
-" Make vim-highlightedyank work with this color theme
-highlight HighlightedyankRegion cterm=reverse gui=reverse
-
 " Highlight current line: https://vimtricks.com/p/highlight-specific-lines/
 " define line highlight color
 highlight LineHighlight ctermbg=darkgrey guibg=#222222
@@ -378,20 +342,40 @@ augroup autocmds
   autocmd BufWritePost .exrc ExrcTrust
   " Disable line numbers in terminal buffers
   autocmd TermOpen * setlocal nonumber norelativenumber
+  " Highlight on yank (neovim only)
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=500}
   " Open files at last position
   autocmd BufReadPost *
       \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
       \ endif
+  " Override background color
+  " autocmd ColorScheme * highlight Normal ctermbg=NONE guifg=lightgrey guibg=black
 augroup END
 
-command! FormatJSON :execute '%!python -m json.tool'
+command! FormatJSON :execute "%!jq '.'"
+command! FormatJSONalt2 :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
 command! CountLastSearch :execute '%s///gn'
 command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
 command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
+
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+
+" Delete current buffer and trash the file
+command! -bar -bang Trash
+  \ let s:file = fnamemodify(bufname(<q-args>),':p') |
+  \ execute 'bdelete<bang>' |
+  \ execute 'silent !trash ' . s:file |
+  \ unlet s:file
 
 " rg including hidden files (but not .git folder), respects .gitignore
 command! -bang -nargs=* RgWithHidden
