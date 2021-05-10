@@ -173,7 +173,11 @@ Plug 'voldikss/vim-floaterm'
 let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
 
-Plug 'tpope/vim-vinegar'
+Plug 'justinmk/vim-dirvish'
+Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
+" Folders at top
+let g:dirvish_mode = ':sort ,^.*[\/],'
+
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
