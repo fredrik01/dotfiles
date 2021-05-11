@@ -276,6 +276,9 @@ Plug 'https://github.com/alok/notational-fzf-vim'
 let g:nv_search_paths = ['~/.notes']
 let g:nv_create_note_window = 'tabedit'
 
+" Open a scratchpad with todays date as the filename
+nmap <Leader>ws :execute 'edit ~/.notes/'.strftime("%F").'.md'<cr>
+
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 call plug#end()
