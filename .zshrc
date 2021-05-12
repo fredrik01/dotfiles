@@ -36,6 +36,9 @@ weather() {
     fi
 }
 
+# Search stackoverflow
+alias so="googler --site stackoverflow.com"
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
