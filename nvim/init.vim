@@ -287,6 +287,7 @@ let g:coc_global_extensions = [
   \'coc-json',
   \'coc-snippets',
   \'coc-pairs',
+  \'coc-lua',
 \]
 
 imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
