@@ -45,9 +45,6 @@ vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 
-" Notational FZF
-nnoremap <silent><leader>ww :NV<CR>
-
 " Generate .spl files on startup
 for d in glob('~/.config/nvim/spell/*.add', 1, 1)
     if filereadable(d) && (!filereadable(d . '.spl') || getftime(d) > getftime(d . '.spl'))
@@ -272,12 +269,13 @@ nmap <Leader>dj :call vimspector#StepOver()<CR>
 nmap <Leader>di <Plug>VimspectorBalloonEval
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
-Plug 'https://github.com/alok/notational-fzf-vim'
-let g:nv_search_paths = ['~/.notes']
-let g:nv_create_note_window = 'tabedit'
-
+" TODO: Change to <leader>n ?
+" Search notes
+nnoremap <silent><leader>ww :SearchNotes<CR>
 " Open a scratchpad with todays date as the filename
 nmap <Leader>ws :execute 'edit ~/.notes/'.strftime("%F").'.md'<cr>
+" New "regular" note
+nmap <Leader>wn :edit ~/.notes/
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -395,3 +393,7 @@ command! -bang -nargs=* RgAll
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob "!.git" -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>1)
+
+command! -bang -nargs=* SearchNotes
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \ fzf#vim#with_preview({'dir': '~/.notes'}), <bang>1)
