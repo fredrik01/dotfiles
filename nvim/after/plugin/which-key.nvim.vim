@@ -95,6 +95,10 @@ lua << EOF
       -- https://github.com/nickjj/dotfiles/blob/master/.vimrc
       l = { ":normal! mz[s1z=`z<cr>", "Automatically fix the last misspelled word and jump back to where you were" },
     },
+    ["<leader>e"] = {
+      name = "+execute",
+      f = { ":!%:p<cr>", "Execute current file" },
+    },
   })
 EOF
 
