@@ -26,3 +26,6 @@ universal-ctags
 
 	brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
+shellcheck - Used by ALE
+
+	brew install shellcheck
