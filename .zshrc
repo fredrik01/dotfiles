@@ -65,6 +65,9 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 path+=$HOME/.dotfiles/cli-tools
 
+# git clone --depth 1 https://github.com/fredrik01/ts.git ~/.ts
+path+=~/.ts
+
 # Pure prompt
 # https://github.com/sindresorhus/pure
 fpath+=$HOME/.zsh/pure
