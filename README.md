@@ -26,6 +26,10 @@ universal-ctags
 
 	brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-shellcheck - Used by ALE
+shellcheck - Lint shell files with ALE
 
 	brew install shellcheck
+
+vint - Lint vimscript with ALE
+
+	brew install vint
