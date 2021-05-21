@@ -99,6 +99,12 @@ lua << EOF
       name = "+execute",
       f = { ":!%:p<cr>", "Execute current file" },
     },
+    ["<leader>n"] = {
+      name = "+notes",
+      n = { ":NotesNew<cr>", "New note" },
+      d = { ":NotesDaily<cr>", "Daily note" },
+      s = { ":NotesSearch<cr>", "Search notes" },
+    },
   })
 EOF
 

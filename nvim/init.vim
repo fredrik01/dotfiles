@@ -120,6 +120,9 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'fredrik01/notes.vim'
+let g:notes_path = '~/.notes'
+
 " Requires: universal-ctags
 " brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 Plug 'ludovicchabant/vim-gutentags'
@@ -269,14 +272,6 @@ nmap <Leader>dj :call vimspector#StepOver()<CR>
 nmap <Leader>di <Plug>VimspectorBalloonEval
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
-" TODO: Change to <leader>n ?
-" Search notes
-nnoremap <silent><leader>ww :SearchNotes<CR>
-" Open a scratchpad with todays date as the filename
-nmap <Leader>ws :execute 'edit ~/.notes/'.strftime("%F").'.md'<cr>
-" New "regular" note
-nmap <Leader>wn :edit ~/.notes/
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 call plug#end()
@@ -395,7 +390,3 @@ command! -bang -nargs=* RgAll
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob "!.git" -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>1)
-
-command! -bang -nargs=* SearchNotes
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
-  \ fzf#vim#with_preview({'dir': '~/.notes'}), <bang>1)
