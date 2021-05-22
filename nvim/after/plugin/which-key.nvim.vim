@@ -103,7 +103,8 @@ lua << EOF
       name = "+notes",
       n = { ":NotesNew<cr>", "New note" },
       d = { ":NotesDaily<cr>", "Daily note" },
-      s = { ":NotesSearch<cr>", "Search notes" },
+      s = { ":NotesSearch<cr>", "Search in notes" },
+      f = { ":NotesFiles<cr>", "Search notes files" },
     },
   })
 EOF
