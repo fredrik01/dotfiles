@@ -45,6 +45,9 @@ vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 
+" Reselect pasted text
+nnoremap gp `[v`]
+
 " Generate .spl files on startup
 for d in glob('~/.config/nvim/spell/*.add', 1, 1)
     if filereadable(d) && (!filereadable(d . '.spl') || getftime(d) > getftime(d . '.spl'))
