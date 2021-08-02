@@ -320,6 +320,9 @@ lua<<EOF
   }
 EOF
 
+" Another nice color for error signs: #d1666a
+hi! CocErrorSign guifg=#ff5454
+
 " Thin border on vertical splits
 hi VertSplit ctermbg=NONE guibg=NONE
 

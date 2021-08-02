@@ -1,3 +1,11 @@
 {
-    "diagnostic.displayByAle": true
+    "diagnostic.errorSign": "✘",
+    "diagnostic.warningSign": "",
+    "diagnostic.infoSign": "",
+    "diagnostic.displayByAle": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "go",
+        "json",
+        "yaml"
+    ]
 }
