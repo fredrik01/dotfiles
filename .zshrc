@@ -1,3 +1,5 @@
+export EDITOR=nvim
+
 export ZSH=~/.oh-my-zsh
 ZSH_THEME=""
 plugins=(git jump zsh-autosuggestions)
@@ -64,9 +66,6 @@ zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
 path+=$HOME/.dotfiles/cli-tools
-
-# git clone --depth 1 https://github.com/fredrik01/ts.git ~/.ts
-[ -f ~/.ts/ts.zsh ] && source ~/.ts/ts.zsh
 
 # Pure prompt
 # https://github.com/sindresorhus/pure
