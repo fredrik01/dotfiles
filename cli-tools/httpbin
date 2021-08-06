@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Example: httbin (Default port, foreground)
+# Example: httbin -p 3000 -d (Port 3000, background)
+
+port=80
+background=""
+backgroundDesc="foreground"
+
+# Colon after a char means that a value is required
+while getopts p:d flag
+do
+    case "${flag}" in
+        p) port=${OPTARG};;
+        d) background="-d"; backgroundDesc="background";;
+    esac
+done
+
+echo "Starting httbin on port $port in $backgroundDesc"
+
+docker run --rm -p "$port":80 $background kennethreitz/httpbin
