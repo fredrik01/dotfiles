@@ -12,6 +12,9 @@ export LANG=en_US.UTF-8
 
 alias ssh="kitty +kitten ssh"
 
+is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
 current-branch() {
     git branch | grep \* | cut -d ' ' -f2
 }
@@ -28,6 +31,21 @@ git-clean-branches() {
 
 cb() {
   current-branch | pbcopy
+}
+
+# git change worktree
+gw() {
+  cd $(git worktree list | fzf | cut -d ' ' -f1)
+}
+
+# Replace gb from oh my zsh
+unalias gb
+# https://stackoverflow.com/a/37007733
+gb() {
+  is_in_git_repo &&
+    git checkout $(git branch -vv --color=always | grep -v '/HEAD\s' |
+    fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
+    sed 's#^remotes/[^/]*/##')
 }
 
 weather() {
