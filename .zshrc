@@ -33,9 +33,13 @@ cb() {
   current-branch | pbcopy
 }
 
-# git change worktree
+# Change git worktree
 gw() {
-  cd $(git worktree list | fzf | cut -d ' ' -f1)
+  git_worktree_path=$(git worktree list | fzf | cut -d ' ' -f1)
+  if [ ! -z "$git_worktree_path" ]
+  then
+    cd $git_worktree_path
+  fi
 }
 
 # Replace gb from oh my zsh
