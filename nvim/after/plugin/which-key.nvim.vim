@@ -40,9 +40,9 @@ lua << EOF
     },
     ["<leader>l"] = {
       name = "+line",
-      -- f = { "<cmd>Lines!<cr>", "Line in current buffer (file)" },
-      f = { "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>", "Line in current buffer (file)" },
-      b = { "<cmd>BLines!<cr>", "Line in open buffers" },
+      f = { "<cmd>BLines!<cr>", "Line in current buffer (file)" },
+      -- f = { "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>", "Line in current buffer (file)" },
+      b = { "<cmd>Lines!<cr>", "Line in open buffers" },
       g = { "<cmd>RgWithHidden<cr>", "Line in git repo" },
       a = { "<cmd>RgAll<cr>", "Line in all files" },
       t = { "<cmd>lua require('telescope.builtin').treesitter()<cr>", "Treesitter" },
