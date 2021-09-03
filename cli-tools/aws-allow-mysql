@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Intended to be used with security groups with only one inbound rule
+# Removes existing rules and adds a new one with the current IP
+
+[[ -z "$1" ]] && { echo "Parameter 1 is empty" ; exit 1; }
+
+groupId=$1
+
+# Remove all existing inbound rules
+json=$(aws-no-tty ec2 describe-security-groups --group-id "$groupId" --query "SecurityGroups[0].IpPermissions")
+aws-no-tty ec2 revoke-security-group-ingress --cli-input-json "{\"GroupId\": \"$groupId\", \"IpPermissions\": $json}" --output text
+
+# Add rule with current IP
+ip=$(curl --silent https://checkip.amazonaws.com)
+aws-no-tty ec2 authorize-security-group-ingress --group-id "$groupId" --protocol tcp --port 3306 --cidr "$ip"/32 --output text
+
+echo "Done"
