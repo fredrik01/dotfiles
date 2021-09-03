@@ -52,6 +52,12 @@ gb() {
     sed 's#^remotes/[^/]*/##')
 }
 
+gh() {
+  is_in_git_repo &&
+    git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
+    fzf --height 40% --ansi --no-sort --reverse --multi | grep -o '[a-f0-9]\{7,\}'
+}
+
 weather() {
     if [ $1 = "-s" ]; then
         curl -s "wttr.in/{$2}?format=3"
