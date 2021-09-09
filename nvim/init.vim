@@ -183,10 +183,10 @@ let g:dirvish_mode = ':sort ,^.*[\/],'
 
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'tpope/vim-unimpaired'
 
+Plug 'machakann/vim-sandwich'
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
@@ -258,10 +258,6 @@ Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case        = 1
-
-Plug 'justinmk/vim-sneak'
-let g:sneak#s_next = 1
-let g:sneak#use_ic_scs = 1
 
 Plug 'puremourning/vimspector'
 nmap <Leader>dd :call vimspector#Continue()<CR>
