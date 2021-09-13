@@ -1,0 +1,22 @@
+# Change directory one step at a time
+local subdircount=$(fd . --maxdepth 1 --type d | wc -l)
+if [[ "$subdircount" -eq 0 ]]
+then
+	echo "No directories here"
+	return
+fi
+
+local goto=$(fd . --maxdepth 1 --type d | fzf --preview 'ls -a {}')
+if [ ! -z "$goto" ]
+then
+	cd $goto
+
+	local subdircount=$(fd . --maxdepth 1 --type d | wc -l)
+	if [[ "$subdircount" -eq 0 ]]
+	then
+		echo "No subdirs in this directory"
+	else
+		# Call to self, recursion
+		fzf_change_directory_step.zsh
+	fi
+fi

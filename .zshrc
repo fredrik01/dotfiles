@@ -11,6 +11,23 @@ export BAT_THEME="Dracula"
 export LANG=en_US.UTF-8
 
 alias ssh="kitty +kitten ssh"
+# Search stackoverflow
+alias so="googler --site stackoverflow.com"
+# Change directory
+alias cf='fzf_change_directory'
+alias cg='cd $(git rev-parse --show-toplevel)'
+# Search file and open in editor
+alias vf='fzf_find_edit'
+# Git
+alias ga='fzf_git_add'
+alias gd='fzf_git_diff'
+unalias gb # Replace gb from oh my zsh
+alias gb='fzf_git_change_branch'
+alias gw="fzf_git_change_worktree"
+alias gl='fzf_git_log'
+alias gls='fzf_git_log_search'
+# Docker
+alias dc='docker-compose'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
@@ -33,53 +50,8 @@ cb() {
   current-branch | pbcopy
 }
 
-# Change git worktree
-gw() {
-  git_worktree_path=$(git worktree list | fzf | cut -d ' ' -f1)
-  if [ ! -z "$git_worktree_path" ]
-  then
-    cd $git_worktree_path
-  fi
-}
-
-# Replace gb from oh my zsh
-unalias gb
-# https://stackoverflow.com/a/37007733
-gb() {
-  is_in_git_repo &&
-    git checkout $(git branch -vv --color=always | grep -v '/HEAD\s' |
-    fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
-    sed 's#^remotes/[^/]*/##')
-}
-
-gh() {
-  is_in_git_repo &&
-    git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
-    fzf --height 40% --ansi --no-sort --reverse --multi | grep -o '[a-f0-9]\{7,\}'
-}
-
-weather() {
-    if [ $1 = "-s" ]; then
-        curl -s "wttr.in/{$2}?format=3"
-    else
-        curl wttr.in/$1
-    fi
-}
-
-# Search stackoverflow
-alias so="googler --site stackoverflow.com"
-
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Git diff with fzf. Arguments are passed to git diff, so it can be used in the same way as git diff
-# Examples:
-#       fd (regular git diff)
-#       fd 8387eff8..350500cb
-fd() {
-  preview="git diff $@ --color=always -- {-1}"
-  git diff $@ --name-only | fzf -m --ansi --preview $preview
-}
 
 # Fix slowness of pastes with zsh-syntax-highlighting.zsh
 # https://gist.github.com/magicdude4eva/2d4748f8ef3e6bf7b1591964c201c1ab
@@ -104,4 +76,3 @@ prompt pure
 # Should be at the bottom of this file
 fpath=( ~/.dotfiles/zshfn "${fpath[@]}" )
 autoload -Uz $fpath[1]/*(.:t)
-

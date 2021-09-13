@@ -1,0 +1,14 @@
+# https://github.com/bluz71/dotfiles/blob/master/bashrc
+local selections=$(
+		git status --porcelain | \
+		fzf --ansi --multi \
+			--preview 'if (git ls-files --error-unmatch {2} &>/dev/null); then
+				git diff --color=always {2} | delta
+			else
+				bat --color=always --line-range :500 {2}
+			fi'
+		)
+
+if [[ -n $selections ]]; then
+	echo "$selections" | cut -c 4- | tr '\n' ' ') | xargs git add --verbose
+fi

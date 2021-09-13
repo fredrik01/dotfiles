@@ -1,0 +1,6 @@
+# Git diff with fzf. Arguments are passed to git diff, so it can be used in the same way as git diff
+# Examples:
+#       fzf_git_diff (regular git diff)
+#       fzf_git_diff 8387eff8..350500cb
+preview="git diff $@ --color=always -- {-1}"
+git diff $@ --name-only | fzf -m --ansi --preview $preview

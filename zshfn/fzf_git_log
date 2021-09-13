@@ -1,0 +1,6 @@
+is_in_git_repo &&
+	local selection=$(
+		git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph |
+			fzf --height 40% --ansi --no-sort --reverse --multi | grep -o '[a-f0-9]\{7,\}'
+		)
+git show $selection
