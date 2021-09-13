@@ -10,6 +10,14 @@ Install plugins with
 
 	:PlugInstall
 
+fd
+
+	brew install fd
+
+tree
+
+	brew install tree
+
 coc.nvim requires node
 
 	brew install node
