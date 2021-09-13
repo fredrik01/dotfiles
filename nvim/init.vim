@@ -20,6 +20,17 @@ tnoremap <C-o> <C-\><C-n>
 
 " Go to definition
 nmap <silent>gd <Plug>(coc-definition)
+nmap <silent>gr <Plug>(coc-references)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
@@ -60,6 +71,14 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Easier j/k navigation for wrapped lines that works with relative line numbers
+" https://bluz71.github.io/2021/09/10/vim-tips-revisited.html
+nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+
+" Switch to previous buffer
+nnoremap <Backspace> <C-^>
 
 " Search for a term and replace it
 nnoremap <Leader>r :%s///g<left><left><left>
@@ -109,6 +128,10 @@ set shortmess+=c                " A coc thing
 set spelllang=en,sv
 set splitright
 set splitbelow
+" Wrap long lines
+set breakindent
+set breakindentopt=shift:2
+set showbreak=↳
 
 function! OpenURLUnderCursor()
   let s:uri = expand('<cWORD>')
@@ -284,6 +307,7 @@ let g:coc_global_extensions = [
   \'coc-lua',
   \'coc-vimlsp',
   \'coc-go',
+  \'coc-tag',
 \]
 
 imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
