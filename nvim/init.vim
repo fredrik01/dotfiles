@@ -227,6 +227,7 @@ xmap gs  <plug>(GrepperOperator)
 
 " Themes
 Plug 'bluz71/vim-moonfly-colors'
+Plug 'projekt0n/github-nvim-theme'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -321,6 +322,7 @@ endif
 
 syntax on
 colorscheme moonfly
+" colorscheme github_dark_default
 
 let g:moonflyCursorColor = 1
 let g:moonflyUnderlineMatchParen = 1
