@@ -10,5 +10,5 @@ local selections=$(
 		)
 
 if [[ -n $selections ]]; then
-	echo "$selections" | cut -c 4- | tr '\n' ' ') | xargs git add --verbose
+	echo "$selections" | cut -c 4- | tr '\n' ' ' | xargs git add --verbose
 fi
