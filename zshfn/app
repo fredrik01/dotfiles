@@ -1,0 +1,7 @@
+/* For MacOS */
+local app=$(ls /Applications | rev | cut -c 5- | rev | fzf)
+
+if [[ -n $app ]]; then
+	open /Applications/"$app".app
+fi
+
