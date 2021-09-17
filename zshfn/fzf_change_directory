@@ -1,9 +1,14 @@
-# https://github.com/bluz71/dotfiles/blob/master/bashrc
+# Inspired by: https://github.com/bluz71/dotfiles/blob/master/bashrc
+
+local dir=${1:-.}
+local query=$2
+
 local directory=$(
-	fd --type d | \
-	fzf --query="$1" --no-multi --select-1 --exit-0 \
+	fd --type d . "$dir" | \
+	fzf --query="$query" --no-multi --select-1 --exit-0 \
 			--preview 'tree -C {} | head -100'
-	)
+)
+
 if [[ -n $directory ]]; then
 		cd "$directory"
 fi
