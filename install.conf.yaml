@@ -26,6 +26,9 @@
     ~/.config/ctags:
       create: true
       path: ctags
+    ~/.config/fd:
+      create: true
+      path: fd
     ~/.gitignore:
       create: true
       path: gitignore_global
