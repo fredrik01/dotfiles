@@ -1,0 +1,10 @@
+# Delete git worktree
+local worktree_branch=$(git worktree list |
+	fzf --height 40% |
+	cut -d '[' -f 2 |
+	cut -d ']' -f 1)
+
+if [ ! -z "$worktree_branch" ]
+then
+	git worktree remove $worktree_branch
+fi

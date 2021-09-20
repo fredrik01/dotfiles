@@ -1,5 +1,5 @@
 # Change git worktree
-git_worktree_path=$(git worktree list |
+local git_worktree_path=$(git worktree list |
 	fzf --height 40% |
 	cut -d ' ' -f1)
 
