@@ -12,9 +12,9 @@ export LANG=en_US.UTF-8
 
 [ -f ~/.dotfiles/zsh/.custom ] && source ~/.dotfiles/zsh/.custom 
 
-alias ssh="kitty +kitten ssh"
+alias ssh='kitty +kitten ssh'
 # Search stackoverflow
-alias so="googler --site stackoverflow.com"
+alias so='googler --site stackoverflow.com'
 # Change directory
 alias cf='fzf_change_directory'
 alias cg='cd $(git rev-parse --show-toplevel)'
@@ -26,12 +26,13 @@ alias gd='fzf_git_diff'
 unalias gb # Replace gb from oh my zsh
 alias gb='fzf_git_change_branch'
 alias gbd='fzf_git_delete_branch'
-alias gw="fzf_git_change_worktree"
+alias gw='fzf_git_change_worktree'
 alias gwd='fzf_git_delete_worktree'
 alias gl='fzf_git_log'
 alias gls='fzf_git_log_search'
 alias gld='git log --graph --stat --decorate --all -p' # "Git log diff"
 alias gst='git status -sb' # Clean git status
+alias gco='git commit -v'
 # Docker
 alias dc='docker-compose'
 
