@@ -8,6 +8,9 @@
 #   * url
 #   * headers (optional)
 #
+# Example url with parameters:
+#   url="https://domain?first=${params[0]}"
+#
 # TODO
 #   * Add curl as optional backend? curl -sS $method $url -H "$headers"
 
@@ -62,4 +65,16 @@ for file in "${files[@]}"; do
   source "$file"
 done
 
-http --print="$output" "$method" "$url" "$headers"
+# Default output setting
+if [[ "$output" = "" ]]; then
+  output=hb
+fi
+
+arguments=("--print=$output" "$method" "$url")
+
+# Add headers to the arguments array if not empty
+if [[ -n "$headers" ]]; then
+  arguments+=("$headers")
+fi
+
+http "${arguments[@]}"
