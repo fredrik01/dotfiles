@@ -163,6 +163,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets' " Pre made snippets
 
+Plug 'NTBBloodbath/rest.nvim'
+
 " Required by telescope and gitsigns
 Plug 'nvim-lua/plenary.nvim'
 
@@ -341,6 +343,18 @@ lua<<EOF
       lualine_x = {{'diagnostics', sources = {'coc', 'ale'}}, {'diff', colored = false}, 'encoding', 'fileformat', 'filetype'},
     }
   }
+EOF
+
+lua<<EOF
+require("rest-nvim").setup({
+  result_split_horizontal = false,
+  skip_ssl_verification = false,
+  highlight = {
+    enabled = true,
+    timeout = 150,
+  },
+  jump_to_request = false,
+  })
 EOF
 
 " Another nice color for error signs: #d1666a
