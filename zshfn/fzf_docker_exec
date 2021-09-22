@@ -1,0 +1,13 @@
+local container=$(docker ps | sed 1d | fzf | cut -d " " -f1)
+
+# Try running bash, if exit code 126 then try running sh
+for shell in bash sh
+do
+  clear
+  echo -e "$container - $shell"
+  echo  " "
+  docker exec -it $container $shell
+  if [ $? -ne 126 ]; then
+    break
+  fi
+done

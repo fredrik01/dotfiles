@@ -35,6 +35,7 @@ alias gst='git status -sb' # Clean git status
 alias gco='git commit -v'
 # Docker
 alias dc='docker-compose'
+alias de='fzf_docker_exec'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
