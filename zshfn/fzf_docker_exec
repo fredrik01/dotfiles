@@ -1,5 +1,9 @@
 local container=$(docker ps | sed 1d | fzf | cut -d " " -f1)
 
+if [[ -z $container ]]; then
+  return
+fi
+
 # Try running bash, if exit code 126 then try running sh
 for shell in bash sh
 do
