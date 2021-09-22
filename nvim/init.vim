@@ -174,6 +174,9 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 Plug 'lewis6991/gitsigns.nvim'
 
+" Show marks
+Plug 'kshenoy/vim-signature'
+
 Plug 'simeji/winresizer'
 
 " Cache file stored in ~/.cache/nvim
