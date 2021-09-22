@@ -28,9 +28,9 @@ alias gb='fzf_git_change_branch'
 alias gbd='fzf_git_delete_branch'
 alias gw='fzf_git_change_worktree'
 alias gwd='fzf_git_delete_worktree'
-alias gl='fzf_git_log'
+alias gl='git log --graph --stat --decorate --all -p' # "Git log diff"
+alias glf='fzf_git_log'
 alias gls='fzf_git_log_search'
-alias gld='git log --graph --stat --decorate --all -p' # "Git log diff"
 alias gst='git status -sb' # Clean git status
 alias gco='git commit -v'
 # Docker
