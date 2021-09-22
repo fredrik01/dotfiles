@@ -46,6 +46,7 @@ lua << EOF
       g = { "<cmd>RgWithHidden<cr>", "Line in git repo" },
       a = { "<cmd>RgAll<cr>", "Line in all files" },
       t = { "<cmd>lua require('telescope.builtin').treesitter()<cr>", "Treesitter" },
+      m = { ":Marks<cr>", "Go to mark" },
     },
     ["<leader>g"] = {
       name = "+grep",
@@ -106,6 +107,13 @@ lua << EOF
       s = { ":NotesSearch<cr>", "Search in notes" },
       f = { ":NotesFiles<cr>", "Search notes files" },
     },
+    ["<leader>r"] = {
+      name = "+request",
+      r = { "<Plug>RestNvim", "Make request under cursor" },
+      p = { "<Plug>RestNvimPreview", "Preview request" },
+      l = { "<Plug>RestNvimLast", "Run previous request" },
+    }
+
   })
 EOF
 
