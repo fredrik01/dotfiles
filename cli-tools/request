@@ -22,15 +22,17 @@ usage(){
   echo "  -f file : source one or more files"
   echo "  -p param : one or more params"
   echo "  -o output : see httpie --print for options"
+  echo "  -d dry run : just print stuff"
   echo ""
   exit
 }
 
 headers=""
 output=""
+dryRun=false
 
 # Parse options and arguments
-while getopts "f:,p:,o:" option; do
+while getopts "f:,p:,o:,d" option; do
   case $option in
     "f")
       files+=("$OPTARG")
@@ -40,6 +42,9 @@ while getopts "f:,p:,o:" option; do
       ;;
     "o")
       output="$output$OPTARG"
+      ;;
+    "d")
+      dryRun=true
       ;;
     *)
       usage
@@ -61,6 +66,7 @@ then
   export $(cat .env | sed 's/#.*//g' | xargs)
 fi
 
+# Source files here
 for file in "${files[@]}"; do
   source "$file"
 done
@@ -77,4 +83,17 @@ if [[ -n "$headers" ]]; then
   arguments+=("$headers")
 fi
 
-http "${arguments[@]}"
+# Dry run or not
+if [ "$dryRun" = true ]; then
+  echo "${arguments[@]}"
+  echo "$body"
+  exit 0
+fi
+
+# With or without body
+if [[ -n "$body" ]]; then
+  # echo "$body" | http "${arguments[@]}"
+  http "${arguments[@]}" "$body"
+else
+  http "${arguments[@]}"
+fi
