@@ -91,12 +91,21 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 
 " Calculate expression on current line and add to the end
 " A line can be recalculated without first having to remove the = sign
-nnoremap <buffer> <expr> <leader>m (getline('.') =~ '=') ? ":DeleteAfterEqualSign<CR>:DeleteTrailingWhitespace<CR>:Calculate<CR>``" : ":Calculate<CR>"
+function! Calculate()
+  if (getline('.') =~ '=')
+    :DeleteAfterEqualSign
+    :DeleteTrailingWhitespace
+    :CalcLine
+    :execute "normal! ``"
+  else
+    :CalcLine
+  endif
+endfunction
 
 command! DeleteAfterEqualSign :s/\s*=.*//
 command! DeleteTrailingWhitespace :s/\s\+$//e
 " Requires bc
-command! Calculate :execute "normal! yypkA =<Esc>jOscale=2<Esc>:.,+1!bc<CR>kJ"
+command! CalcLine :execute "normal! yypkA =<Esc>jOscale=2<Esc>:.,+1!bc<CR>kJ"
 " Print sum of all lines at the bottom
 command! SumLines :execute "%!awk '{print; total+=$1}END{print \"==\";print total}'"
 
@@ -176,7 +185,7 @@ Plug 'honza/vim-snippets' " Pre made snippets
 
 Plug 'NTBBloodbath/rest.nvim'
 
-" Required by telescope and gitsigns
+" Required by telescope, gitsigns, rest.nvim
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'nvim-lua/popup.nvim'

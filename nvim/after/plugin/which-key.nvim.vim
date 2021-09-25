@@ -13,6 +13,7 @@ lua << EOF
     -- ["<leader><leader>"] = { ":<Plug>VinegarUp<cr>", "Open directory and select current file" },
     ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
+    ["<leader>m"] = { ":call Calculate()<cr>", "Calculate line" },
   })
 
   wk.register({
@@ -113,7 +114,6 @@ lua << EOF
       p = { "<Plug>RestNvimPreview", "Preview request" },
       l = { "<Plug>RestNvimLast", "Run previous request" },
     }
-
   })
 EOF
 
