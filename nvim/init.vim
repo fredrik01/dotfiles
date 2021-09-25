@@ -207,12 +207,9 @@ Plug 'b3nj5m1n/kommentary'
 
 " Plugins in this block has to be BEFORE folke/which-key.nvim
 Plug 'wellle/targets.vim'
-Plug 'chaoren/vim-wordmotion'
-" Add mappings for Vims original word definition
-xnoremap io iw
-xnoremap ao aw
-onoremap io iw
-onoremap ao aw
+Plug 'kana/vim-textobj-user'
+" Adds `iv` and `av` text objects. Requires kana/vim-textobj-user
+Plug 'Julian/vim-textobj-variable-segment'
 
 Plug 'folke/which-key.nvim'
 
