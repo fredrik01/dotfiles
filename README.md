@@ -14,6 +14,18 @@ fd
 
 	brew install fd
 
+jq - Required by rest.nvim
+
+	brew install jq
+
+bc - For calculations
+
+	brew install bc
+
+delta - git pager
+
+	brew install git-delta
+
 tree
 
 	brew install tree
