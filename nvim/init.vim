@@ -427,6 +427,8 @@ command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
 command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
+command! CopyFullPath :execute ':let @* = expand("%:p")'
+command! CopyFileName :execute ':let @* = expand("%:t")'
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
