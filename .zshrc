@@ -22,7 +22,8 @@ alias cg='cd $(git rev-parse --show-toplevel)'
 alias vf='fzf_find_edit'
 # Git
 alias ga='fzf_git_add'
-alias gd='fzf_git_diff'
+alias gd='git diff'
+alias gdf='fzf_git_diff'
 unalias gb # Replace gb from oh my zsh
 alias gb='fzf_git_change_branch'
 alias gbd='fzf_git_delete_branch'
