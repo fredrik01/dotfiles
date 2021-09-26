@@ -1,9 +1,46 @@
 [user]
 	email = fredrikandersson01@gmail.com
 	name = Fredrik Andersson
-[core]
-	editor = nvim
-	excludesFile = ~/.gitignore
 
 [includeIf "gitdir:~/frilansfinans/"]
 	path = ~/.gitconfig-frilansfinans
+
+[core]
+	editor = nvim
+	pager = delta
+	excludesFile = ~/.gitignore
+
+[pull]
+	rebase = false
+
+[delta]
+	; plus-style = "syntax #012800"
+	; minus-style = "syntax #340001"
+	; minus-style = red bold ul "#ffeeee"
+	; line-numbers = true
+	; syntax-theme = Dracula
+	; navigate = true
+	side-by-side = true
+
+  dark = true
+  file-style = omit
+  hunk-header-decoration-style = omit
+  hunk-header-file-style = magenta
+  hunk-header-line-number-style = dim magenta
+  hunk-header-style = file line-number syntax
+  line-numbers = true
+  minus-emph-style = bold red 52
+  minus-empty-line-marker-style = normal "#3f0001"
+  minus-non-emph-style = dim red
+  ; minus-style = bold red
+  plus-emph-style = bold green 22
+  plus-empty-line-marker-style = normal "#002800"
+  plus-non-emph-style = dim green
+  ; plus-style = bold green
+  syntax-theme = OneHalfDark
+  whitespace-error-style = reverse red
+  zero-style = dim syntax
+
+[interactive]
+	diffFilter = delta --color-only
+
