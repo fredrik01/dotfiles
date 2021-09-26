@@ -1,0 +1,8 @@
+local selection=$(
+	git reflog --color=always "$@" |
+		fzf --no-multi --ansi --no-sort --no-height \
+				--preview 'git show --color=always {1} | delta'
+	)
+if [[ -n $selection ]]; then
+		git show $(echo $selection | cut -d' ' -f1)
+fi

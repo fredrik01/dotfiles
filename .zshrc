@@ -22,6 +22,7 @@ alias cg='cd $(git rev-parse --show-toplevel)'
 alias vf='fzf_find_edit'
 # Git
 alias ga='fzf_git_add'
+alias gu='fzf_git_unadd'
 alias gd='git diff'
 alias gdf='fzf_git_diff'
 unalias gb # Replace gb from oh my zsh
@@ -32,8 +33,9 @@ alias gwd='fzf_git_delete_worktree'
 alias gl='git log --graph --stat --decorate --all -p' # "Git log diff"
 alias glf='fzf_git_log'
 alias gls='fzf_git_log_search'
-alias gst='git status -sb' # Clean git status
-alias gco='git commit -v'
+alias gs='git status -sb' # Git status without the noice
+alias gc='git commit -v'
+alias gr='fzf_git_reflog'
 # Docker
 alias dc='docker-compose'
 alias de='fzf_docker_exec'

@@ -1,0 +1,2 @@
+	# TODO: How to paste result into prompt?
+	history 0 | fzf --height 40% --tac | awk '{$1=$1};1' | cut -d ' ' -f 2-

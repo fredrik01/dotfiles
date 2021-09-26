@@ -1,0 +1,4 @@
+local files=$(git diff --name-only --cached | fzf --ansi)
+if [[ -n $files ]]; then
+		git unadd $files
+fi
