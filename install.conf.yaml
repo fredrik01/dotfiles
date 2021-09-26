@@ -31,7 +31,11 @@
       path: fd
     ~/.gitignore:
       create: true
-      path: gitignore_global
+      path: git/gitignore_global
+    ~/.gitconfig:
+      path: git/.gitconfig
+    ~/.gitconfig-frilansfinans:
+      path: git/.gitconfig-frilansfinans
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

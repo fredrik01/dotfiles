@@ -1,0 +1,9 @@
+[user]
+	email = fredrikandersson01@gmail.com
+	name = Fredrik Andersson
+[core]
+	editor = nvim
+	excludesFile = ~/.gitignore
+
+[includeIf "gitdir:~/frilansfinans/"]
+	path = ~/.gitconfig-frilansfinans
