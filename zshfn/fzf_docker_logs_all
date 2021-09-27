@@ -1,0 +1,5 @@
+local container=$(docker ps -a | sed 1d | fzf | cut -d " " -f1)
+
+if [[ -n $container ]]; then
+	docker logs --follow $container
+fi
