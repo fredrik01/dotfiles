@@ -91,7 +91,6 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 
 " Calculate expression on current line and add to the end
 " A line can be recalculated without first having to remove the = sign
-" TODO: Make calculation work when commented out
 function! Calculate()
   let original_cursor_position = getpos('.')
   if (getline('.') =~ '=')
