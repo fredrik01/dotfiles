@@ -24,6 +24,7 @@ alias vf='fzf_find_edit'
 alias ga='fzf_git_add'
 alias gu='fzf_git_unadd'
 alias gd='git diff'
+alias gds='git diff --staged'
 alias gdf='fzf_git_diff'
 unalias gb # Replace gb from oh my zsh
 alias gb='fzf_git_change_branch'
