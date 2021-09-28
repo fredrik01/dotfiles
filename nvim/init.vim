@@ -91,23 +91,41 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 
 " Calculate expression on current line and add to the end
 " A line can be recalculated without first having to remove the = sign
+" TODO: Make calculation work when commented out
 function! Calculate()
+  let original_cursor_position = getpos('.')
   if (getline('.') =~ '=')
-    :DeleteAfterEqualSign
-    :DeleteTrailingWhitespace
-    :CalcLine
-    :execute "normal! ``"
+    call CalcDeleteAfterEqualSign()
+    call CalcDeleteTrailingWhitespace()
+    call CalcLine()
   else
-    :CalcLine
+    call CalcLine()
   endif
+  call setpos('.', original_cursor_position)
 endfunction
 
-command! DeleteAfterEqualSign :s/\s*=.*//
-command! DeleteTrailingWhitespace :s/\s\+$//e
 " Requires bc
-command! CalcLine :execute "normal! yypkA =<Esc>jOscale=2<Esc>:.,+1!bc<CR>kJ"
-" Print sum of all lines at the bottom
+function! CalcLine()
+  normal! yypkA =
+  normal! jOscale=2
+  execute '.,+1!bc'
+  normal! kJ
+endfunction
+
+function CalcDeleteAfterEqualSign()
+  s/\s*=.*//
+endfunction
+
+function CalcDeleteTrailingWhitespace()
+  s/\s\+$//e
+endfunction
+
+" command! DeleteAfterEqualSign :s/\s*=.*//
+command! DeleteTrailingWhitespace :s/\s\+$//e
+" Print sum of all lines at the bottom, requires awk
 command! SumLines :execute "%!awk '{print; total+=$1}END{print \"==\";print total}'"
+
+vnoremap <leader>m :call Calculate()<cr>
 
 " Type replacement term and press . to repeat the replacement again
 " (comparable to multiple cursors)
