@@ -89,41 +89,6 @@ nnoremap <Leader>rc :%s///gc<left><left><left>
 xnoremap <Leader>r :%s///g<left><left><left>
 xnoremap <Leader>rc :%s///gc<left><left><left>
 
-" Calculate expression on current line and add to the end
-" A line can be recalculated without first having to remove the = sign
-function! Calculate()
-  let original_cursor_position = getpos('.')
-  if (getline('.') =~ '=')
-    call CalcDeleteAfterEqualSign()
-    call CalcDeleteTrailingWhitespace()
-    call CalcLine()
-  else
-    call CalcLine()
-  endif
-  call setpos('.', original_cursor_position)
-endfunction
-
-" Requires bc
-function! CalcLine()
-  normal! yypkA =
-  normal! jOscale=2
-  execute '.,+1!bc'
-  normal! kJ
-endfunction
-
-function CalcDeleteAfterEqualSign()
-  s/\s*=.*//
-endfunction
-
-function CalcDeleteTrailingWhitespace()
-  s/\s\+$//e
-endfunction
-
-" command! DeleteAfterEqualSign :s/\s*=.*//
-command! DeleteTrailingWhitespace :s/\s\+$//e
-" Print sum of all lines at the bottom, requires awk
-command! SumLines :execute "%!awk '{print; total+=$1}END{print \"==\";print total}'"
-
 vnoremap <leader>m :call Calculate()<cr>
 
 " Type replacement term and press . to repeat the replacement again
@@ -185,6 +150,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'fredrik01/notes.vim'
 let g:notes_path = '~/.notes'
+
+" Required by vim-crunch
+Plug 'arecarn/vim-selection'
+Plug 'arecarn/vim-crunch'
 
 " Requires: universal-ctags
 " brew install --HEAD universal-ctags/universal-ctags/universal-ctags
@@ -440,12 +409,16 @@ command! FormatJSON :execute "%!jq '.'"
 command! FormatJSONalt2 :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
 command! CountLastSearch :execute '%s///gn'
-command! ShowTrailingWhitespace :execute '/\s\+$'
 command! ReloadVim :execute ':source $MYVIMRC'
 command! Today :execute ":put =strftime('%Y-%m-%d')"
 command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
 command! CopyFullPath :execute ':let @* = expand("%:p")'
 command! CopyFileName :execute ':let @* = expand("%:t")'
+" Requires "set hlsearch". Enable/disable with yoh
+command! ShowTrailingWhitespace :execute '/\s\+$'
+command! DeleteTrailingWhitespace :s/\s\+$//e
+" Print sum of all lines at the bottom, requires awk
+command! SumLines :execute "%!awk '{print; total+=$1}END{print \"==\";print total}'"
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
