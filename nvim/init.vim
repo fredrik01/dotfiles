@@ -158,6 +158,20 @@ Plug 'arecarn/vim-crunch'
 " Requires: universal-ctags
 " brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root  = ['package.json', '.git', 'docker-compose.yml']
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'git']
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_ctags_exclude = ['*.git', 'node_modules', 'vendor']
+
+Plug 'airblade/vim-rooter'
+" Files that trigger rooter
+let g:rooter_targets = '/,*'
+" Root patterns
+let g:rooter_patterns = ['.git', 'Makefile', 'docker-compose.yml']
 
 Plug 'hoob3rt/lualine.nvim'
 
