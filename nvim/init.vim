@@ -206,6 +206,9 @@ let exrc#names = ['.exrc']
 Plug 'b3nj5m1n/kommentary'
 
 " Plugins in this block has to be BEFORE folke/which-key.nvim
+Plug 'machakann/vim-sandwich'
+" Prefer textobjects fromo welille/targets.vim
+let g:textobj_sandwich_no_default_key_mappings = 1
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
 " Adds `iv` and `av` text objects. Requires kana/vim-textobj-user
@@ -232,7 +235,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'tpope/vim-unimpaired'
 
-Plug 'machakann/vim-sandwich'
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'jkramer/vim-checkbox'
