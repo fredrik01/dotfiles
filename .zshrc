@@ -40,8 +40,9 @@ alias gr='fzf_git_reflog'
 # Docker
 alias dc='docker-compose'
 alias de='fzf_docker_exec'
-alias dl='fzf_docker_logs'
-alias dla='fzf_docker_logs_all'
+alias dl='docker_logs_all'
+alias dlf='fzf_docker_logs'
+alias dlfa='fzf_docker_logs_all'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
