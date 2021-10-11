@@ -53,3 +53,7 @@ shellcheck - Lint shell files with ALE
 vint - Lint vimscript with ALE
 
 	brew install vint
+
+MySQL client - Used by vim-dadbod
+
+	brew install mysql-client
