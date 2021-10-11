@@ -135,6 +135,8 @@ set breakindent
 set breakindentopt=shift:2
 set showbreak=↳
 
+set sessionoptions+=options,resize,winpos,terminal
+
 function! OpenURLUnderCursor()
   let s:uri = expand('<cWORD>')
   let s:uri = substitute(s:uri, '?', '\\?', '')
@@ -166,6 +168,12 @@ let g:gutentags_generate_on_missing = 1
 let g:gutentags_generate_on_write = 1
 let g:gutentags_generate_on_empty_buffer = 0
 let g:gutentags_ctags_exclude = ['*.git', 'node_modules', 'vendor']
+
+Plug 'xolox/vim-misc'
+" This is a maintained version of xolox/vim-session
+Plug 'romgrk/vim-session'
+let g:session_autosave = 'yes'
+let g:session_menu = 0
 
 Plug 'airblade/vim-rooter'
 " Files that trigger rooter
@@ -459,6 +467,17 @@ function! s:save_and_exec() abort
 endfunction
 " save and resource current file
 nnoremap <leader><leader>x :call <SID>save_and_exec()<CR>
+
+" Quickly search and open sessions
+command! OpenSessionFzf call fzf#run(fzf#wrap({
+            \ 'source': 'rg --files ~/.vim/sessions | grep -v .lock | rev | cut -d "/" -f 1 | rev | cut -d "." -f1',
+            \ 'sink': funcref('s:open_session'),
+            \ 'window': {'height': 0.4, 'width': 0.4
+            \ }}))
+
+function! s:open_session(name) abort
+    execute 'OpenSession ' . a:name
+endfunction
 
 " Delete current buffer and trash the file
 command! -bar -bang Trash
