@@ -76,9 +76,10 @@ lua << EOF
       b = { "<cmd>BTags!<CR>", "Search tags in buffer" },
     },
     ["<leader>s"] = {
-      name = "+symbols",
+      name = "+symbols / sessions",
       f = { ":<C-u>CocList outline<cr>", "Find symbol of current document" },
       a = { ":<C-u>CocList -I symbols<cr>", "Search all workspace symbols" },
+      s = { ":OpenSessionFzf<cr>", "Search and open session" },
     },
     ["<leader>t"] = {
       name = "+test",
