@@ -183,6 +183,10 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets' " Pre made snippets
 
+Plug 'tpope/vim-dotenv'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
 Plug 'NTBBloodbath/rest.nvim'
 
 " Required by telescope, gitsigns, rest.nvim
