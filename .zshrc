@@ -80,6 +80,11 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
+mysqlClientFolder="/usr/local/opt/mysql-client/bin"
+if [ -d "$mysqlClientFolder" ]; then
+  path+="$mysqlClientFolder"
+fi
+
 path+=$HOME/.dotfiles/cli-tools
 
 # Pure prompt
