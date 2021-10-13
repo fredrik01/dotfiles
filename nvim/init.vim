@@ -215,7 +215,7 @@ Plug 'simeji/winresizer'
 Plug 'ii14/exrc.vim'
 let exrc#names = ['.exrc']
 
-Plug 'b3nj5m1n/kommentary'
+Plug 'numToStr/Comment.nvim'
 
 " Plugins in this block has to be BEFORE folke/which-key.nvim
 Plug 'machakann/vim-sandwich'
