@@ -86,6 +86,11 @@ if [ -d "$mysqlClientFolder" ]; then
   path+="$mysqlClientFolder"
 fi
 
+goBin="$HOME/go/bin"
+if [ -d "$goBin" ]; then
+  path+="$goBin"
+fi
+
 path+=$HOME/.dotfiles/cli-tools
 
 # Pure prompt
