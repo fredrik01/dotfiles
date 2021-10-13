@@ -1,5 +1,8 @@
 export EDITOR=nvim
 
+# Needed to make curly undercurls work
+export TERM=xterm-kitty
+
 export ZSH=~/.oh-my-zsh
 ZSH_THEME=""
 plugins=(git jump zsh-autosuggestions)

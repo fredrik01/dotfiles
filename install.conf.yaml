@@ -36,6 +36,8 @@
       path: git/.gitconfig
     ~/.gitconfig-frilansfinans:
       path: git/.gitconfig-frilansfinans
+    ~/.tmux.conf:
+      path: tmux.conf
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
