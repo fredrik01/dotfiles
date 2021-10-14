@@ -23,6 +23,8 @@ alias cf='fzf_change_directory'
 alias cg='cd $(git rev-parse --show-toplevel)'
 # Search file and open in editor
 alias vf='fzf_find_edit'
+# Tmux
+alias mf='tmux-sessionizer'
 # Git
 alias ga='fzf_git_add'
 alias gu='fzf_git_unadd'
