@@ -47,6 +47,7 @@ alias d='docker'
 alias dc='docker-compose'
 alias de='fzf_docker_exec'
 alias dl='docker_logs_all'
+alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
 

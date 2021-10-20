@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(fd . ~/ ~/apps ~/frilansfinans --type d --hidden --maxdepth 1 | fzf)
+    selected=$(fd . ~/ ~/apps ~/frilansfinans --type d --hidden --maxdepth 2 | fzf)
 fi
 
 if [[ -z $selected ]]; then
