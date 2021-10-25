@@ -9,9 +9,6 @@ lua << EOF
 
   wk.register({
     ["<leader>"] = { name = "+leader" },
-    -- ["<leader><leader>"] = { ":Lf<cr>", "Open file manager" },
-    -- ["<leader><leader>"] = { ":<Plug>VinegarUp<cr>", "Open directory and select current file" },
-    -- map ,. :lua require("harpoon.term").gotoTerminal(1)<cr>i
     ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
     ["<leader>m"] = { ":call Calculate()<cr>", "Calculate line" },
