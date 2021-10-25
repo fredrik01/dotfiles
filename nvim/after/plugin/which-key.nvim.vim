@@ -115,12 +115,12 @@ lua << EOF
     },
     ["<leader>j"] = {
       name = "Jump to files / terminals",
-      q = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
-      w = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
-      a = { ":lua require('harpoon.ui').nav_file(1)<cr>", "Go to file 1" },
-      s = { ":lua require('harpoon.ui').nav_file(2)<cr>", "Go to file 2" },
+      j = { ":lua require('harpoon.ui').nav_file(1)<cr>", "Go to file 1" },
+      k = { ":lua require('harpoon.ui').nav_file(2)<cr>", "Go to file 2" },
+      a = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
+      s = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
       e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
-      j = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
+      w = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
     }
   })
 EOF

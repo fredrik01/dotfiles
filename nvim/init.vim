@@ -311,7 +311,7 @@ nmap <leader>ts2 :let test#strategy = 'asyncrun_background_term'<CR>
 nmap <leader>ts3 :let test#strategy = 'asyncrun'<CR>
 nmap <leader>ts4 :let test#strategy = 'neovim'<CR>
 nmap <leader>ts5 :let test#strategy = 'harpoon'<CR>
-nmap <leader>ts5 :let test#strategy = 'harpoon_stay'<CR>
+nmap <leader>ts6 :let test#strategy = 'harpoon_stay'<CR>
 
 function! HarpoonStay(cmd)
   let g:cmd = a:cmd . "\n"
