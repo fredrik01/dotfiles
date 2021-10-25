@@ -12,8 +12,6 @@ lua << EOF
     -- ["<leader><leader>"] = { ":Lf<cr>", "Open file manager" },
     -- ["<leader><leader>"] = { ":<Plug>VinegarUp<cr>", "Open directory and select current file" },
     -- map ,. :lua require("harpoon.term").gotoTerminal(1)<cr>i
-    ["<leader>1"] = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
-    ["<leader>2"] = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
     ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
     ["<leader>m"] = { ":call Calculate()<cr>", "Calculate line" },
@@ -117,6 +115,15 @@ lua << EOF
       r = { "<Plug>RestNvim", "Make request under cursor" },
       p = { "<Plug>RestNvimPreview", "Preview request" },
       l = { "<Plug>RestNvimLast", "Run previous request" },
+    },
+    ["<leader>j"] = {
+      name = "Jump to files / terminals",
+      q = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
+      w = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
+      a = { ":lua require('harpoon.ui').nav_file(1)<cr>", "Go to file 1" },
+      s = { ":lua require('harpoon.ui').nav_file(2)<cr>", "Go to file 2" },
+      e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
+      j = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
     }
   })
 EOF
