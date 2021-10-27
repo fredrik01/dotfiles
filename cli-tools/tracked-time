@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Get tracked time today with timewarrior
+# Icons: https://www.nerdfonts.com/cheat-sheet
+
+activeDuration() {
+    if [ -x "$(command -v duration)" ]; then
+        # Requires https://github.com/fredrik01/duration
+        timew get dom.active.duration | duration parse | cut -d ":" -f1-2
+    else
+        # Not as pretty as with "duration", but ok
+        timew get dom.active.duration | cut -c 3- | tr '[:upper:]' '[:lower:]'
+    fi
+}
+
+if [ -x "$(command -v timew)" ]; then
+	  active=$(timew get dom.active)
+	  activeStr=""
+    if [ "$active" -eq "1" ]; then
+        activeDuration=$(activeDuration)
+        activeStr="$activeDuration  "
+    fi
+
+    timeToday=$(timew day | grep Tracked | awk '{print $2}' | cut -d ":" -f1-2)
+
+    if [ ${#timeToday} -eq 4 ]; then
+       timeToday="0$timeToday" 
+    fi
+    echo "$activeStr$timeToday"
+fi
