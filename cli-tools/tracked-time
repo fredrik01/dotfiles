@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Get tracked time today with timewarrior
-# Icons: https://www.nerdfonts.com/cheat-sheet
 
 activeDuration() {
     if [ -x "$(command -v duration)" ]; then
@@ -17,8 +16,9 @@ if [ -x "$(command -v timew)" ]; then
 	  active=$(timew get dom.active)
 	  activeStr=""
     if [ "$active" -eq "1" ]; then
+        tag=$(timew get dom.active.tag.1)
         activeDuration=$(activeDuration)
-        activeStr="$activeDuration  "
+        activeStr="$tag [$activeDuration] "
     fi
 
     timeToday=$(timew day | grep Tracked | awk '{print $2}' | cut -d ":" -f1-2)
