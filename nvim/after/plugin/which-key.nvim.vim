@@ -11,7 +11,7 @@ lua << EOF
     ["<leader>"] = { name = "+leader" },
     ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
-    ["<leader>m"] = { ":call Calculate()<cr>", "Calculate line" },
+    ["<leader>-"] = { ":Lf<cr>", "Start lf" },
   })
 
   wk.register({
@@ -114,7 +114,7 @@ lua << EOF
       l = { "<Plug>RestNvimLast", "Run previous request" },
     },
     ["<leader>j"] = {
-      name = "Jump to files / terminals",
+      name = "jump to files / terminals",
       j = { ":lua require('harpoon.ui').nav_file(1)<cr>", "Go to file 1" },
       k = { ":lua require('harpoon.ui').nav_file(2)<cr>", "Go to file 2" },
       a = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
