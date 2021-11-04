@@ -6,6 +6,9 @@ nmap <Space> :wa<CR>
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
 
+nnoremap s :HopChar2<cr>
+nnoremap S :HopChar1<cr>
+
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
@@ -337,6 +340,8 @@ let g:clever_f_across_no_line    = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case        = 1
 
+Plug 'phaazon/hop.nvim'
+
 Plug 'puremourning/vimspector'
 nmap <Leader>dd :call vimspector#Continue()<CR>
 nmap <Leader>dq :call vimspector#Reset()<CR>
@@ -380,6 +385,10 @@ colorscheme moonfly
 
 let g:moonflyCursorColor = 1
 let g:moonflyUnderlineMatchParen = 1
+
+lua<<EOF
+  require'hop'.setup()
+EOF
 
 lua<<EOF
   require('lualine').setup{
