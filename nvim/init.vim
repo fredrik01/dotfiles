@@ -224,9 +224,7 @@ let exrc#names = ['.exrc']
 Plug 'numToStr/Comment.nvim'
 
 " Plugins in this block has to be BEFORE folke/which-key.nvim
-Plug 'machakann/vim-sandwich'
-" Prefer textobjects fromo welille/targets.vim
-let g:textobj_sandwich_no_default_key_mappings = 1
+Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
 " Adds `iv` and `av` text objects. Requires kana/vim-textobj-user
