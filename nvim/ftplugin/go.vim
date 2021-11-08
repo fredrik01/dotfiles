@@ -7,3 +7,5 @@ let g:coc_user_config = {
     \'diagnostic.displayByAle': v:false
 \}
 
+" Use :make or :Make to compile
+compiler go

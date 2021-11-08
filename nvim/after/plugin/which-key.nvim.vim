@@ -12,6 +12,7 @@ lua << EOF
     ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
     ["<leader>-"] = { ":Lf<cr>", "Start lf" },
+    ["<leader>m"] = { ":Make<cr>", "Run make async" },
   })
 
   wk.register({

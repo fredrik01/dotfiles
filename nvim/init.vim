@@ -253,6 +253,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-dispatch' " Use :Make to compile asynchronously
 
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
