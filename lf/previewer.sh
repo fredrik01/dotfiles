@@ -1,2 +1,2 @@
 #!/bin/sh
-bat --color always --style plain --theme TwoDark "$@"
+bat --color always --theme TwoDark "$@"
