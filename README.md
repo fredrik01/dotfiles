@@ -50,6 +50,10 @@ shellcheck - Lint shell files with ALE
 
 	brew install shellcheck
 
+hadolint - Lint dockerfiles (uses shellcheck)
+
+	brew install hadolint
+
 vint - Lint vimscript with ALE
 
 	brew install vint
