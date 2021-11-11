@@ -27,6 +27,7 @@ alias vf='fzf_find_edit'
 alias mf='tmux-sessionizer'
 # Git
 alias ga='fzf_git_add'
+alias gaa='git add .'
 alias gu='fzf_git_unadd'
 alias gd='git diff'
 alias gds='git diff --staged'
