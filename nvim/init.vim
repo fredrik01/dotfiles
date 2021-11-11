@@ -387,37 +387,6 @@ colorscheme moonfly
 let g:moonflyCursorColor = 1
 let g:moonflyUnderlineMatchParen = 1
 
-lua<<EOF
-  require'hop'.setup()
-EOF
-
-lua<<EOF
-  require('lualine').setup{
-    options = {
-      theme = 'modus-vivendi',
-      icons_enabled = false,
-      section_separators = '',
-      component_separators = '',
-    },
-    sections = {
-      lualine_c = { {'filename', file_status = true, full_path = false, shorten = false} },
-      lualine_x = {'encoding', 'fileformat', 'filetype'},
-    }
-  }
-EOF
-
-lua<<EOF
-require("rest-nvim").setup({
-  result_split_horizontal = false,
-  skip_ssl_verification = false,
-  highlight = {
-    enabled = true,
-    timeout = 150,
-  },
-  jump_to_request = false,
-  })
-EOF
-
 " Another nice color for error signs: #d1666a
 hi! CocErrorSign guifg=#ff5454
 
