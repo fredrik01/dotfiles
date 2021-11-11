@@ -185,7 +185,7 @@ let g:rooter_targets = '/,*'
 " Root patterns
 let g:rooter_patterns = ['.git', 'Makefile', 'docker-compose.yml', 'composer.json']
 
-Plug 'hoob3rt/lualine.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 
 " Used by lualine and telescope
 Plug 'kyazdani42/nvim-web-devicons'
@@ -394,14 +394,14 @@ EOF
 lua<<EOF
   require('lualine').setup{
     options = {
-      theme = 'modus_vivendi',
+      theme = 'modus-vivendi',
       icons_enabled = false,
       section_separators = '',
       component_separators = '',
     },
     sections = {
       lualine_c = { {'filename', file_status = true, full_path = false, shorten = false} },
-      lualine_x = {{'diagnostics', sources = {'coc', 'ale'}}, {'diff', colored = false}, 'encoding', 'fileformat', 'filetype'},
+      lualine_x = {'encoding', 'fileformat', 'filetype'},
     }
   }
 EOF
