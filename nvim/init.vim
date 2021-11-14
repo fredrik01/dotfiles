@@ -341,7 +341,7 @@ let g:clever_f_across_no_line    = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_smart_case        = 1
 
-Plug 'phaazon/hop.nvim'
+Plug 'phaazon/hop.nvim', {'branch': 'v1'}
 
 Plug 'puremourning/vimspector'
 nmap <Leader>dd :call vimspector#Continue()<CR>
