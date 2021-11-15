@@ -20,7 +20,7 @@ if [ -x "$(command -v timew)" ]; then
         tagCount=$(timew get dom.active.tag.count)
         for (( i=1; i <= "$tagCount"; ++i ))
         do
-            tags+=$(timew get dom.active.tag."$i" | cut -c 1-3)
+            tags+=$(timew get dom.active.tag."$i" | cut -c 1-5)
             tags+=","
         done
 
