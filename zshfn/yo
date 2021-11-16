@@ -1,45 +1,8 @@
-notes_dir=~/.notes
+sync_notes
+sync_timewarrior
+
+# Check dotfiles
 dotfiles_dir=~/.dotfiles
-timewarrior_dir=~/.timewarrior
-
-# TODO: Create a reusable function
-# Notes -----------------------
-echo 'Downloading notes...'
-echo ''
-git -C $notes_dir checkout master
-git -C $notes_dir pull
-echo ''
-
-if [[ $(git -C $notes_dir status --porcelain) ]]; then
-    echo 'Notes - Has local changes, will auto commit and push...'
-    echo ''
-    git -C $notes_dir add .
-    git -C $notes_dir commit -m "Auto commit"
-    git -C $notes_dir push
-    echo ''
-else
-    echo 'Notes - No local changes'
-fi
-
-# Timewarrior ------------------
-echo 'Downloading time data...'
-echo ''
-git -C $timewarrior_dir checkout master
-git -C $timewarrior_dir pull
-echo ''
-
-if [[ $(git -C $timewarrior_dir status --porcelain) ]]; then
-    echo 'Timewarrior - Has local changes, will auto commit and push...'
-    echo ''
-    git -C $timewarrior_dir add .
-    git -C $timewarrior_dir commit -m "Auto commit"
-    git -C $timewarrior_dir push
-    echo ''
-else
-    echo 'Timewarrior - No local changes'
-fi
-
-# Dotfiles ------------------
 if [[ $(git -C $dotfiles_dir status --porcelain) ]]; then
     echo 'Dotfiles - Has local changes *'
 else

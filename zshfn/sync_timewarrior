@@ -1,0 +1,20 @@
+# Sync timewarrior data
+
+timewarrior_dir=~/.timewarrior
+
+echo 'Downloading time data...'
+echo ''
+git -C $timewarrior_dir checkout master
+git -C $timewarrior_dir pull
+echo ''
+
+if [[ $(git -C $timewarrior_dir status --porcelain) ]]; then
+    echo 'Timewarrior - Has local changes, will auto commit and push...'
+    echo ''
+    git -C $timewarrior_dir add .
+    git -C $timewarrior_dir commit -m "Auto commit"
+    git -C $timewarrior_dir push
+    echo ''
+else
+    echo 'Timewarrior - No local changes'
+fi
