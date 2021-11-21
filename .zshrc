@@ -51,6 +51,8 @@ alias dl='docker_logs_all'
 alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
+# Shell
+alias c='clear'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
