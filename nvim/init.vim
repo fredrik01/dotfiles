@@ -7,7 +7,7 @@ nmap <Space> :wa<CR>
 nnoremap <silent>§ <c-^><cr>
 
 nnoremap s :HopChar2<cr>
-nnoremap S :HopChar1<cr>
+nnoremap S :HopWord<cr>
 
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
