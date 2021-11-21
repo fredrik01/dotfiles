@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+pick=$(rg . ~/.notes --line-number | fzf)
+file=$(echo "$pick" | cut -f1 -d ":")
+lineNumber=$(echo "$pick" | cut -f2 -d ":")
+
+if [ -n "$file" ]
+then
+	$EDITOR +"$lineNumber" "$file"
+fi

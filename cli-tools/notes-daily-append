@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+today=$(date +'%Y-%m-%d')
+file="$HOME/.notes/$today.md"
+echo "$@" >> "$file"
