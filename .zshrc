@@ -55,8 +55,8 @@ alias dlfa='fzf_docker_logs_all'
 alias c='clear'
 alias na='notes-daily-append'
 alias ne='notes-daily-edit'
+alias ns='notes-search-content'
 alias nsf='notes-search-file'
-alias nsc='notes-search-content'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
