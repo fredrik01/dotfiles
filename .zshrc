@@ -58,7 +58,7 @@ alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
 # Shell
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias c='clear'
