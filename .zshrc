@@ -60,6 +60,7 @@ alias dlfa='fzf_docker_logs_all'
 # Shell
 alias ls='ls --color=auto'
 alias ..='cd ..'
+alias ...='cd ../..'
 alias c='clear'
 alias na='notes-daily-append'
 alias ne='notes-daily-edit'
