@@ -164,6 +164,7 @@ Plug 'arecarn/vim-crunch'
 " Requires: universal-ctags
 " brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_ctags_executable = '`brew --prefix`/bin/ctags'
 let g:gutentags_add_default_project_roots = 0
 let g:gutentags_project_root  = ['.git', 'Makefile', 'docker-compose.yml', 'composer.json']
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'git']
@@ -278,7 +279,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " brew install bat <- Enable syntax highlight in preview
 
-Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+Plug 'lukas-reineke/indent-blankline.nvim'
 let g:indent_blankline_enabled = v:false
 let g:indent_blankline_char = '▏'
 let g:indent_blankline_show_first_indent_level = v:false
