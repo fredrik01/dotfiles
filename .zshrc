@@ -3,10 +3,16 @@ export EDITOR=nvim
 # Needed to make curly undercurls work
 export TERM=xterm-kitty
 
-export ZSH=~/.oh-my-zsh
 ZSH_THEME=""
-plugins=(git jump zsh-autosuggestions)
-source $ZSH/oh-my-zsh.sh
+
+# cd without "cd" :P
+setopt auto_cd
+
+# Auto complete without cd
+autoload -Uz compinit
+compinit
+
+# Auto suggestions
 
 export BAT_THEME="Dracula"
 
@@ -32,7 +38,6 @@ alias gu='fzf_git_unadd'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gdf='fzf_git_diff'
-unalias gb # Replace gb from oh my zsh
 alias gb='fzf_git_change_branch'
 alias gbd='fzf_git_delete_branch'
 alias gw='fzf_git_change_worktree'
@@ -43,6 +48,7 @@ alias gls='fzf_git_log_search'
 alias gs='git status -sb' # Git status without the noice
 alias gc='git commit -v'
 alias gr='fzf_git_reflog'
+alias gpull='git pull'
 # Docker
 alias d='docker'
 alias dc='docker-compose'
@@ -51,6 +57,10 @@ alias dl='docker_logs_all'
 alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
+# Colored output with ls
+alias ls='ls --color=auto'
+# cd
+alias ..='cd ..'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
@@ -109,3 +119,9 @@ prompt pure
 # Should be at the bottom of this file
 fpath=( ~/.dotfiles/zshfn "${fpath[@]}" )
 autoload -Uz $fpath[1]/*(.:t)
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down

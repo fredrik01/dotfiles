@@ -4,11 +4,40 @@ Install with
 
 	./install
 
+## Terminal
+
+zsh-autosuggestions
+
+	brew install zsh-autosuggestions
+
+zsh-history-substring-search
+
+	brew install zsh-history-substring-search
+
+Pure prompt
+
+	brew install pure
+
+tmux
+
+	brew install tmux
+
+fzf
+
+	brew install fzf
+
+	# To install useful key bindings and fuzzy completion:
+	$(brew --prefix)/opt/fzf/install
+
 ## Neovim dependencies for this setup
 
 Install plugins with
 
 	:PlugInstall
+
+rg
+
+	brew install ripgrep
 
 fd
 
@@ -36,7 +65,7 @@ coc.nvim requires node
 
 neovim 0.5
 
-	brew install neovim --head
+	brew install neovim
 
 trash-cli
 
