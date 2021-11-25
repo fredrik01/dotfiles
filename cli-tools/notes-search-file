@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+file=$(fd . ~/.notes | fzf)
+
+if [ -n "$file" ]
+then
+	$EDITOR "$file"
+fi

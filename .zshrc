@@ -57,10 +57,14 @@ alias dl='docker_logs_all'
 alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
-# Colored output with ls
+# Shell
 alias ls='ls --color=auto'
-# cd
 alias ..='cd ..'
+alias c='clear'
+alias na='notes-daily-append'
+alias ne='notes-daily-edit'
+alias ns='notes-search-content'
+alias nsf='notes-search-file'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
