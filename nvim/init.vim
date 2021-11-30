@@ -308,7 +308,7 @@ let g:ale_sign_warning = '⚠'
 
 Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-test/vim-test'
-let test#strategy = 'floaterm'
+let test#strategy = 'harpoon_stay'
 " Easily change between test strategies
 nmap <leader>ts1 :let test#strategy = 'floaterm'<CR>
 nmap <leader>ts2 :let test#strategy = 'asyncrun_background_term'<CR>
