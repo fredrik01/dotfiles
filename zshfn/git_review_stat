@@ -1,0 +1,2 @@
+review_base=${1:-master}
+git diff --stat $(git merge-base HEAD "$review_base")
