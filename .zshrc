@@ -47,8 +47,9 @@ alias glf='fzf_git_log'
 alias gls='fzf_git_log_search'
 alias gs='git status -sb' # Git status without the noice
 alias gc='git commit -v'
-alias gr='fzf_git_reflog'
+alias grl='fzf_git_reflog'
 alias gpull='git pull'
+alias gr='git_review'
 # Docker
 alias d='docker'
 alias dc='docker-compose'

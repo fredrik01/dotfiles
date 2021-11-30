@@ -1,0 +1,6 @@
+# Inspired by https://blog.jez.io/cli-code-review/
+
+review_base=${1:-master}
+commit=$(git merge-base HEAD "$review_base")
+files=$(git diff --name-only "$commit")
+nvim -p $(echo $files) +"tabdo Gvdiffsplit! $review_base" +"Gitsigns change_base $review_base true" +"tabfirst"
