@@ -298,8 +298,6 @@ function! IndendGuidesToggle()
 endfunction
 
 Plug 'dense-analysis/ale'
-let g:ale_linters = {'php': ['phpcs']}
-let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
 let g:ale_linters_explicit = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_cache_executable_check_failures = 1

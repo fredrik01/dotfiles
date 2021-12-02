@@ -6,7 +6,6 @@
     "coc.preferences.formatOnSaveFiletypes": [
         "go",
         "json",
-        "yaml",
-        "php"
+        "yaml"
     ]
 }
