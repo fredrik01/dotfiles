@@ -1,0 +1,25 @@
+# Will stop at the first grep match
+local container=$(docker ps | sed 1d | grep -m 1 $1 | cut -d " " -f1)
+
+if [[ -z $container ]]; then
+  echo "No container found"
+  return
+fi
+
+# Run specified command if provided
+if [[ ! -z $2 ]]; then
+  docker exec -it $container "${@:2}"
+  return
+fi
+
+# Try running bash, if exit code 126 then try running sh
+for shell in bash sh
+do
+  clear
+  echo -e "$container - $shell"
+  echo  " "
+  docker exec -it $container $shell
+  if [ $? -ne 126 ]; then
+    break
+  fi
+done
