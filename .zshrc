@@ -60,6 +60,7 @@ alias dl='docker_logs_all'
 alias ds='docker_stop_all'
 alias dlf='fzf_docker_logs'
 alias dlfa='fzf_docker_logs_all'
+alias dr='docker run --rm -it -v "${PWD}":/app -w /app'
 # Shell
 alias ls='ls -G'
 alias ..='cd ..'
