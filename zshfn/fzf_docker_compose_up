@@ -1,0 +1,14 @@
+searchPath=${2:-~/}
+
+local directory=$(
+  fd -g docker-compose.yml $searchPath | \
+  rev | cut -d/ -f2- | rev | \
+  fzf --query="$1" --no-multi --select-1 --exit-0 \
+      --preview 'tree -C --dirsfirst {} | head -100'
+)
+
+if [[ -n $directory ]]; then
+    cd "$directory"
+    docker-compose up -d
+    cd -
+fi
