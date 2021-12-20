@@ -1,17 +1,33 @@
 #!/bin/bash
 
-# Status monitor
+# STATUS MONITOR
+#
 # Example:
 # 	Check and print status code every 20 seconds (default is 10 seconds)
 #		sm example.com 20
+#
+# Improved after seeing https://github.com/nickjj/lcurl
 
-url=$1
-sleep=${2:-10}
+URL=$1
+SLEEP=${2:-10}
+MAX_LOOP_COUNT=${3:-999999}
+COUNTER=1
 
-while true
-do 
-    time=$(date +"%T")
-    statusCode=$(curl -LI $url -o /dev/null -w '%{http_code}\n' -s)
-    echo "$time $statusCode"
-    sleep $sleep
+if [ -z "${URL}" ]; then
+    echo "URL is missing"
+    exit 1
+fi
+
+while [ "${COUNTER}" -le "${MAX_LOOP_COUNT}" ]; do
+    NOW="$(date +'%F %H:%M:%S')"
+
+    curl \
+        --silent \
+        --location \
+        --output /dev/null \
+        --write-out "%{http_code} | %{time_total}s | ${NOW} | ${COUNTER}/${MAX_LOOP_COUNT}\n" "${URL}"
+
+    sleep "$SLEEP"
+
+    ((COUNTER++))
 done
