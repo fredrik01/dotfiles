@@ -87,6 +87,7 @@ lua << EOF
       s = { ":TestSuite<cr>", "Test suite" },
       l = { ":TestLast<cr>", "Test last" },
       g = { ":TestVisit<cr>", "Go to last run test" },
+      p = { ":vsplit<cr> :exec 'vertical resize '. string(&columns * 0.4)<cr> :lua require('harpoon.term').gotoTerminal(1)<cr> :norm G<cr> :wincmd h<cr>", "Prepare for HarpoonStay strategy (open split with terminal)" },
     },
     ["<leader>i"] = {
       name = "+indent guides",
@@ -118,6 +119,7 @@ lua << EOF
       name = "jump to files / terminals",
       j = { ":lua require('harpoon.ui').nav_file(1)<cr>", "Go to file 1" },
       k = { ":lua require('harpoon.ui').nav_file(2)<cr>", "Go to file 2" },
+      l = { ":lua require('harpoon.ui').nav_file(3)<cr>", "Go to file 3" },
       a = { ":lua require('harpoon.term').gotoTerminal(1)<cr>", "Go to terminal 1" },
       s = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
       e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
@@ -136,4 +138,3 @@ EOF
 " nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 vifm<CR>
 " nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 ranger<CR>
 " nmap <leader><leader> :Lf<CR>
-
