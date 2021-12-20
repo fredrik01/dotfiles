@@ -227,6 +227,8 @@ let exrc#names = ['.exrc']
 
 Plug 'numToStr/Comment.nvim'
 
+Plug 'tommcdo/vim-exchange'
+
 " Plugins in this block has to be BEFORE folke/which-key.nvim
 Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
