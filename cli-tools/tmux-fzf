@@ -1,16 +1,6 @@
 #!/bin/bash
 
-Inspired by: https://github.com/rulopimentel/tmux-fzf-windows
+# https://superuser.com/questions/891915/interactive-search-of-tmux-sessions/893793#893793
+# https://dev.to/waylonwalker/jump-to-running-tmux-sessions-with-fzf-4p77
 
-# Sessions, windows and pane titles
-TARGET_SPEC="#{session_id}:#{window_id} #{session_name} -> #{window_name} #{pane_title}"
-
-# Select window
-LINE=$(tmux list-windows -a -F "$TARGET_SPEC" | fzf --delimiter " " --with-nth 2..) || exit 0
-
-# Split the result
-args=(${LINE//:/ })
-
-# Activate session/window/
-tmux switch-client -t "${args[0]}"
-tmux select-window -t "${args[1]}" 
+tmux list-sessions | sed -E 's/:.*$//' | grep -v \"^$(tmux display-message -p '#S')\$\" | fzf --reverse | xargs tmux switch-client -t
