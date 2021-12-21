@@ -29,6 +29,11 @@ fzf
 	# To install useful key bindings and fuzzy completion:
 	$(brew --prefix)/opt/fzf/install
 
+loop
+
+	brew tap miserlou/loop https://github.com/Miserlou/Loop.git
+	brew install loop --HEAD
+
 ## Neovim dependencies for this setup
 
 Install plugins with
@@ -90,3 +95,9 @@ vint - Lint vimscript with ALE
 MySQL client - Used by vim-dadbod
 
 	brew install mysql-client
+
+PHP
+
+	# phpcbf is not compatible with php 8.1 yet
+	brew install php@8.0
+	brew link php@8.0
