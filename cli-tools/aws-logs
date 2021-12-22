@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Can be used like this:
+# aws-logs "$(<~/.dotfiles/zsh/log-groups)"
+# aws-logs "$(cat ~/.dotfiles/zsh/log-groups)"
+#
+# And with arguments:
+# aws-logs "$(cat ~/.dotfiles/zsh/log-groups)" --follow
+
+group=$(echo "$1" | fzf)
+echo "Fetching logs for $group"
+aws logs tail "$group" "${@:2}" 
