@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Just a script that is easy to remember and that merges all pdf files in a folder
+# Probably won't handle dots (.) in paths that well, except one dot - that will work
+#
+# Example: merge-pdfs
+# Example: merge-pdfs . filename.pdf
+
+DIR=${1:-.}
+FILENAME=${2:-merged.pdf}
+
+if [ "$DIR" = "." ]; then
+  DIR=$(pwd)
+fi
+
+docker run --rm -v "$DIR":/app -w /app minidocks/ghostscript -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE="$FILENAME" -dBATCH *.pdf
