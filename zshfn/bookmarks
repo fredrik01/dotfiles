@@ -1,0 +1,7 @@
+local url=$(cat ~/.dotfiles/zsh/bookmarks | fzf | cut -d " " -f 1)
+
+if [[ -z $url ]]; then
+	return
+fi
+
+open "$url"
