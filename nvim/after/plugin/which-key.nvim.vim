@@ -64,6 +64,7 @@ lua << EOF
       r = { "<cmd>lua require'gitsigns'.reset_hunk()<CR>", "Reset hunk" },
       R = { "<cmd>lua require'gitsigns'.reset_buffer()<CR>", "Reset buffer" },
       l = { "<cmd>lua require'gitsigns'.blame_line()<CR>", "Blame line" },
+      f = { "<cmd>lua require'gitsigns'.refresh()<CR>", "Refresh gitsigns" },
       b = { "<cmd>Git blame<CR>", "Blame" },
       t = { "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", "Toggle current line blame" },
       h = { "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", "Buffer commits" },
