@@ -1,4 +1,4 @@
-local url=$(cat ~/.dotfiles/zsh/bookmarks | fzf | cut -d " " -f 1)
+local url=$(cat ~/.config/.bookmarks | fzf | cut -d " " -f 1)
 
 if [[ -z $url ]]; then
 	return
