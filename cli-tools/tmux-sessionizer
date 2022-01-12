@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(fd -g '.git' ~/ --hidden --no-ignore --exclude '.vim' --exclude Homebrew --exclude dotbot --exclude '.zsh/pure' --maxdepth 3 | rev | cut -d/ -f2- | rev | fzf --reverse)
+    selected=$(fd -g '.git' ~/ --hidden --no-ignore --exclude '.vim' --exclude Homebrew --exclude dotbot --exclude '.zsh/pure' --maxdepth 3 | rev | cut -d/ -f2- | rev | fzf --reverse --delimiter "/" --with-nth 4..)
 fi
 
 if [[ -z $selected ]]; then
