@@ -64,10 +64,6 @@ tree
 
 	brew install tree
 
-coc.nvim requires node
-
-	brew install node
-
 neovim 0.5
 
 	brew install neovim
@@ -80,7 +76,7 @@ universal-ctags
 
 	brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-shellcheck - Lint shell files with ALE
+shellcheck - Lint shell files
 
 	brew install shellcheck
 
@@ -88,7 +84,7 @@ hadolint - Lint dockerfiles (uses shellcheck)
 
 	brew install hadolint
 
-vint - Lint vimscript with ALE
+vint - Lint vimscript
 
 	brew install vint
 

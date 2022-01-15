@@ -1,11 +1,13 @@
-" Automatically fix imports on save
-" https://github.com/josa42/coc-go
-autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
-
-" Error signs disappear when saving for some reason, and Ale isn't used for Go files so...
-let g:coc_user_config = {
-    \'diagnostic.displayByAle': v:false
-\}
-
 " Use :make or :Make to compile
 compiler go
+
+" lua << EOF
+" require("lspconfig").gopls.setup({
+"     on_attach = function(client)
+"         client.resolved_capabilities.document_formatting = false
+"         client.resolved_capabilities.document_range_formatting = false
+"     end,
+" })
+" EOF
+
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting()

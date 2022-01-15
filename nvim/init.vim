@@ -22,36 +22,6 @@ tnoremap <silent><leader>d <C-\><C-n>:FloatermKill<CR>
 tnoremap <C-o> <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
 
-" Go to definition
-nmap <silent>gd <Plug>(coc-definition)
-nmap <silent>gr <Plug>(coc-references)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -128,8 +98,8 @@ set noswapfile
 set scrolloff=8                 " Keep cursor centered vertically on the screen
 set hidden                      " Required to be able to open another buffer without saving the current one
 set background=dark             " tell vim what the background color looks like
-set nobackup                    " This is recommended by coc
-set nowritebackup               " This is recommended by coc
+set nobackup                    " This was recommended by coc
+set nowritebackup               " This was recommended by coc
 set shortmess+=c                " A coc thing
 set spelllang=en,sv
 set splitright
@@ -191,9 +161,18 @@ Plug 'nvim-lualine/lualine.nvim'
 " Used by lualine and telescope
 Plug 'kyazdani42/nvim-web-devicons'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'windwp/nvim-autopairs'
+
 " Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets' " Pre made snippets
 
 Plug 'tpope/vim-dotenv'
@@ -202,7 +181,7 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 
 Plug 'NTBBloodbath/rest.nvim'
 
-" Required by telescope, gitsigns, rest.nvim
+" Required by telescope, gitsigns, rest.nvim, null-ls
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'nvim-lua/popup.nvim'
@@ -299,13 +278,6 @@ function! IndendGuidesToggle()
   endif
 endfunction
 
-Plug 'dense-analysis/ale'
-let g:ale_linters_explicit = 1
-let g:ale_virtualenv_dir_names = []
-let g:ale_cache_executable_check_failures = 1
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
-
 Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-test/vim-test'
 let test#strategy = 'harpoon_stay'
@@ -360,21 +332,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 call plug#end()
 
-let g:coc_global_extensions = [
-  \'coc-phpls',
-  \'coc-tsserver',
-  \'coc-json',
-  \'coc-snippets',
-  \'coc-pairs',
-  \'coc-lua',
-  \'coc-vimlsp',
-  \'coc-go',
-  \'coc-tag',
-\]
-
-imap <C-l> <Plug>(coc-snippets-expand) " Expand snippet
-vmap <C-j> <Plug>(coc-snippets-select) " Jump to next selection
-
 if (has('termguicolors'))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -387,9 +344,6 @@ colorscheme moonfly
 
 let g:moonflyCursorColor = 1
 let g:moonflyUnderlineMatchParen = 1
-
-" Another nice color for error signs: #d1666a
-hi! CocErrorSign guifg=#ff5454
 
 " Thin border on vertical splits
 hi VertSplit ctermbg=NONE guibg=NONE

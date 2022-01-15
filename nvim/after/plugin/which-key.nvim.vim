@@ -77,8 +77,7 @@ lua << EOF
     },
     ["<leader>s"] = {
       name = "+symbols / sessions",
-      f = { ":<C-u>CocList outline<cr>", "Find symbol of current document" },
-      a = { ":<C-u>CocList -I symbols<cr>", "Search all workspace symbols" },
+      f = { ":Telescope lsp_document_symbols<cr>", "Find symbol of current document" },
       s = { ":OpenSessionFzf<cr>", "Search and open session" },
     },
     ["<leader>t"] = {
