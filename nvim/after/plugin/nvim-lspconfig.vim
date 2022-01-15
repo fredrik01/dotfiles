@@ -56,8 +56,8 @@ lsp_installer.on_server_ready(function(server)
 				buf_set_keymap('n', '<leader>kd', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 				buf_set_keymap('n', '<leader>kf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
-				if server.name == "gopls" then
-					-- Disable gogls formatting, use null-ls instead
+				if server.name == "gopls" or server.name == "intelephense" then
+					-- Disable gogls/intelephense formatting, use null-ls instead
 					client.resolved_capabilities.document_formatting = false
 					client.resolved_capabilities.document_range_formatting = false
 				end
