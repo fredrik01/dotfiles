@@ -1,12 +1,19 @@
 #!/bin/bash
 
+# Reads files with a log group on each row
+#
 # Can be used like this:
-# aws-logs "$(<~/.dotfiles/zsh/log-groups)"
-# aws-logs "$(cat ~/.dotfiles/zsh/log-groups)"
+# aws-logs "$(<~/.config/dir/log-groups)"
+# aws-logs "$(cat ~/.config/dir/log-groups)"
 #
 # And with arguments:
 # aws-logs "$(cat ~/.dotfiles/zsh/log-groups)" --follow
 
 group=$(echo "$1" | fzf)
+
+if [[ -z "$group" ]]; then
+	exit 0
+fi
+
 echo "Fetching logs for $group"
 aws logs tail "$group" "${@:2}" 
