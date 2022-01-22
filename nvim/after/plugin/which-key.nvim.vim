@@ -70,7 +70,8 @@ lua << EOF
       b = { "<cmd>Git blame<CR>", "Blame" },
       t = { "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", "Toggle current line blame" },
       h = { "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", "Buffer commits" },
-      c = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
+      g = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
+      c = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "List and checkout branch" },
     },
     ["<leader>c"] = {
       name = "+tags",
