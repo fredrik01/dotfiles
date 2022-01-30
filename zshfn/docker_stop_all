@@ -1,7 +1,7 @@
 containers=$(docker ps -q)
 if [[ $containers ]]; then
     echo "Stopping containers"
-    docker stop $(docker ps -q)
+    docker stop $(echo $containers)
 else
     echo "No running containers"
 fi
