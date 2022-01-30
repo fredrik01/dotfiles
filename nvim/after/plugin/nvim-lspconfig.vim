@@ -8,6 +8,7 @@ local lsp_installer = require("nvim-lsp-installer")
 local servers = {
   "gopls",
   "intelephense",
+  "psalm",
   "jsonls",
   "sumneko_lua",
   "yamlls",
