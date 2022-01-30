@@ -42,7 +42,7 @@ lsp_installer.on_server_ready(function(server)
 				buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 				buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 				buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-				buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+				-- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 				buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 				-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
 				-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -57,10 +57,18 @@ lsp_installer.on_server_ready(function(server)
 				buf_set_keymap('n', '<leader>kd', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 				buf_set_keymap('n', '<leader>kf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
+				-- List of capabilities: https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
+
 				if server.name == "gopls" or server.name == "intelephense" then
 					-- Disable gogls/intelephense formatting, use null-ls instead
 					client.resolved_capabilities.document_formatting = false
 					client.resolved_capabilities.document_range_formatting = false
+				end
+
+				if server.name == "psalm" then
+					client.resolved_capabilities.definition = false
+					client.resolved_capabilities.type_definition = false
+					client.resolved_capabilities.hover = false
 				end
 
 			end
