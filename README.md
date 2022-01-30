@@ -18,6 +18,10 @@ Pure prompt
 
 	brew install pure
 
+bat - Used in some zsh aliases/functions together with fzf
+
+	brew install bat
+
 tmux
 
 	brew install tmux
