@@ -1,0 +1,13 @@
+if [[ -z $1 ]]; then
+  echo "Arg 1 missing"
+	return
+fi
+
+containers=$(docker ps --format '{{.ID}} {{.Names}}' | grep -v $1 | cut -d' ' -f1)
+
+if [[ $containers ]]; then
+    echo "Stopping containers"
+    docker stop $(echo $containers)
+else
+    echo "Didn't find any containers to stop"
+fi
