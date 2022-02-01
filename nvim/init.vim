@@ -20,7 +20,6 @@ tnoremap <silent><leader>l <C-\><C-n>:FloatermNext<CR>
 tnoremap <silent><leader>d <C-\><C-n>:FloatermKill<CR>
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
-tnoremap <Esc> <C-\><C-n>
 
 " Move selection up or down
 vnoremap J :m '>+1<CR>gv=gv
