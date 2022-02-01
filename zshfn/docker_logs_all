@@ -1,1 +1,10 @@
-docker ps -q | xargs -L 1 -P `docker ps | wc -l` docker logs --since 30s -f
+# https://stackoverflow.com/a/57360013
+rm /tmp/*.{log,err}
+for c in $(docker ps --format="{{.Names}}")
+do
+    docker logs -f $c > /tmp/$c.log 2> /tmp/$c.err &
+done
+tail -f /tmp/*.{log,err}
+
+# Alternative solution without container names in log:
+# docker ps -q | xargs -L 1 -P `docker ps | wc -l` docker logs --since 30s -f
