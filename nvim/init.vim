@@ -40,12 +40,6 @@ for d in glob('~/.config/nvim/spell/*.add', 1, 1)
     endif
 endfor
 
-" Better window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 " Easier j/k navigation for wrapped lines that works with relative line numbers
 " https://bluz71.github.io/2021/09/10/vim-tips-revisited.html
 nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
@@ -330,6 +324,8 @@ xmap <Leader>di <Plug>VimspectorBalloonEval
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 if (has('termguicolors'))
