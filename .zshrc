@@ -30,7 +30,8 @@ alias cg='cd $(git rev-parse --show-toplevel)'
 # Search file and open in editor
 alias vf='fzf_find_edit'
 # Tmux
-alias mf='tmux-sessionizer'
+alias tf='tmux-sessionizer'
+alias ta='tmux attach -t "$(tmux ls | cut -d : -f1 | fzf)"'
 # Git
 alias ga='fzf_git_add'
 alias gaa='git add .'
