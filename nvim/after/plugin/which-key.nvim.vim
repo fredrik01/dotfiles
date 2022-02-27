@@ -50,6 +50,7 @@ lua << EOF
       t = { "<cmd>lua require('telescope.builtin').treesitter()<cr>", "Treesitter" },
       d = { "<cmd>lua require('telescope.builtin').diagnostics()<cr>", "Diagnostics" },
       m = { ":Marks<cr>", "Go to mark" },
+      w = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "Grep word under cursor" },
     },
     ["<leader>g"] = {
       name = "+grep",
