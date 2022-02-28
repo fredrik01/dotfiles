@@ -91,6 +91,7 @@ lua << EOF
       l = { ":TestLast<cr>", "Test last" },
       g = { ":TestVisit<cr>", "Go to last run test" },
       p = { ":vsplit<cr> :exec 'vertical resize '. string(&columns * 0.4)<cr> :lua require('harpoon.term').gotoTerminal(1)<cr> :norm G<cr> :wincmd h<cr>", "Prepare for HarpoonStay strategy (open split with terminal)" },
+      r = { ":lua require('telescope').extensions.asynctasks.all()<cr>", "Find task to run" },
     },
     ["<leader>i"] = {
       name = "+indent guides",

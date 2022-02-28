@@ -7,7 +7,7 @@ nmap <Space> :wa<CR>
 nnoremap <silent>§ <c-^><cr>
 
 nnoremap s :HopChar2<cr>
-nnoremap S :HopWord<cr>
+nnoremap S :HopChar1<cr>
 
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
@@ -271,7 +271,12 @@ function! IndendGuidesToggle()
   endif
 endfunction
 
+Plug 'skywind3000/asynctasks.vim'
+let g:asynctasks_term_pos = 'floaterm'
 Plug 'skywind3000/asyncrun.vim'
+let g:asyncrun_open = 6
+Plug 'GustavoKatel/telescope-asynctasks.nvim'
+
 Plug 'vim-test/vim-test'
 let test#strategy = 'harpoon_stay'
 " Easily change between test strategies
