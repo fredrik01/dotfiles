@@ -51,12 +51,10 @@ nnoremap <Backspace> <C-^>
 nnoremap <Leader>r :%s///g<left><left><left>
 nnoremap <Leader>rc :%s///gc<left><left><left>
 
-" Same as above but restict to a visual selection.
+" Same as above but restrict to a visual selection.
 " First search for something and then visually select a range.
 xnoremap <Leader>r :%s///g<left><left><left>
 xnoremap <Leader>rc :%s///gc<left><left><left>
-
-vnoremap <leader>m :call Calculate()<cr>
 
 " Type replacement term and press . to repeat the replacement again
 " (comparable to multiple cursors)
@@ -306,6 +304,7 @@ if has('nvim')
 endif
 
 Plug 'simnalamburt/vim-mundo'
+Plug 'rcarriga/nvim-notify'
 
 Plug 'rhysd/clever-f.vim'
 let g:clever_f_across_no_line    = 1
@@ -367,6 +366,10 @@ if has('persistent_undo')
     set undofile
 endif
 
+function! RootDirChanged()
+  lua require("notify")(vim.api.nvim_eval('FindRootDirectory()'), 'trace', { title = "Changed root directory", render = 'default', timeout = 3000 })
+endfunction
+
 augroup autocmds
   autocmd! *
   " exrc.vim - Trust .exrc on save
@@ -380,6 +383,8 @@ augroup autocmds
       \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
       \ endif
+  " Call after vim-rooter changes the root dir
+  autocmd User RooterChDir call RootDirChanged()
   " Override background color
   " autocmd ColorScheme * highlight Normal ctermbg=NONE guifg=lightgrey guibg=black
 augroup END
@@ -398,6 +403,7 @@ command! ShowTrailingWhitespace :execute '/\s\+$'
 command! DeleteTrailingWhitespace :s/\s\+$//e
 " Print sum of all lines at the bottom, requires awk
 command! SumLines :execute "%!awk '{print; total+=$1}END{print \"==\";print total}'"
+command! EchoRoot :echo FindRootDirectory()
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
