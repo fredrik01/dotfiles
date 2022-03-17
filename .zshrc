@@ -47,6 +47,7 @@ alias gl='git log --graph --stat --decorate -p' # "Git log with diffs"
 alias glf='fzf_git_log'
 alias gls='fzf_git_log_search'
 alias gs='git status -sb' # Git status without the noice
+alias gsf='fzf_git_stash'
 alias gc='git commit -v'
 alias greflog='fzf_git_reflog'
 alias gpull='git pull'
