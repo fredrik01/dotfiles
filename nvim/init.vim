@@ -389,6 +389,7 @@ augroup autocmds
   " autocmd ColorScheme * highlight Normal ctermbg=NONE guifg=lightgrey guibg=black
 augroup END
 
+command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
 command! FormatJSON :execute "%!jq '.'"
 command! FormatJSONalt2 :execute '%!python -m json.tool'
 command! FormatXML :execute '%!xmllint --format %'
