@@ -33,6 +33,8 @@ alias vf='fzf_find_edit'
 alias tf='tmux-sessionizer'
 alias ta='tmux attach -t "$(tmux ls | cut -d : -f1 | fzf)"'
 # Git
+alias main-branch='git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4'
+alias gcm='git checkout $(main-branch)'
 alias ga='fzf_git_add'
 alias gaa='git add .'
 alias gu='fzf_git_unadd'
