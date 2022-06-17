@@ -207,6 +207,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment'
 
 Plug 'folke/which-key.nvim'
+Plug 'folke/zen-mode.nvim'
 
 " lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper.
 Plug 'ptzz/lf.vim'
