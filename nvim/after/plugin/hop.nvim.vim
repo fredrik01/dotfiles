@@ -1,5 +1,5 @@
 lua<<EOF
 require'hop'.setup {
-  char2_fallback_key = "<esc>"
+  multi_windows = true,
 }
 EOF
