@@ -57,7 +57,7 @@ alias gr='git_review'
 alias grs='git_review_stat'
 # Docker
 alias d='docker'
-alias dc='docker-compose'
+alias dc='docker compose'
 alias dcuf='fzf_docker_compose_up'
 alias de='fzf_docker_exec'
 alias deg='docker_exec_grep'
