@@ -63,6 +63,7 @@ xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
 " Don't yank with these
 nnoremap x "_x
+vnoremap x "_x
 nnoremap c "_c
 nnoremap C "_C
 vnoremap c "_c
