@@ -401,6 +401,8 @@ command! Today :execute ":put =strftime('%Y-%m-%d')"
 command! LineReference :execute ':let @+=expand("%") . ":" . line(".")'
 command! CopyFullPath :execute ':let @* = expand("%:p")'
 command! CopyFileName :execute ':let @* = expand("%:t")'
+command! CopyProjectPath :execute ':let @+=expand("%")'
+
 " Requires "set hlsearch". Enable/disable with yoh
 command! ShowTrailingWhitespace :execute '/\s\+$'
 command! DeleteTrailingWhitespace :s/\s\+$//e
