@@ -231,7 +231,10 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-dispatch' " Use :Make to compile asynchronously
 
 Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
+
+" Might have to run this after install: `:call mkdp#util#install()`
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 Plug 'jkramer/vim-checkbox'
 Plug 'rust-lang/rust.vim'
 
