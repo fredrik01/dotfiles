@@ -1,0 +1,19 @@
+from=${1%/}
+to=${2%/}
+newName=$3
+
+mostRecentFile=$(ls -tp "$from" | grep -v /$ | head -1)
+
+if [[ -z $newName ]]; then
+	newName="$mostRecentFile"
+fi
+
+echo
+echo -n "Move $mostRecentFile? "
+read REPLY
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	mv "$from/$mostRecentFile" "$to/$newName"
+	echo "New location: $to/$newName"
+fi
