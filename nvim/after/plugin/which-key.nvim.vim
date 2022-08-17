@@ -51,6 +51,7 @@ lua << EOF
       d = { "<cmd>lua require('telescope.builtin').diagnostics()<cr>", "Diagnostics" },
       m = { ":Marks<cr>", "Go to mark" },
       w = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "Grep word under cursor" },
+      q = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Quickfix list in Telescope" },
     },
     ["<leader>g"] = {
       name = "+grep",
