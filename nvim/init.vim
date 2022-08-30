@@ -76,6 +76,9 @@ nnoremap Y y$
 " Keep cursor at the bottom of the visual selection after yanking it
 vmap y ygv<Esc>
 
+" reselect pasted text
+nnoremap gp `[v`]
+
 set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
