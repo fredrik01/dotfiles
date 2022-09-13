@@ -61,6 +61,10 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 nnoremap <Leader>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
+" Phpunit test :p (requires "af" text object)
+xnoremap ay :normal vafok<cr>
+onoremap ay :normal vafok<cr>
+
 " Don't yank with these
 nnoremap x "_x
 vnoremap x "_x
