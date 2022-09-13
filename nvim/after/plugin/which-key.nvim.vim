@@ -93,7 +93,8 @@ lua << EOF
       l = { ":TestLast<cr>", "Test last" },
       g = { ":TestVisit<cr>", "Go to last run test" },
       p = { ":vsplit<cr> :exec 'vertical resize '. string(&columns * 0.4)<cr> :lua require('harpoon.term').gotoTerminal(1)<cr> G<c-w>p", "Prepare for HarpoonStay strategy (open split with terminal)" },
-      r = { ":lua require('telescope').extensions.asynctasks.all()<cr>", "Find task to run" },
+      -- r = { ":lua require('telescope').extensions.asynctasks.all()<cr>", "Find task to run" },
+      r = { ":lua require('telescope.builtin').resume()<cr>", "Telescope resume" },
       j = { "<c-w>wG<c-w>p", "Scroll down in test window" },
     },
     ["<leader>i"] = {
@@ -132,6 +133,10 @@ lua << EOF
       s = { ":lua require('harpoon.term').gotoTerminal(2)<cr>", "Go to terminal 2" },
       e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
       w = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
+    },
+	  ["<leader>k"] = {
+      name = "LSP / formatting",
+      j = { ":lua require('trevj').format_at_cursor()<cr>", "Opposite of join-line (J) of arguments" },
     }
   })
 EOF
