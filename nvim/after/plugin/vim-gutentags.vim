@@ -1,0 +1,9 @@
+let g:gutentags_ctags_executable = '`brew --prefix`/bin/ctags'
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root  = ['.git', 'Makefile', 'docker-compose.yml', 'composer.json']
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'git']
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_ctags_exclude = ['*.git', 'node_modules', 'vendor']

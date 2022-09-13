@@ -1,3 +1,5 @@
+lua require('plugins')
+
 let mapleader = ","
 
 " Save all edited buffers
@@ -121,227 +123,21 @@ function! OpenURLUnderCursor()
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
 
-call plug#begin('~/.vim/plugged')
+" Plug 'tpope/vim-dotenv'
+" Plug 'tpope/vim-dadbod'
+" Plug 'kristijanhusak/vim-dadbod-ui'
 
-Plug 'fredrik01/notes.vim'
-let g:notes_path = '~/.notes'
-
-" Required by vim-crunch
-Plug 'arecarn/vim-selection'
-Plug 'arecarn/vim-crunch'
-
-" Requires: universal-ctags
-" brew install --HEAD universal-ctags/universal-ctags/universal-ctags
-Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_ctags_executable = '`brew --prefix`/bin/ctags'
-let g:gutentags_add_default_project_roots = 0
-let g:gutentags_project_root  = ['.git', 'Makefile', 'docker-compose.yml', 'composer.json']
-let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'git']
-let g:gutentags_generate_on_new = 1
-let g:gutentags_generate_on_missing = 1
-let g:gutentags_generate_on_write = 1
-let g:gutentags_generate_on_empty_buffer = 0
-let g:gutentags_ctags_exclude = ['*.git', 'node_modules', 'vendor']
-
-Plug 'xolox/vim-misc'
-" This is a maintained version of xolox/vim-session
-Plug 'romgrk/vim-session'
-let g:session_autosave = 'yes'
-let g:session_menu = 0
-
-Plug 'airblade/vim-rooter'
-" Files that trigger rooter
-let g:rooter_targets = '/,*'
-" Root patterns
-let g:rooter_patterns = ['.git', 'Makefile', 'docker-compose.yml', 'composer.json']
-
-Plug 'nvim-lualine/lualine.nvim'
-
-" Used by lualine and telescope
-Plug 'kyazdani42/nvim-web-devicons'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'windwp/nvim-autopairs'
-
-" Plug 'itchyny/lightline.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'honza/vim-snippets' " Pre made snippets
-
-Plug 'tpope/vim-dotenv'
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui'
-
-Plug 'NTBBloodbath/rest.nvim'
-
-" Required by telescope, gitsigns, rest.nvim, null-ls
-Plug 'nvim-lua/plenary.nvim'
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-
-" Requires:
-" nvim-lua/plenary.nvim
-" nvim-lua/popup.nvim
-Plug 'ThePrimeagen/harpoon'
-
-Plug 'lewis6991/gitsigns.nvim'
-
-" Show marks
-Plug 'kshenoy/vim-signature'
-
-Plug 'simeji/winresizer'
-
-" Cache file stored in ~/.cache/nvim
-Plug 'ii14/exrc.vim'
-let exrc#names = ['.exrc']
-
-Plug 'numToStr/Comment.nvim'
-
-Plug 'tommcdo/vim-exchange'
-
-" Plugins in this block has to be BEFORE folke/which-key.nvim
-Plug 'tpope/vim-surround'
-Plug 'wellle/targets.vim'
-Plug 'kana/vim-textobj-user'
-" Adds `iv` and `av` text objects. Requires kana/vim-textobj-user
-Plug 'Julian/vim-textobj-variable-segment'
-
-Plug 'folke/which-key.nvim'
-Plug 'folke/zen-mode.nvim'
-
-" lf.vim should be loaded before vim-floaterm to override vim-floaterm's lf wrapper.
-Plug 'ptzz/lf.vim'
-let g:lf_map_keys = 0
-" let g:lf_replace_netrw = 1 " Open lf when vim opens a directory
-let g:lf_command_override = 'lf -command "set hidden"'
-Plug 'voldikss/vim-floaterm'
-let g:floaterm_width = 0.9
-let g:floaterm_height = 0.9
-
-Plug 'justinmk/vim-dirvish'
-Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
-" Folders at top
-let g:dirvish_mode = ':sort ,^.*[\/],'
-
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat' " Enhances the . operator to work with vim-surround
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-dispatch' " Use :Make to compile asynchronously
-
-Plug 'nelstrom/vim-visual-star-search' " Allows * and # searches to occur on the current visual selection
-
-" Might have to run this after install: `:call mkdp#util#install()`
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
-Plug 'jkramer/vim-checkbox'
-Plug 'rust-lang/rust.vim'
-
-" Plug 'tpope/vim-sleuth' " Automatically adjust tab settings
-Plug 'sheerun/vim-polyglot' " Includes a version of vim-sleuth
-let g:polyglot_disabled = ['php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go']
-
+" Enable filtering in quickfix list
 packadd! Cfilter
-Plug 'mhinz/vim-grepper'
+
 " Examples: gsw or gsiW or gsi' (case sensitive)
 nmap gs  <plug>(GrepperOperator)
 xmap gs  <plug>(GrepperOperator)
-
-" Themes
-Plug 'bluz71/vim-moonfly-colors'
-Plug 'projekt0n/github-nvim-theme'
-
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" brew install bat <- Enable syntax highlight in preview
-
-Plug 'lukas-reineke/indent-blankline.nvim'
-let g:indent_blankline_enabled = v:false
-let g:indent_blankline_char = '▏'
-let g:indent_blankline_show_first_indent_level = v:false
-let g:indent_blankline_buftype_exclude = ['terminal']
-let g:indent_blankline_filetype_exclude = ['fern', 'man', 'help', 'markdown']
-
-" IndentBlanklineToggle does not work as expected
-function! IndendGuidesToggle()
-  if g:indent_blankline_enabled == v:false
-    let g:indent_blankline_enabled = v:true
-    IndentBlanklineEnable
-  else
-    let g:indent_blankline_enabled = v:false
-    IndentBlanklineDisable
-  endif
-endfunction
-
-Plug 'skywind3000/asynctasks.vim'
-let g:asynctasks_term_pos = 'floaterm'
-Plug 'skywind3000/asyncrun.vim'
-let g:asyncrun_open = 6
-Plug 'GustavoKatel/telescope-asynctasks.nvim'
-
-Plug 'vim-test/vim-test'
-let test#strategy = 'harpoon_stay'
-" Easily change between test strategies
-nmap <leader>ts1 :let test#strategy = 'floaterm'<CR>
-nmap <leader>ts2 :let test#strategy = 'asyncrun_background_term'<CR>
-nmap <leader>ts3 :let test#strategy = 'asyncrun'<CR>
-nmap <leader>ts4 :let test#strategy = 'neovim'<CR>
-nmap <leader>ts5 :let test#strategy = 'harpoon'<CR>
-nmap <leader>ts6 :let test#strategy = 'harpoon_stay'<CR>
-
-function! HarpoonStay(cmd)
-  let g:cmd = a:cmd . "\n"
-  if(exists("g:test#harpoon_term"))
-    lua require("harpoon.term").sendCommand(vim.g["test#harpoon_term"] ,vim.g.cmd)
-  else
-    lua require("harpoon.term").sendCommand(1 ,vim.g.cmd)
-  endif
-endfunction
-
-let g:test#custom_strategies = {'harpoon_stay': function('HarpoonStay')}
-
-let test#neovim#term_position = "vert botright 100"
 
 " To scroll in test results
 if has('nvim')
   tmap <C-o> <C-\><C-n>
 endif
-
-Plug 'simnalamburt/vim-mundo'
-Plug 'rcarriga/nvim-notify'
-
-Plug 'rhysd/clever-f.vim'
-let g:clever_f_across_no_line    = 1
-let g:clever_f_fix_key_direction = 1
-let g:clever_f_smart_case        = 1
-
-Plug 'phaazon/hop.nvim', {'branch': 'v1'}
-
-Plug 'puremourning/vimspector'
-nmap <Leader>dd :call vimspector#Continue()<CR>
-nmap <Leader>dq :call vimspector#Reset()<CR>
-nmap <Leader>db :call vimspector#ToggleBreakpoint()<CR>
-nmap <Leader>dc :call vimspector#ClearBreakpoints()<CR>
-nmap <Leader>dk :call vimspector#StepOut()<CR>
-nmap <Leader>dl :call vimspector#StepInto()<CR>
-nmap <Leader>dj :call vimspector#StepOver()<CR>
-" 'di' = 'debug inspect'
-nmap <Leader>di <Plug>VimspectorBalloonEval
-xmap <Leader>di <Plug>VimspectorBalloonEval
-
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-
-Plug 'christoomey/vim-tmux-navigator'
-call plug#end()
 
 if (has('termguicolors'))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
