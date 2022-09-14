@@ -22,8 +22,8 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- LSP stuff
-  use {'neovim/nvim-lspconfig', commit = 'da7461b596d70fa47b50bf3a7acfaef94c47727d'}
   use {'williamboman/nvim-lsp-installer', commit = '469fe5c409623e8c8acb18f95911c4c37cdca82e'}
+  use {'neovim/nvim-lspconfig', commit = 'da7461b596d70fa47b50bf3a7acfaef94c47727d'}
   use {'hrsh7th/cmp-nvim-lsp', commit = 'affe808a5c56b71630f17aa7c38e15c59fd648a8'}
   use {'hrsh7th/cmp-buffer', commit = '3022dbc9166796b644a841a02de8dd1cc1d311fa'}
   use {'hrsh7th/cmp-path', commit = '447c87cdd6e6d6a1d2488b1d43108bfa217f56e1'}
@@ -37,6 +37,7 @@ return require('packer').startup(function(use)
   use 'bluz71/vim-moonfly-colors'
   use 'folke/tokyonight.nvim'
   -- use 'B4mbus/oxocarbon-lua.nvim'
+  -- vim.g.oxocarbon_lua_alternative_telescope = true
 
   use 'voldikss/vim-floaterm'
   use 'NTBBloodbath/rest.nvim'
@@ -146,6 +147,7 @@ return require('packer').startup(function(use)
   use {'AckslD/nvim-trevJ.lua', commit = '73636194d9ec63f74a714b4c394bec68406acb2c'}
 
   use { 'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons'} }
+  use 'rhysd/conflict-marker.vim'
 
   use 'mfussenegger/nvim-dap'
   use 'rcarriga/nvim-dap-ui'
