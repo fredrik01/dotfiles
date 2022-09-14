@@ -76,8 +76,6 @@ return require('packer').startup(function(use)
   -- Show marks
   use {'kshenoy/vim-signature', commit = '6bc3dd1294a22e897f0dcf8dd72b85f350e306bc'}
 
-  use 'simeji/winresizer'
-
   -- Cache file stored in ~/.cache/nvim
   use {'ii14/exrc.vim', commit = 'ae734ae2c087b370d869e41a2706a128d8f3fc37'}
   vim.g['exrc#names'] = {'.exrc'}
@@ -151,6 +149,9 @@ return require('packer').startup(function(use)
 
   use 'mfussenegger/nvim-dap'
   use 'rcarriga/nvim-dap-ui'
+
+  use {'anuvyklack/hydra.nvim', commit = 'c70facc87141f64162aca519acfd18aa85e06329'}
+  use {'mrjones2014/smart-splits.nvim', commit = 'c8d80d90f3c783ac0ea21f256c74d541a7b66a72'}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
