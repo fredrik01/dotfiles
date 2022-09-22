@@ -1,0 +1,5 @@
+dir=${1%/}
+
+mostRecentFile=$(ls -tp "$dir" | grep -v /$ | head -1)
+
+echo "$dir/$mostRecentFile"
