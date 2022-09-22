@@ -13,6 +13,7 @@ lua << EOF
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
     ["<leader>-"] = { ":Lf<cr>", "Start lf" },
     ["<leader>m"] = { ":Make<cr>", "Run make async" },
+    ["<leader>/"] = { ":let @/=''<left>", "Highlight search term without moving the cursor" },
   })
 
   wk.register({
