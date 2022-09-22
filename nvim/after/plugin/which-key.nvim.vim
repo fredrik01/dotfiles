@@ -64,6 +64,12 @@ lua << EOF
     },
     ["<leader>h"] = {
       name = "+git",
+      g = { ":Git<CR>", "Git summary" },
+			j = {
+				name = "+Jump",
+				m = { ":Jump merge<CR>", "Add conflicts to quickfix and jump to the first one" },
+				d = { ":Jump diff<CR>", "Add diff hunks to quickfix and jump to the first one" },
+			},
       p = { "<cmd>lua require'gitsigns'.preview_hunk()<CR>", "Preview hunk" },
       s = { "<cmd>lua require'gitsigns'.stage_hunk()<CR>", "Stage hunk" },
       u = { "<cmd>lua require'gitsigns'.undo_stage_hunk()<CR>", "Undo stage hunk" },
@@ -74,7 +80,7 @@ lua << EOF
       b = { "<cmd>Git blame<CR>", "Blame" },
       t = { "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", "Toggle current line blame" },
       h = { "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", "Buffer commits" },
-      g = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
+      H = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
       c = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "List and checkout branch" },
     },
     ["<leader>c"] = {
