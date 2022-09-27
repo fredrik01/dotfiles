@@ -185,7 +185,7 @@ augroup autocmds
   " Disable line numbers in terminal buffers
   autocmd TermOpen * setlocal nonumber norelativenumber
   " Highlight on yank (neovim only)
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=500}
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
   " Open files at last position
   autocmd BufReadPost *
       \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
