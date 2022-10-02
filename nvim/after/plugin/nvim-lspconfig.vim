@@ -65,14 +65,14 @@ lsp_installer.on_server_ready(function(server)
 
 				if server.name == "gopls" or server.name == "intelephense" then
 					-- Disable gogls/intelephense formatting, use null-ls instead
-					client.resolved_capabilities.document_formatting = false
-					client.resolved_capabilities.document_range_formatting = false
+					client.server_capabilities.document_formatting = false
+					client.server_capabilities.document_range_formatting = false
 				end
 
 				if server.name == "psalm" then
-					client.resolved_capabilities.definition = false
-					client.resolved_capabilities.type_definition = false
-					client.resolved_capabilities.hover = false
+					client.server_capabilities.definition = false
+					client.server_capabilities.type_definition = false
+					client.server_capabilities.hover = false
 				end
 
 			end

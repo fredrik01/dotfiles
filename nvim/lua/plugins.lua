@@ -22,17 +22,17 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- LSP stuff
-  use {'williamboman/nvim-lsp-installer', commit = '469fe5c409623e8c8acb18f95911c4c37cdca82e'}
-  use {'neovim/nvim-lspconfig', commit = 'da7461b596d70fa47b50bf3a7acfaef94c47727d'}
+  use {'williamboman/nvim-lsp-installer', commit = '23820a878a5c2415bfd3b971d1fe3c79e4dd6763'}
+  use {'neovim/nvim-lspconfig', commit = 'f11fdff7e8b5b415e5ef1837bdcdd37ea6764dda'}
   use {'hrsh7th/cmp-nvim-lsp', commit = 'affe808a5c56b71630f17aa7c38e15c59fd648a8'}
   use {'hrsh7th/cmp-buffer', commit = '3022dbc9166796b644a841a02de8dd1cc1d311fa'}
   use {'hrsh7th/cmp-path', commit = '447c87cdd6e6d6a1d2488b1d43108bfa217f56e1'}
-  use {'hrsh7th/cmp-cmdline', commit = '9c0e331fe78cab7ede1c051c065ee2fc3cf9432e'}
-  use {'hrsh7th/nvim-cmp', commit = '706371f1300e7c0acb98b346f80dad2dd9b5f679'}
+  use {'hrsh7th/cmp-cmdline', commit = 'c66c379915d68fb52ad5ad1195cdd4265a95ef1e'}
+  use {'hrsh7th/nvim-cmp', commit = 'b0dff0ec4f2748626aae13f011d1a47071fe9abc'}
   use({"L3MON4D3/LuaSnip", tag = "v1.*"})
   use {'saadparwaiz1/cmp_luasnip', commit = 'a9de941bcbda508d0a45d28ae366bb3f08db2e36'}
-  use {'jose-elias-alvarez/null-ls.nvim', commit = '5b745e5fa2a18a2c0df8966080f4321fad4f42d7'}
-  use {'windwp/nvim-autopairs', commit = '34bd374f75fb58656572f847e2bc3565b0acb34f'}
+  use {'jose-elias-alvarez/null-ls.nvim', commit = 'c0c19f32b614b3921e17886c541c13a72748d450'}
+  use {'windwp/nvim-autopairs', commit = '4fc96c8f3df89b6d23e5092d31c866c53a346347'}
 
   use 'bluz71/vim-moonfly-colors'
   use 'bluz71/vim-nightfly-guicolors'
@@ -61,7 +61,7 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
+    commit = '76ea9a898d3307244dce3573392dcf2cc38f340f',
     requires = { {'nvim-lua/plenary.nvim'}, {'kyazdani42/nvim-web-devicons'} }
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
@@ -138,10 +138,10 @@ return require('packer').startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-    commit = '2eaf18826988f921ddb39e4a2e7d23d95bb0e52a'
+    commit = '8e763332b7bf7b3a426fd8707b7f5aa85823a5ac'
   }
-  use {'nvim-treesitter/nvim-treesitter-textobjects', commit = 'e63c2ff8e38fad77299dd74e14c7c9360e1b3181'}
-  use {'nvim-treesitter/nvim-treesitter-context', commit = '8bef4409a83219e800852f18c2894a60b64071b8'}
+  use {'nvim-treesitter/nvim-treesitter-textobjects', commit = '41e8d8964e5c874d9ce5e37d00a52f37f218502e'}
+  use {'nvim-treesitter/nvim-treesitter-context', commit = '8d0759eb798fee2e1201b26c3279713ac67c44c2'}
   use {'AckslD/nvim-trevJ.lua', commit = '73636194d9ec63f74a714b4c394bec68406acb2c'}
 
   use { 'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons'} }
@@ -150,7 +150,7 @@ return require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap'
   use 'rcarriga/nvim-dap-ui'
 
-  use {'anuvyklack/hydra.nvim', commit = 'c70facc87141f64162aca519acfd18aa85e06329'}
+  use {'anuvyklack/hydra.nvim', commit = 'fa41a971765d4cce9c39185289f5a10894f66dbd'}
   use {'mrjones2014/smart-splits.nvim', commit = 'c8d80d90f3c783ac0ea21f256c74d541a7b66a72'}
 
   use {'gaoDean/autolist.nvim', config = function() require('autolist').setup() end}
