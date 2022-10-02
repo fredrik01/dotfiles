@@ -146,7 +146,7 @@ if (has('termguicolors'))
 endif
 
 syntax on
-colorscheme moonfly
+colorscheme nightfly
 " colorscheme github_dark_default
 
 let g:moonflyCursorColor = 1

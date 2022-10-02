@@ -35,7 +35,7 @@ return require('packer').startup(function(use)
   use {'windwp/nvim-autopairs', commit = '34bd374f75fb58656572f847e2bc3565b0acb34f'}
 
   use 'bluz71/vim-moonfly-colors'
-  use 'folke/tokyonight.nvim'
+  use 'bluz71/vim-nightfly-guicolors'
   -- use 'B4mbus/oxocarbon-lua.nvim'
   -- vim.g.oxocarbon_lua_alternative_telescope = true
 
