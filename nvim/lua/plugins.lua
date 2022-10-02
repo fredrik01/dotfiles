@@ -153,6 +153,8 @@ return require('packer').startup(function(use)
   use {'anuvyklack/hydra.nvim', commit = 'c70facc87141f64162aca519acfd18aa85e06329'}
   use {'mrjones2014/smart-splits.nvim', commit = 'c8d80d90f3c783ac0ea21f256c74d541a7b66a72'}
 
+  use {'gaoDean/autolist.nvim', config = function() require('autolist').setup() end}
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
