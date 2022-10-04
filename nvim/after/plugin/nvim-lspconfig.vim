@@ -59,7 +59,7 @@ lsp_installer.on_server_ready(function(server)
 				buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 				buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 				buf_set_keymap('n', '<leader>kd', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-				buf_set_keymap('n', '<leader>kf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+				buf_set_keymap('n', '<leader>kf', '<cmd>lua vim.lsp.buf.format { async = true }<CR>', opts)
 
 				-- List of capabilities: https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
 
