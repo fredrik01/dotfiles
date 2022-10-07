@@ -105,6 +105,9 @@ set shortmess+=c                " A coc thing
 set spelllang=en,sv
 set splitright
 set splitbelow
+set mouse=                      " Disable mouse
+set cmdheight=0                 " Hide cmd line until needed
+set laststatus=3                " One statusbar at the bottom showing the current window’s status
 " Wrap long lines
 set breakindent
 set breakindentopt=shift:2
