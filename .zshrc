@@ -21,7 +21,6 @@ export LANG=en_US.UTF-8
 
 [ -f ~/.dotfiles/zsh/.custom ] && source ~/.dotfiles/zsh/.custom 
 
-alias ssh='kitty +kitten ssh'
 # Search stackoverflow
 alias so='googler --site stackoverflow.com'
 # Change directory
