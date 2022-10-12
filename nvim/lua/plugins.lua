@@ -110,8 +110,6 @@ return require('packer').startup(function(use)
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-dispatch' -- Use :Make to compile asynchronously
 
-  use {'nelstrom/vim-visual-star-search', commit = '37259722f45996733fd309add61385a4ad88bdb9'} -- Allows * and # searches to occur on the current visual selection
-
   -- Might have to run this after install: `:call mkdp#util#install()`
   use({
     "iamcco/markdown-preview.nvim",
