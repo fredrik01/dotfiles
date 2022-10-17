@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Use this to keep track of a running GitLab pipeline
+# What it does:
+# 	- prints a . if the pipeline is running
+# 	- prints a ~ if the pipeline is running and a job that's allowed to fail has failed
+# 	- stops when the pipeline stops and prints the final pipeline status
+
+pipelineStatus="running"
+counter=0
+
+printResult() {
+	if [[ $counter != 0 ]]; then
+		echo ""
+	fi
+	echo "$1"
+}
+
+while 'true'; do
+	response=$(NO_PROMPT=1 glab pipe status)
+	pipelineStatus=$(echo "$response" | grep "Pipeline State:" | cut -f2 -d":" | cut -c2-)
+
+	if [[ "$pipelineStatus" != "running" ]]; then
+		printResult "$pipelineStatus"
+    break
+  fi
+
+	# Print another char (~) if a failed job was found
+	# This is because some jobs can be allowed to fail
+	failedJob=$(echo "$response" | grep "(failed)")
+	if [ -n "$failedJob" ]; then
+		echo -n "~"
+	else
+		echo -n "."
+	fi
+
+	((counter++))
+	sleep 30
+done
