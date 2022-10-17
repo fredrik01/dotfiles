@@ -15,6 +15,15 @@ nnoremap S :HopChar1<cr>
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
 
+" press <c-l> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <c-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" -1 for jumping backwards.
+inoremap <silent> <c-h> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <c-l> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <c-h> <cmd>lua require('luasnip').jump(-1)<Cr>
+
 " Terminal maps
 tnoremap <silent><leader>. <C-\><C-n>:FloatermToggle<CR>
 tnoremap <silent><leader>n <C-\><C-n>:FloatermNew<CR>

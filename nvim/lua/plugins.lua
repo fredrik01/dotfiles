@@ -29,7 +29,14 @@ return require('packer').startup(function(use)
   use {'hrsh7th/cmp-path', commit = '447c87cdd6e6d6a1d2488b1d43108bfa217f56e1'}
   use {'hrsh7th/cmp-cmdline', commit = 'c66c379915d68fb52ad5ad1195cdd4265a95ef1e'}
   use {'hrsh7th/nvim-cmp', commit = 'b0dff0ec4f2748626aae13f011d1a47071fe9abc'}
-  use({"L3MON4D3/LuaSnip", tag = "v1.*"})
+  use {"L3MON4D3/LuaSnip", tag = "v1.*",
+    after = 'nvim-cmp',
+    config = function() 
+      require("luasnip.loaders.from_vscode").lazy_load({paths = "./snippets/vscode"})
+      require("luasnip.loaders.from_lua").load({paths = "./snippets/lua"})
+    end
+  }
+
   use {'saadparwaiz1/cmp_luasnip', commit = 'a9de941bcbda508d0a45d28ae366bb3f08db2e36'}
   use {'jose-elias-alvarez/null-ls.nvim', commit = 'c0c19f32b614b3921e17886c541c13a72748d450'}
   use {'windwp/nvim-autopairs', commit = '4fc96c8f3df89b6d23e5092d31c866c53a346347'}

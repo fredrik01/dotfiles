@@ -1,0 +1,24 @@
+{
+  "name": "nvim-snippets",
+  "author": "fredrik",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "php",
+        "path": "./php.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh",
+          "bash"
+        ],
+        "path": "./shell.json"
+      }
+    ]
+  }
+}
