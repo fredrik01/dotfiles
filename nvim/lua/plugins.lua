@@ -39,7 +39,11 @@ return require('packer').startup(function(use)
 
   use {'saadparwaiz1/cmp_luasnip', commit = 'a9de941bcbda508d0a45d28ae366bb3f08db2e36'}
   use {'jose-elias-alvarez/null-ls.nvim', commit = 'c0c19f32b614b3921e17886c541c13a72748d450'}
-  use {'windwp/nvim-autopairs', commit = '4fc96c8f3df89b6d23e5092d31c866c53a346347'}
+  use {
+    "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end,
+      commit = '4fc96c8f3df89b6d23e5092d31c866c53a346347'
+  }
 
   use 'bluz71/vim-moonfly-colors'
   use 'bluz71/vim-nightfly-guicolors'
