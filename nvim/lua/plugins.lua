@@ -135,6 +135,10 @@ return require('packer').startup(function(use)
   use {'junegunn/fzf', run = function() vim.fn["fzf#install"]() end}
   use 'junegunn/fzf.vim'
   -- brew install bat <- Enable syntax highlight in preview
+  use { 'ibhagwan/fzf-lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function() require('fzf-lua').setup({ fzf_opts = {['--layout'] = 'default'}, winopts = { height=1, width=1 }}) end
+  }
 
   use 'vim-test/vim-test'
   use 'simnalamburt/vim-mundo'
