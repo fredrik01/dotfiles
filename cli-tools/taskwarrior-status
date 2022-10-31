@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+if [ -x "$(command -v task)" ]; then
+	  pending=$(task status:pending export | jq '. | length')
+		echo "$pending tasks"
+fi
