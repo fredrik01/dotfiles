@@ -13,6 +13,12 @@ SLEEP=${2:-10}
 MAX_LOOP_COUNT=${3:-999999}
 COUNTER=1
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+ORANGE='\033[0;33m'
+NC='\033[0m' # No Color
+
 if [ -z "${URL}" ]; then
     echo "URL is missing"
     exit 1
@@ -21,11 +27,25 @@ fi
 while [ "${COUNTER}" -le "${MAX_LOOP_COUNT}" ]; do
     NOW="$(date +'%F %H:%M:%S')"
 
-    curl \
+    output=$(curl \
         --silent \
         --location \
         --output /dev/null \
-        --write-out "%{http_code} | %{time_total}s | ${NOW} | ${COUNTER}/${MAX_LOOP_COUNT}\n" "${URL}"
+        --write-out "%{http_code} | %{time_total}s | ${NOW} | ${COUNTER}/${MAX_LOOP_COUNT}\n" "${URL}")
+
+    statusCode=$(echo "$output" | cut -d " " -f1)
+
+    if [[ "$statusCode" == 2* ]]; then
+        echo -e "${GREEN}$output${NC}"
+    elif [[  "$statusCode" == 3*  ]]; then
+        echo -e "${BLUE}$output${NC}"
+    elif [[  "$statusCode" == 4*  ]]; then
+        echo -e "${ORANGE}$output${NC}"
+    elif [[  "$statusCode" == 5*  ]]; then
+        echo -e "${RED}$output${NC}"
+    else
+        echo "$output"
+    fi
 
     sleep "$SLEEP"
 
