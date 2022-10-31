@@ -24,6 +24,11 @@ lua << EOF
       -- b = { "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<cr>", "Search open buffers" },
       b = { ":lua require('fzf-lua').buffers()<cr>", "Search open buffers" },
       e = { "<cmd>lua require('telescope.builtin').git_status()<cr>", "Search edited file" },
+
+      d = { ":FzfLuaDiffAgainsMainBranch<cr>", "Files that diff from the main branch" },
+			-- Another attempt, with Telescope
+      -- d = { "<cmd>Telescope find_files find_command=git,diff,--name-only,master<cr>", "Files that diff from the main branch (WIP)" },
+
       h = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "File history" },
       a = { "<cmd>Telescope find_files find_command=rg,--smart-case,--hidden,--no-ignore-vcs,--glob,!.git,--files<cr>", "All files" },
       --a = { :Files!<CR>", "All files" },
