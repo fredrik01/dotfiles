@@ -85,8 +85,8 @@ lua << EOF
     },
     ["<leader>c"] = {
       name = "+tags",
-      a = { "<cmd>Tags!<CR>", "Search all tags" },
-      b = { "<cmd>BTags!<CR>", "Search tags in buffer" },
+      a = { ":lua require('fzf-lua').tags()<cr>", "Search all tags" },
+      b = { ":BTags<cr>", "Search tags in buffer" },
     },
     ["<leader>s"] = {
       name = "+sessions",
