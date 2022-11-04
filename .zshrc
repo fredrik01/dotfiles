@@ -75,6 +75,8 @@ alias na='notes-daily-append'
 alias ne='notes-daily-edit'
 alias ns='notes-search-content'
 alias nsf='notes-search-file'
+# Taskwarrior
+alias tt="taskwarrior-tui"
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
