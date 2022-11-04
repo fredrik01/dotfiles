@@ -67,6 +67,10 @@ xnoremap <Leader>rc :%s///gc<left><left><left>
 nnoremap <Leader>s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
+" Use PHPs date function to get date and time
+" Example: next tuesday 17:00
+nnoremap <Leader>di :execute ':r !php -r ''echo date("Y-m-d H:i:s", strtotime(""));'''<left><left><left><left><left><left><left>
+
 " Phpunit test :p (requires "af" text object)
 xnoremap ay :normal vafok<cr>
 onoremap ay :normal vafok<cr>
