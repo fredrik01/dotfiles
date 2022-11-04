@@ -50,7 +50,6 @@ return require('packer').startup(function(use)
   -- use 'B4mbus/oxocarbon-lua.nvim'
   -- vim.g.oxocarbon_lua_alternative_telescope = true
 
-  use 'voldikss/vim-floaterm'
   use 'NTBBloodbath/rest.nvim'
   use 'editorconfig/editorconfig-vim'
   use 'tommcdo/vim-exchange'
