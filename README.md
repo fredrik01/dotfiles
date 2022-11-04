@@ -105,3 +105,9 @@ PHP
 	# phpcbf is not compatible with php 8.1 yet
 	brew install php@8.0
 	brew link php@8.0
+
+### Other
+
+adr
+
+	brew install adr-tools
