@@ -144,7 +144,7 @@ return require('packer').startup(function(use)
   use 'simnalamburt/vim-mundo'
   use 'rcarriga/nvim-notify'
   use 'rhysd/clever-f.vim'
-  use {'phaazon/hop.nvim', branch = 'v1'}
+  use {'ggandor/leap.nvim', config = function() require('leap').add_default_mappings() end}
   use 'christoomey/vim-tmux-navigator'
   use {'lukas-reineke/indent-blankline.nvim', commit = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6'}
 

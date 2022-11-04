@@ -8,9 +8,6 @@ nmap <Space> :wa<CR>
 " c-6 is the same as c-^ => go to previous buffer
 nnoremap <silent>§ <c-^><cr>
 
-nnoremap s :HopChar2<cr>
-nnoremap S :HopChar1<cr>
-
 " Up and down in the jump list
 " Regular tab already equals to <c-i>
 nnoremap <silent><s-tab> <c-o><cr>
