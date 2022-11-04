@@ -52,6 +52,10 @@ fd
 
 	brew install fd
 
+hyperfine - Nice command-line benchmarking tool
+
+	brew install hyperfine
+
 jq - Required by rest.nvim
 
 	brew install jq
