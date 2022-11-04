@@ -6,7 +6,7 @@
 	path = ~/.gitconfig-frilansfinans
 
 [core]
-	editor = nvim
+	editor = nvim --cmd 'let g:unception_disable=1'
 	pager = delta
 	excludesFile = ~/.gitignore
 

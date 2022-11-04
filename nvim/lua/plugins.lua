@@ -167,6 +167,8 @@ return require('packer').startup(function(use)
 
   use {'gaoDean/autolist.nvim', config = function() require('autolist').setup() end}
 
+  use 'samjwill/nvim-unception'
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then

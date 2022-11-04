@@ -9,7 +9,7 @@ lua << EOF
 
   wk.register({
     ["<leader>"] = { name = "+leader" },
-    ["<leader>."] = { ":FloatermToggle<cr>", "Toggle terminal" },
+    ["<leader>."] = { ":lua require('harpoon.term').gotoTerminal(3)<cr>i", "Toggle terminal" },
     ["<leader>u"] = { ":MundoToggle<cr>", "Toggle undo tree" },
     ["<leader>-"] = { ":Lf<cr>", "Start lf" },
     ["<leader>m"] = { ":Make<cr>", "Run make async" },
@@ -158,8 +158,3 @@ EOF
 
 " Clear last used search pattern (clear search)
 " nmap <leader>cs :let @/ = ""<CR>
-
-" Reveal current file
-" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 vifm<CR>
-" nmap <leader><leader> :FloatermNew --opener=edit --floaterm_autoclose=1 ranger<CR>
-" nmap <leader><leader> :Lf<CR>

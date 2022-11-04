@@ -22,10 +22,8 @@ snoremap <silent> <c-l> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <c-h> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 " Terminal maps
-tnoremap <silent><leader>. <C-\><C-n>:FloatermToggle<CR>
-tnoremap <silent><leader>n <C-\><C-n>:FloatermNew<CR>
-tnoremap <silent><leader>l <C-\><C-n>:FloatermNext<CR>
-tnoremap <silent><leader>d <C-\><C-n>:FloatermKill<CR>
+" Go back to previous buffer
+tnoremap <silent><leader>. <C-\><C-n><c-6><cr>
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
 
