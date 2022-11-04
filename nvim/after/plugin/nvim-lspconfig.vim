@@ -78,8 +78,15 @@ lsp_installer.on_server_ready(function(server)
 			end
 			,
       flags = {
-        debounce_text_changes = 150,
-      }
+				debounce_text_changes = 150,
+			},
+			settings = { 
+				intelephense = { 
+					environment = { 
+						includePaths = {"~/intelephense/licence.txt"} 
+					} 
+				} 
+			}
     }
 
     -- (optional) Customize the options passed to the server
