@@ -183,10 +183,6 @@ if has('persistent_undo')
     set undofile
 endif
 
-function! RootDirChanged()
-  lua require("notify")(vim.api.nvim_eval('FindRootDirectory()'), 'trace', { title = "Changed root directory", render = 'default', timeout = 3000 })
-endfunction
-
 augroup autocmds
   autocmd! *
   " exrc.vim - Trust .exrc on save
@@ -200,8 +196,6 @@ augroup autocmds
       \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
       \ endif
-  " Call after vim-rooter changes the root dir
-  autocmd User RooterChDir call RootDirChanged()
   " Override background color
   " autocmd ColorScheme * highlight Normal ctermbg=NONE guifg=lightgrey guibg=black
 augroup END

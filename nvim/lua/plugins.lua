@@ -142,7 +142,6 @@ return require('packer').startup(function(use)
 
   use 'vim-test/vim-test'
   use 'simnalamburt/vim-mundo'
-  use 'rcarriga/nvim-notify'
   use 'rhysd/clever-f.vim'
   use {'ggandor/leap.nvim', config = function() require('leap').add_default_mappings() end}
   use 'christoomey/vim-tmux-navigator'
