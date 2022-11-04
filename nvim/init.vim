@@ -140,8 +140,8 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 packadd! Cfilter
 
 " Examples: gsw or gsiW or gsi' (case sensitive)
-nmap gs  <plug>(GrepperOperator)
-xmap gs  <plug>(GrepperOperator)
+nmap gf  <plug>(GrepperOperator)
+xmap gf  <plug>(GrepperOperator)
 
 " To scroll in test results
 if has('nvim')
