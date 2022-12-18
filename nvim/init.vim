@@ -5,21 +5,15 @@ let mapleader = ","
 " Save all edited buffers
 nmap <Space> :wa<CR>
 
-" c-6 is the same as c-^ => go to previous buffer
-nnoremap <silent>§ <c-^><cr>
-
-" Up and down in the jump list
-" Regular tab already equals to <c-i>
-nnoremap <silent><s-tab> <c-o><cr>
-
-" press <c-l> to expand or jump in a snippet. These can also be mapped separately
+" https://github.com/L3MON4D3/LuaSnip#keymaps
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
 " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-imap <silent><expr> <c-l> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
 " -1 for jumping backwards.
-inoremap <silent> <c-h> <cmd>lua require'luasnip'.jump(-1)<Cr>
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
-snoremap <silent> <c-l> <cmd>lua require('luasnip').jump(1)<Cr>
-snoremap <silent> <c-h> <cmd>lua require('luasnip').jump(-1)<Cr>
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 " Terminal maps
 " Go back to previous buffer
