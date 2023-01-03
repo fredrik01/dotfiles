@@ -2,35 +2,22 @@ lua << EOF
 
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local nvim_lsp = require('lspconfig')
-
--- lsp installer
-local lsp_installer = require("nvim-lsp-installer")
-
-local servers = {
-  "gopls",
-  "intelephense",
-  "psalm",
-  "jsonls",
-  "sumneko_lua",
-  "yamlls",
-	"tsserver",
-}
-
-for _, name in pairs(servers) do
-  local server_is_found, server = lsp_installer.get_server(name)
-  if server_is_found then
-    if not server:is_installed() then
-      print("Installing " .. name)
-      server:install()
-    end
-  end
-end
-
--- Register a handler that will be called for all installed servers.
--- Alternatively, you may also register handlers on specific server instances instead (see example below).
-lsp_installer.on_server_ready(function(server)
-    local opts = {
+require("mason").setup()
+mason_lspconfig = require("mason-lspconfig")
+mason_lspconfig.setup({
+  ensure_installed = {
+    "gopls",
+    "intelephense",
+    "psalm",
+    "jsonls",
+    "sumneko_lua",
+    "yamlls",
+    "tsserver",
+  }
+})
+mason_lspconfig.setup_handlers({
+  function (server_name)
+    require("lspconfig")[server_name].setup {
       on_attach = function(client, bufnr)
 				local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 				local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -45,7 +32,7 @@ lsp_installer.on_server_ready(function(server)
 				buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 				buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 				buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-				-- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+				buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 				-- buf_set_keymap('n', '<C-i>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 				buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 				-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -63,13 +50,13 @@ lsp_installer.on_server_ready(function(server)
 
 				-- List of capabilities: https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
 
-				if server.name == "gopls" or server.name == "intelephense" then
+				if server_name == "gopls" or server_name == "intelephense" then
 					-- Disable gogls/intelephense formatting, use null-ls instead
 					client.server_capabilities.document_formatting = false
 					client.server_capabilities.document_range_formatting = false
 				end
 
-				if server.name == "psalm" then
+				if server_name == "psalm" then
 					client.server_capabilities.definition = false
 					client.server_capabilities.type_definition = false
 					client.server_capabilities.hover = false
@@ -88,16 +75,10 @@ lsp_installer.on_server_ready(function(server)
 				} 
 			}
     }
+  end
+})
 
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)
+local nvim_lsp = require('lspconfig')
 
 -- Make signature help not focusable
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {

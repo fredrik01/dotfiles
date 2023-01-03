@@ -22,7 +22,8 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- LSP stuff
-  use {'williamboman/nvim-lsp-installer', commit = '23820a878a5c2415bfd3b971d1fe3c79e4dd6763'}
+  use {"williamboman/mason.nvim", commit = 'df1dd889b72ddcf63e262c22b8e69087560c698d'}
+  use {"williamboman/mason-lspconfig.nvim", commit = 'aa25b4153d2f2636c3b3a8c8360349d2b29e7ae3'}
   use {'neovim/nvim-lspconfig', commit = 'f11fdff7e8b5b415e5ef1837bdcdd37ea6764dda'}
   use {'hrsh7th/cmp-nvim-lsp', commit = 'affe808a5c56b71630f17aa7c38e15c59fd648a8'}
   use {'hrsh7th/cmp-buffer', commit = '3022dbc9166796b644a841a02de8dd1cc1d311fa'}
