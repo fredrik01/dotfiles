@@ -149,7 +149,7 @@ lua << EOF
 	  ["<leader>k"] = {
       name = "LSP / formatting",
       j = { ":lua require('trevj').format_at_cursor()<cr>", "Opposite of join-line (J) of arguments" },
-    }
+    },
   })
 EOF
 
