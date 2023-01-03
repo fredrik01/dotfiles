@@ -143,7 +143,6 @@ return require('packer').startup(function(use)
   use 'vim-test/vim-test'
   use 'simnalamburt/vim-mundo'
   use 'rhysd/clever-f.vim'
-  use {'ggandor/leap.nvim', config = function() require('leap').add_default_mappings() end}
   use 'christoomey/vim-tmux-navigator'
   use {'lukas-reineke/indent-blankline.nvim', commit = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6'}
 
@@ -167,7 +166,28 @@ return require('packer').startup(function(use)
 
   use {'gaoDean/autolist.nvim', config = function() require('autolist').setup() end}
 
-  use 'samjwill/nvim-unception'
+  use {'https://gitlab.com/madyanov/svart.nvim', config = function() require('svart').configure({ label_location = 1 }) end}
+  vim.keymap.set({ "n", "x", "o" }, "s", "<Cmd>Svart<CR>")        -- begin exact search
+  vim.keymap.set({ "n", "x", "o" }, "S", "<Cmd>SvartRepeat<CR>") -- repeat with last searched query
+
+  use({
+      "kwkarlwang/bufjump.nvim",
+      config = function()
+          require("bufjump").setup({
+              forward = "<tab>",
+              backward = "<s-tab>",
+              on_success = nil
+          })
+      end,
+  })
+
+  use {
+    "cbochs/grapple.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    commit = '219aa410851d6e21b3c0ee9c1195c9b34f2276b3',
+    -- git_branch: tags are scoped to the current git repository and branch (async), fallback: static
+    config = function () require("grapple").setup({ scope = require("grapple").resolvers.git_branch }) end
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
