@@ -84,18 +84,6 @@ universal-ctags
 
 	brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-shellcheck - Lint shell files
-
-	brew install shellcheck
-
-hadolint - Lint dockerfiles (uses shellcheck)
-
-	brew install hadolint
-
-vint - Lint vimscript
-
-	brew install vint
-
 MySQL client - Used by vim-dadbod
 
 	brew install mysql-client

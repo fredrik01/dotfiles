@@ -1,3 +1,7 @@
+require("mason-null-ls").setup({
+    ensure_installed = { "shellcheck", "hadolint", "vint" }
+})
+
 local null_ls = require("null-ls")
 
 local sources = {

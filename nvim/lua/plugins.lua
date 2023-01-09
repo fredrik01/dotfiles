@@ -39,7 +39,10 @@ return require('packer').startup(function(use)
   }
 
   use {'saadparwaiz1/cmp_luasnip', commit = '18095520391186d634a0045dacaa346291096566'}
+
   use {'jose-elias-alvarez/null-ls.nvim', commit = 'd09d7d82cc26d63673cef85cb62895dd68aab6d8'}
+  -- Bridge between mason and null-ls, enables "ensure installed" for null-ls sources, installed with mason
+  use { "jayp0521/mason-null-ls.nvim", commit = 'c4b4a6fe3cb8d8590b831c22b3475166dc9a894e'}
 
   use {
     "windwp/nvim-autopairs",
