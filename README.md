@@ -38,11 +38,15 @@ loop
 	brew tap miserlou/loop https://github.com/Miserlou/Loop.git
 	brew install loop --HEAD
 
+nvm
+
+	https://github.com/nvm-sh/nvm#install--update-script
+
 ## Neovim dependencies for this setup
 
 Install plugins with
 
-	:PlugInstall
+	:PackerInstall
 
 rg
 
@@ -72,7 +76,7 @@ tree
 
 	brew install tree
 
-neovim 0.5
+neovim
 
 	brew install neovim
 
@@ -94,8 +98,23 @@ PHP
 	brew install php@8.0
 	brew link php@8.0
 
+### Debuggers
+
+PHP
+
+	cd ~/.local/share/nvim/debuggers
+	git clone https://github.com/xdebug/vscode-php-debug.git && cd vscode-php-debug
+	npm install && npm run build
+
+### Fonts
+
+Jetbrains Mono
+
+	brew install font-jetbrains-mono-nerd-font
+
 ### Other
 
 adr
 
 	brew install adr-tools
+
