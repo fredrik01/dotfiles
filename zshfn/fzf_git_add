@@ -1,8 +1,17 @@
-# https://github.com/bluz71/dotfiles/blob/master/bashrc
+# Inspired by: https://github.com/bluz71/dotfiles/blob/master/bashrc
+
+previewPosition="right"
+
+if [ $(tput cols) -lt 140 ]; then
+	previewPosition="top"
+fi
+
 local selections=$(
 		git status --porcelain | \
-		fzf --ansi --multi \
-			--preview 'if (git ls-files --error-unmatch {2} &>/dev/null); then
+		fzf --ansi --multi --preview-window "$previewPosition" \
+			--preview 'if [ ! -f {2} ]; then
+				echo "File not found"
+			elif (git ls-files --error-unmatch {2} &>/dev/null); then
 				git diff --color=always {2} | delta
 			else
 				bat --color=always --line-range :500 {2}
