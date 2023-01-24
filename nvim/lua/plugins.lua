@@ -110,7 +110,6 @@ return require('packer').startup(function(use)
   }
 
   use {'folke/which-key.nvim', commit = 'd1872f13ae7d13e41cb2879739bf0915c9491ea6'}
-  use {'folke/zen-mode.nvim', commit = '6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c'}
 
   use {'justinmk/vim-dirvish', commit = '81b40878f286f370df2a2b3a52c4d860643d2142'}
   use {'roginfarrer/vim-dirvish-dovish', branch = 'main', commit = '04c77b6010f7e45e72b4d3c399c120d42f7c5d47'}

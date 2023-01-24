@@ -117,7 +117,6 @@ lua << EOF
       name = "+spelling",
       -- https://github.com/nickjj/dotfiles/blob/master/.vimrc
       l = { ":normal! mz[s1z=`z<cr>", "Automatically fix the last misspelled word and jump back to where you were" },
-			m = { ":ZenMode<cr>", "Zen Mode" },
     },
     ["<leader>e"] = {
       name = "+execute",
