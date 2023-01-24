@@ -158,7 +158,6 @@ return require('packer').startup(function(use)
   use {'nvim-treesitter/nvim-treesitter-context', commit = '8d0759eb798fee2e1201b26c3279713ac67c44c2'}
   use {'AckslD/nvim-trevJ.lua', commit = '73636194d9ec63f74a714b4c394bec68406acb2c'}
 
-  use { 'sindrets/diffview.nvim', requires = {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons'} }
   use 'rhysd/conflict-marker.vim'
 
   use 'mfussenegger/nvim-dap'
