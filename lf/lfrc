@@ -1,6 +1,11 @@
 set hidden
 set previewer ~/.dotfiles/lf/previewer.sh
 
+# use enter for shell commands
+map <enter> shell
+
+map D trash
+
 cmd mkdir ${{
   printf "Directory Name: "
   read ans
@@ -11,10 +16,6 @@ cmd mkfile ${{
   printf "File Name: "
   read ans
   touch $ans
-}}
-
-cmd delete ${{
-  rm $f
 }}
 
 # From: https://github.com/BrodieRobertson/dotfiles/blob/master/config/lf/lfrc
@@ -37,8 +38,20 @@ cmd trash ${{
   done
 }}
 
-cmd clear_trash %trash-empty
-
-cmd restore_trash ${{
+cmd restore-trash ${{
   trash-restore
+}}
+
+# Open some files in $EDITOR
+# From: https://github.com/gokcehan/lf/blob/b47cf6d5a525c39db268c2f7b77e2b7497843b17/etc/lfrc.example#L34
+#
+# define a custom 'open' command
+# This command is called when current file is not a directory. You may want to
+# use either file extensions and/or mime types here. Below uses an editor for
+# text files and a file opener for the rest.
+cmd open &{{
+    case $(file --mime-type -Lb $f) in
+        text/*) lf -remote "send $id \$$EDITOR \$fx";;
+        *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
 }}
