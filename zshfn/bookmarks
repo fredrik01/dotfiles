@@ -1,7 +1,0 @@
-local url=$(cat ~/.config/.bookmarks | fzf | cut -d " " -f 1)
-
-if [[ -z $url ]]; then
-	return
-fi
-
-open "$url"

@@ -77,6 +77,12 @@ alias ns='notes-search-content'
 alias nsf='notes-search-file'
 # Taskwarrior
 alias tt="taskwarrior-tui"
+# Jira
+alias jo='jira issue list -q "project IS NOT EMPTY and status not in (Released, Done)" -a$(jira me)' # Ongoing issues in all projects
+alias jm='jira issue list -q "project IS NOT EMPTY" -a$(jira me)' # All mine
+# Bookmarks
+alias b="bookmarks ~/.config/.bookmarks"
+alias be="nvim ~/.config/.bookmarks"
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
