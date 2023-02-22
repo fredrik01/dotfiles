@@ -54,6 +54,9 @@ alias greflog='fzf_git_reflog'
 alias gpull='git pull'
 alias gr='git_review'
 alias grs='git_review_stat'
+# Gitlab
+alias gps='NO_PROMPT=1 glab pipe status'
+alias gpsf='glab pipe status --live'
 # Docker
 alias d='docker'
 alias dc='docker compose'
