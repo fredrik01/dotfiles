@@ -72,7 +72,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias c='clear'
 alias na='notes-daily-append'
-alias ne='notes-daily-edit'
+alias nd='notes-daily-edit'
 alias ns='notes-search-content'
 alias nsf='notes-search-file'
 # Taskwarrior
