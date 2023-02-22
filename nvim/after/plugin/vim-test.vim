@@ -1,4 +1,4 @@
-let test#strategy = 'harpoon_stay'
+let test#strategy = 'vimux'
 " Easily change between test strategies
 nmap <leader>ts1 :let test#strategy = 'asyncrun_background_term'<CR>
 nmap <leader>ts2 :let test#strategy = 'asyncrun'<CR>
