@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Update another branch
+
+branch=$1
+
+if [ -z "${branch}" ]; then
+    echo "Branch is missing"
+    exit 1
+fi
+
+git checkout "$branch" || exit 1
+git pull --ff origin "$branch"
+git checkout -

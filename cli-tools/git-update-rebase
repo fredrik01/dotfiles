@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Update branch and then rebase
+
+branch=$1
+
+if [ -z "${branch}" ]; then
+    echo "Branch is missing"
+    exit 1
+fi
+
+# Requires "git update"
+git update "$branch" || exit 1
+git rebase "$branch"
