@@ -1,5 +1,8 @@
 containers=$(docker ps -q)
 if [[ $containers ]]; then
+    # Print container id, image name and container name
+    docker ps | tail -n +2 | tr -s ' ' | cut -d ' ' -f1-2 -f13
+    echo ""
     echo "Stopping containers"
     docker stop $(echo $containers)
 else
