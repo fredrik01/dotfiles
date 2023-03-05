@@ -86,6 +86,8 @@ alias jm='jira issue list -q "project IS NOT EMPTY" -a$(jira me)' # All mine
 # Bookmarks
 alias b="bookmarks ~/.config/.bookmarks"
 alias be="nvim ~/.config/.bookmarks"
+# Laravel
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
