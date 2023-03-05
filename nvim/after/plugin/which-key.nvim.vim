@@ -30,8 +30,10 @@ lua << EOF
       -- d = { "<cmd>Telescope find_files find_command=git,diff,--name-only,master<cr>", "Files that diff from the main branch (WIP)" },
 
       h = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "File history" },
-      a = { "<cmd>Telescope find_files find_command=rg,--smart-case,--hidden,--no-ignore-vcs,--glob,!.git,--files<cr>", "All files" },
-      --a = { :Files!<CR>", "All files" },
+      a = { "<cmd>lua require'fzf-lua'.files({ cmd = 'rg --smart-case --hidden --no-ignore-vcs --glob !.git --files'})<cr>", "All files" },
+      -- Nicer than :Files but stopped working at some point :shrug
+      -- a = { "<cmd>Telescope find_files find_command=rg,--smart-case,--hidden,--no-ignore-vcs,--glob,!.git,--files<cr>", "All files" },
+      -- a = { :Files!<CR>", "All files" },
     },
     ["<leader>b"] = {
       name = "+buffer",
