@@ -202,6 +202,8 @@ return require('packer').startup(function(use)
   }
   vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
+  use {'preservim/vimux'}
+
   use {
     "cbochs/grapple.nvim",
     requires = { "nvim-lua/plenary.nvim" },
