@@ -117,12 +117,6 @@ return require('packer').startup(function(use)
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-dispatch' -- Use :Make to compile asynchronously
 
-  -- Might have to run this after install: `:call mkdp#util#install()`
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
-
   use 'sheerun/vim-polyglot' -- Includes a version of vim-sleuth
   vim.g.polyglot_disabled = {'php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go'}
 
