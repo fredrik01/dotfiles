@@ -152,6 +152,13 @@ lua << EOF
       name = "LSP / formatting",
       j = { ":lua require('trevj').format_at_cursor()<cr>", "Opposite of join-line (J) of arguments" },
     },
+    ["<leader>v"] = {
+      name = "+vimux",
+      p = { ":VimuxPromptCommand<cr>", "Run command" },
+      l = { ":VimuxRunLastCommand<cr>", "Run last command" },
+      c = { ":VimuxClearTerminalScreen<cr>", "Clear terminal" },
+      i = { ":VimuxInspectRunner<cr>", "Inspect runner pane" },
+    },
   })
 EOF
 
