@@ -90,10 +90,6 @@ universal-ctags
 
 	brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-MySQL client - Used by vim-dadbod
-
-	brew install mysql-client
-
 PHP
 
 	# phpcbf is not compatible with php 8.1 yet

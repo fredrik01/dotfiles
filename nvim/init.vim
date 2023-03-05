@@ -127,10 +127,6 @@ function! OpenURLUnderCursor()
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
 
-" Plug 'tpope/vim-dotenv'
-" Plug 'tpope/vim-dadbod'
-" Plug 'kristijanhusak/vim-dadbod-ui'
-
 " Enable filtering in quickfix list
 packadd! Cfilter
 
