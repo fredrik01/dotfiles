@@ -79,6 +79,8 @@ tree
 neovim
 
 	brew install neovim
+	# To install nightly
+	brew install --HEAD neovim
 
 trash-cli
 
@@ -97,6 +99,11 @@ PHP
 	# phpcbf is not compatible with php 8.1 yet
 	brew install php@8.0
 	brew link php@8.0
+
+Taskwarrior
+
+	brew install task
+	brew install taskwarrior-tui
 
 ### Debuggers
 
@@ -118,3 +125,11 @@ adr
 
 	brew install adr-tools
 
+
+pomodoro cli
+
+	go install github.com/open-pomodoro/openpomodoro-cli/cmd/pomodoro@latest
+
+cloc - count lines of code - (cloc --vcs git)
+
+	brew install cloc
