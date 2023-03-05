@@ -76,7 +76,7 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    commit = '76ea9a898d3307244dce3573392dcf2cc38f340f',
+    commit = 'e8c01bab917537ba4f54193c29b77bf4a04584d3',
     requires = { {'nvim-lua/plenary.nvim'}, {'kyazdani42/nvim-web-devicons'} }
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
