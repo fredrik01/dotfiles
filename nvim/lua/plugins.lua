@@ -150,6 +150,7 @@ return require('packer').startup(function(use)
   use {'nvim-treesitter/nvim-treesitter-textobjects', commit = '41e8d8964e5c874d9ce5e37d00a52f37f218502e'}
   use {'nvim-treesitter/nvim-treesitter-context', commit = '8d0759eb798fee2e1201b26c3279713ac67c44c2'}
   use {'AckslD/nvim-trevJ.lua', commit = '73636194d9ec63f74a714b4c394bec68406acb2c'}
+  use "IndianBoy42/tree-sitter-just"
 
   use 'rhysd/conflict-marker.vim'
 
