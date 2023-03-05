@@ -79,6 +79,7 @@ lua << EOF
 			},
       p = { "<cmd>lua require'gitsigns'.preview_hunk()<CR>", "Preview hunk" },
       s = { "<cmd>lua require'gitsigns'.stage_hunk()<CR>", "Stage hunk" },
+      S = { "<cmd>lua require'gitsigns'.stage_buffer()<CR>", "Stage buffer" },
       u = { "<cmd>lua require'gitsigns'.undo_stage_hunk()<CR>", "Undo stage hunk" },
       r = { "<cmd>lua require'gitsigns'.reset_hunk()<CR>", "Reset hunk" },
       R = { "<cmd>lua require'gitsigns'.reset_buffer()<CR>", "Reset buffer" },
