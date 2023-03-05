@@ -111,13 +111,6 @@ return require('packer').startup(function(use)
 
   use {'folke/which-key.nvim', commit = 'd1872f13ae7d13e41cb2879739bf0915c9491ea6'}
 
-  use {'justinmk/vim-dirvish', commit = '81b40878f286f370df2a2b3a52c4d860643d2142'}
-  use {'roginfarrer/vim-dirvish-dovish', branch = 'main', commit = '04c77b6010f7e45e72b4d3c399c120d42f7c5d47'}
-  -- Folders at top
-  vim.g.dirvish_mode = ':sort ,^.*[/],'
-  vim.g.loaded_netrw = 1
-  vim.g.loaded_netrwPlugin = 1
-
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-repeat' -- Enhances the . operator to work with vim-surround
@@ -182,6 +175,31 @@ return require('packer').startup(function(use)
           })
       end,
   })
+
+  use {
+    'stevearc/oil.nvim',
+    config = function() require('oil').setup({
+      keymaps = {
+        ["g?"] = "actions.show_help",
+        ["<CR>"] = "actions.select",
+        ["<C-s>"] = "actions.select_vsplit",
+        ["<C-p>"] = "actions.preview",
+        ["<C-c>"] = "actions.close",
+        ["-"] = "actions.parent",
+        ["_"] = "actions.open_cwd",
+        ["`"] = "actions.cd",
+        ["~"] = "actions.tcd",
+        ["g."] = "actions.toggle_hidden",
+      },
+      -- Set to false to disable all of the above keymaps
+      use_default_keymaps = false,
+      view_options = {
+        -- Show files and directories that start with "."
+        show_hidden = true,
+      },
+    }) end
+  }
+  vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
   use {
     "cbochs/grapple.nvim",
