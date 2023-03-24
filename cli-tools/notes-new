@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "Enter a filename:"
+read filename
+file="$HOME/.notes/$filename"
+$EDITOR "$file"
