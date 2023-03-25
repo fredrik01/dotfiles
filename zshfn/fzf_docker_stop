@@ -1,0 +1,9 @@
+local container=$(docker ps | sed 1d | fzf | cut -d " " -f1)
+
+if [[ -z $container ]]; then
+  return
+fi
+
+echo "Stopping $container"
+echo  " "
+docker stop $container
