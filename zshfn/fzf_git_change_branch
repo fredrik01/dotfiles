@@ -1,5 +1,5 @@
 # https://stackoverflow.com/a/37007733
 is_in_git_repo &&
-	git checkout $(git branch -vv --color=always | grep -v '/HEAD\s' |
+	git checkout $(git branch -vv --color=always --sort=committerdate | grep -v '/HEAD\s' |
 	fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
 	sed 's#^remotes/[^/]*/##')
