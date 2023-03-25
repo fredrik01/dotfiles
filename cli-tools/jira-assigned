@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Path to file with names
+path="$1"
+name=$(cat "$path" | fzf)
+
+jira issue list -q "project IS NOT EMPTY and status not in (Released, Done)" -a"$name"
