@@ -23,7 +23,8 @@ lua << EOF
       -- Telescope buffer list resets order when opening fern or lf, too bad...
       -- b = { "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<cr>", "Search open buffers" },
       b = { ":lua require('fzf-lua').buffers()<cr>", "Search open buffers" },
-      e = { "<cmd>lua require('telescope.builtin').git_status()<cr>", "Search edited file" },
+      e = { ":FzfLua git_status<cr>", "Search edited file" },
+      -- e = { "<cmd>lua require('telescope.builtin').git_status()<cr>", "Search edited file" },
 
       d = { ":FzfLuaDiffAgainsMainBranch<cr>", "Files that diff from the main branch" },
 			-- Another attempt, with Telescope
