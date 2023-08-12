@@ -28,7 +28,7 @@ if [ "$numberOfPicks" -eq "0" ]; then
 else
     # Name, picked count, goal, current state, diff between goal and current state, over or under goal
     # Sort by diff between goal and current state -> the preselected one should probably be picked
-    picked=$(echo "$content" | awk -v OFS='\t' -v p="$numberOfPicks" -v m="$numberOfMembers" '{printf "%s\t%s\t%.2f\t%.2f\t%.2f\t%s\n", $1, $3, $2/m, $3/p, ($3/p) - ($2/m), ($2/m > $3/p ? "under" : "over")}' | sort -nk5 | fzf | awk '{print $1}')
+    picked=$(echo "$content" | awk -v OFS='\t' -v p="$numberOfPicks" -v m="$numberOfMembers" '{printf "%s\t%s\t%.2f\t%.2f\t%.2f\t%s\n", $1, $3, $2/m, $3/p, ($3/p) - ($2/m), ($2/m > $3/p ? "Below 😴" : "Over 🔥")}' | sort -nk5 | fzf --header "Pick one" | awk '{print $1}')
 fi
 
 if [ -z "$picked" ]; then
