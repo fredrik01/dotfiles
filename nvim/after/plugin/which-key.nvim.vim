@@ -149,6 +149,12 @@ lua << EOF
       e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
       w = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
     },
+    ["<leader>a"] = {
+      name = "add debug stuff",
+      p = { function () return require('debugprint').debugprint() end, "Print debug line", expr=true },
+      v = { function () return require('debugprint').debugprint({ variable = true }) end, "Print debug line with variable", expr=true },
+      d = { ":DeleteDebugPrints<cr>", "Delete debug lines" },
+    },
 	  ["<leader>k"] = {
       name = "LSP / formatting",
       j = { ":lua require('trevj').format_at_cursor()<cr>", "Opposite of join-line (J) of arguments" },
