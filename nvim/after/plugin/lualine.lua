@@ -18,7 +18,15 @@ require('lualine').setup{
 	},
 	sections = {
 		lualine_c = { {'filename', path = 1} }, -- 0 = just filename, 1 = relative path, 2 = absolute path
-		lualine_x = {},
+		lualine_x = {
+				{
+						function()
+								local key = require("grapple").key()
+								return "  [" .. key .. "]"
+						end,
+						cond = require("grapple").exists,
+				}
+		},
 		lualine_y = {'encoding', 'fileformat', 'filetype'},
 	}
 }
