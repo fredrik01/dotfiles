@@ -38,6 +38,8 @@
       path: git/.gitconfig-frilansfinans
     ~/.tmux.conf:
       path: tmux.conf
+    ~/.tigrc:
+      path: .tigrc
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
