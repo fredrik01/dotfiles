@@ -14,6 +14,7 @@ lua << EOF
     ["<leader>-"] = { ":Lf<cr>", "Start lf" },
     ["<leader>m"] = { ":Make<cr>", "Run make async" },
     ["<leader>/"] = { ":let @/=''<left>", "Highlight search term without moving the cursor" },
+    ["<leader>y"] = { ":lua require('neoclip.fzf')()<cr>", "Clipboard manager" },
   })
 
   wk.register({
