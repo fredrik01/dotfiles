@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [ -x "$(command -v pomodoro)" ]; then
+		pomodoro status -f "%!R⏱  %c🍅"
+fi
