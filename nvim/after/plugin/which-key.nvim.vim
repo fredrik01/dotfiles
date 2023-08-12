@@ -46,6 +46,7 @@ lua << EOF
       name = "+quickfix",
       q = { ":call ToggleQuickFix()<cr>", "Toggle quickfix" },
       s = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Search in quickfix list" },
+      e = { ":lua require('replacer').run()<cr>", "Edit in quickfix list" },
     },
     ["<leader>l"] = {
       name = "+line",
