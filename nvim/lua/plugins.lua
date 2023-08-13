@@ -76,7 +76,7 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    commit = 'e8c01bab917537ba4f54193c29b77bf4a04584d3',
+    commit = '2d92125620417fbea82ec30303823e3cd69e90e8',
     requires = { {'nvim-lua/plenary.nvim'}, {'kyazdani42/nvim-web-devicons'} }
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
@@ -109,7 +109,7 @@ return require('packer').startup(function(use)
     }
   }
 
-  use {'folke/which-key.nvim', commit = 'd1872f13ae7d13e41cb2879739bf0915c9491ea6'}
+  use {'folke/which-key.nvim', commit = '7ccf476ebe0445a741b64e36c78a682c1c6118b7'}
 
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
@@ -139,11 +139,11 @@ return require('packer').startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-    commit = '8e763332b7bf7b3a426fd8707b7f5aa85823a5ac'
+    commit = 'bc52938ddde0ff6b3d51ff215d2c66f2e39b7099'
   }
-  use {'nvim-treesitter/nvim-treesitter-textobjects', commit = '41e8d8964e5c874d9ce5e37d00a52f37f218502e'}
-  use {'nvim-treesitter/nvim-treesitter-context', commit = '8d0759eb798fee2e1201b26c3279713ac67c44c2'}
-  use {'AckslD/nvim-trevJ.lua', commit = '73636194d9ec63f74a714b4c394bec68406acb2c'}
+  use {'nvim-treesitter/nvim-treesitter-textobjects', commit = '9e519b6146512c8e2e702faf8ac48420f4f5deec'}
+  use {'nvim-treesitter/nvim-treesitter-context', commit = '3d4ab25056dcaf6dd11ebacf1da8525c8df6550f'}
+  use {'AckslD/nvim-trevJ.lua', commit = '7f401543b5cd5496b6120dddcab394c29983a55c'}
   use "IndianBoy42/tree-sitter-just"
 
   use 'rhysd/conflict-marker.vim'
