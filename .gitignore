@@ -4,4 +4,4 @@ lf/.lfrc.swp
 # Because I might want to have machine specific functions, those can be ignored in zshfn/.gitignore or put in "zsh/.custom"
 zsh/.custom
 zshfn/.gitignore
-
+nvim/plugin/packer_compiled.lua
