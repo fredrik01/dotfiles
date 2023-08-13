@@ -60,7 +60,7 @@ return require('packer').startup(function(use)
   use 'tommcdo/vim-exchange'
 
   use 'fredrik01/notes.vim'
-    vim.g.notes_path = '~/.notes'
+  vim.g.notes_path = '~/.notes'
 
   use {
     "luukvbaal/statuscol.nvim", config = function()
