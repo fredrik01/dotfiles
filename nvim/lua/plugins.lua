@@ -11,7 +11,7 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-vim.cmd([[
+vim.cmd([[ 
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
@@ -205,6 +205,64 @@ return require('packer').startup(function(use)
     -- git_branch: tags are scoped to the current git repository and branch (async), fallback: static
     config = function () require("grapple").setup({ scope = require("grapple").resolvers.git_branch }) end
   }
+
+  use {
+    "AckslD/nvim-neoclip.lua",
+    requires = {
+      -- you'll need at least one of these
+      {'nvim-telescope/telescope.nvim'},
+      {'ibhagwan/fzf-lua'},
+    },
+    config = function()
+      require('neoclip').setup({
+        default_register = '*',
+        keys = {
+          telescope = {
+            i = {
+              select = '<cr>',
+              paste = '<c-p>',
+              paste_behind = '<c-b>',
+              replay = '<c-q>',  -- replay a macro
+              delete = '<c-d>',  -- delete an entry
+              edit = '<c-e>',  -- edit an entry
+              custom = {},
+            },
+            n = {
+              select = '<cr>',
+              paste = 'p',
+              --- It is possible to map to more than one key.
+              -- paste = { 'p', '<c-p>' },
+              paste_behind = 'P',
+              replay = 'q',
+              delete = 'd',
+              edit = 'e',
+              custom = {},
+            },
+          },
+          fzf = {
+            select = 'default',
+            paste = 'ctrl-p',
+            paste_behind = 'ctrl-b',
+            custom = {},
+          },
+        },
+      })
+      require('telescope').load_extension('neoclip')
+    end,
+  }
+
+  use 'gabrielpoca/replacer.nvim'
+
+  use({
+    "andrewferrier/debugprint.nvim",
+    config = function()
+      local opts = {
+        create_keymaps = false,
+        create_commands = true
+      }
+      require("debugprint").setup(opts)
+    end,
+  })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
