@@ -60,7 +60,27 @@ return require('packer').startup(function(use)
   use 'tommcdo/vim-exchange'
 
   use 'fredrik01/notes.vim'
-  vim.g.notes_path = '~/.notes'
+    vim.g.notes_path = '~/.notes'
+
+  use {
+    "luukvbaal/statuscol.nvim", config = function()
+      local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
+        segments = {
+          { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+          {
+            sign = { name = { "Diagnostic" }, maxwidth = 1, auto = false },
+            click = "v:lua.ScSa"
+          },
+          { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
+          {
+            sign = { name = { ".*" }, maxwidth = 2, colwidth = 1, auto = false, wrap = true },
+            click = "v:lua.ScSa"
+          },
+        }
+      })
+    end,
+  }
 
   -- Requires: universal-ctags
   -- brew install --HEAD universal-ctags/universal-ctags/universal-ctags
