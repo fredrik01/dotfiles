@@ -14,6 +14,7 @@ require'nvim-treesitter.configs'.setup {
 	ignore_install = { "phpdoc" },
   highlight = {
     enable = true,              -- false will disable the whole extension
+    disable = { "gitcommit" }
   },
   indent = {
     enable = true,
