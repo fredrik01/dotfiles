@@ -55,7 +55,14 @@ return require('packer').startup(function(use)
   -- use 'B4mbus/oxocarbon-lua.nvim'
   -- vim.g.oxocarbon_lua_alternative_telescope = true
 
-  use 'NTBBloodbath/rest.nvim'
+  use {
+    "rest-nvim/rest.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("rest-nvim").setup()
+    end
+  }
+
   use 'editorconfig/editorconfig-vim'
   use 'tommcdo/vim-exchange'
 
