@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Run vim normal mode commands on every line
+# Example: cat file | norm ft:D
+#
+# Remember that $ has to be quoted:
+# Example: cat file | norm '$bD'
+
+# nvim version is currently a lot slower
+# nvim -Es +"%norm $1" +'%print'
+
+vim - -u NONE -es '+1' "+%normal $*" '+%print' '+:qa!' | tail -n +2
