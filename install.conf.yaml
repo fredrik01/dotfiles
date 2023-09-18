@@ -40,6 +40,8 @@
       path: tmux.conf
     ~/.tigrc:
       path: .tigrc
+    ~/.config/helix:
+      path: helix
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
