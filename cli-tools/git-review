@@ -1,0 +1,18 @@
+#!/bin/sh
+
+branch=$1
+
+git fetch origin
+
+# This is to be able to checkout main/master automatically
+# https://stackoverflow.com/a/17100946
+git remote set-head origin -a
+git checkout "$(git main-branch)"
+
+# Merge without commit
+git merge origin/"$branch" --no-commit --no-ff
+
+# Unstage changes
+git reset
+
+git jump diff
