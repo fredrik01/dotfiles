@@ -2,7 +2,12 @@
 
 branch=$1
 
-if [[ `git status --porcelain` ]]; then
+if [ -z "${branch}" ]; then
+    echo "Branch is missing"
+    exit 1
+fi
+
+if [ "$(git status --porcelain)" ]; then
 	echo "You already have changes"
 	exit 1
 fi
