@@ -13,6 +13,7 @@ mason_lspconfig.setup({
     "sumneko_lua",
     "yamlls",
     "tsserver",
+    "eslint",
   }
 })
 mason_lspconfig.setup_handlers({
