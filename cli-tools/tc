@@ -14,6 +14,8 @@
 -- Options:
 --      -h help
 --      -q quickfix
+--
+--  TODO: Add help
 
 function tprint (tbl, indent)
   if not indent then indent = 0 end
@@ -30,14 +32,13 @@ function tprint (tbl, indent)
   end
 end
 
--- local uniqueString = arg[1]
 local params = {...}
--- tprint(params)
 
 local mode = 'print'
 for i=1, #params-1 do
     if (params[i] == '-q') then
         mode = "quickfix"
+        break
     end
 end
 
