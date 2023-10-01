@@ -65,8 +65,14 @@ function trim(s)
 end
 
 function quickfix()
+    local typeTable = {}
+    for type, _ in pairs(data) do
+        table.insert(typeTable, type)
+    end
+    table.sort(typeTable, function(a, b) return a > b end)
+
     local types = ""
-    for type in pairs(data) do
+    for _, type in ipairs(typeTable) do
         types = types .. type .. "\n"
     end
 
@@ -79,7 +85,6 @@ function quickfix()
     local pipe = io.popen(command, "r")
     local pickedType = pipe:read("*a")
     pickedType = trim(pickedType)
-
 
     table.sort(data[pickedType], function(a, b) return a[6] < b[6] end)
 
