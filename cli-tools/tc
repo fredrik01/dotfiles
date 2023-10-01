@@ -1,12 +1,12 @@
 #!/usr/bin/env lua
 
--- Code Guide
+-- Trace Code
 
 -- Example comment below:
--- guide: Login 1. Start login process
+-- trace: Login 1. Start login process
 
 -- Usage example, open Neovim with populated quickfix list:
--- nvim -q $(cgu guide:)
+-- nvim -q $(trace guide:)
 --
 -- Options:
 --      -h help
