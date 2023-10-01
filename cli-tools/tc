@@ -6,7 +6,10 @@
 -- trace: Login 1. Start login process
 
 -- Usage example, open Neovim with populated quickfix list:
--- nvim -q $(trace guide:)
+-- nvim -q $(tc trace:)
+--
+-- Print all traces:
+-- tc trace:
 --
 -- Options:
 --      -h help
