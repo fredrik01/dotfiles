@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+from=${1%/}
+to=${2%/}
+newName=$3
+
+mostRecentFile=$(ls -tp "$from" | grep -v /$ | head -1)
+
+if [[ -z $newName ]]; then
+	newName="$mostRecentFile"
+fi
+
+read -p "Move $mostRecentFile? " -n 1 -r
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  exit 0
+fi
+
+if [ -f "$from/$mostRecentFile" ]; then
+	echo
+	read -p "File already exists, overwrite? " -n 1 -r
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+		exit 0
+	fi
+fi
+
+echo
+mv "$from/$mostRecentFile" "$to/$newName"
+echo "New location: $to/$newName"
