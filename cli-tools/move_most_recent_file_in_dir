@@ -17,7 +17,7 @@ then
   exit 0
 fi
 
-if [ -f "$from/$mostRecentFile" ]; then
+if [ -f "$to/$newName" ]; then
 	echo
 	read -p "File already exists, overwrite? " -n 1 -r
 	if [[ ! $REPLY =~ ^[Yy]$ ]]
