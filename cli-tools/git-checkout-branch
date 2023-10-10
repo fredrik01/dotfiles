@@ -1,0 +1,4 @@
+#!/bin/sh
+
+br() { b="$(git for-each-ref --sort=-committerdate refs/heads/ --format='%(color:green)%(refname:short)%(color:reset)|%(contents:subject)|%(color:magenta)%(committerdate:relative)|%(color:blue)%(authorname)%(color:reset)' --color=always | awk -F'|' -vOFS='|' -v len=30 '{if (length($2) > len) $2=substr($2, 1, len-3)"..." }1;' | column -t -s "|" | fzf --ansi)" && git checkout "${b%% *}" ; }
+br
