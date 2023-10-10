@@ -12,12 +12,13 @@ if [ "$(git status --porcelain)" ]; then
 	exit 1
 fi
 
-git fetch origin
+git fetch origin "$branch"
 
 # This is to be able to checkout main/master automatically
 # https://stackoverflow.com/a/17100946
 git remote set-head origin -a
 git checkout "$(git main-branch)"
+git pull
 
 # Merge without commit
 git merge origin/"$branch" --no-commit --no-ff
