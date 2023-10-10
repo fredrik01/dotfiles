@@ -38,6 +38,21 @@ require'nvim-treesitter.configs'.setup {
         ["ac"] = "@comment.outer",
         ["ao"] = "@class.outer",
         ["io"] = "@class.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ["ai"] = "@conditional.outer",
+        ["ii"] = "@conditional.inner",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["]a"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["[a"] = "@parameter.inner",
       },
     },
   },
