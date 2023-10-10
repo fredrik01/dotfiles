@@ -58,6 +58,7 @@ alias gg='git log --graph --abbrev-commit --decorate --date=relative --all'
 # Gitlab
 alias gps='NO_PROMPT=1 glab pipe status'
 alias gpsf='glab pipe status --live'
+alias gmo='glab mr list --author=@me'
 # Docker
 alias d='docker'
 alias dc='docker compose'
