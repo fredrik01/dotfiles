@@ -27,6 +27,6 @@ require('lualine').setup{
 						cond = require("grapple").exists,
 				}
 		},
-		lualine_y = {'encoding', 'fileformat', 'filetype'},
+		lualine_y = {'encoding', 'fileformat', 'filetype', 'progress'},
 	}
 }
