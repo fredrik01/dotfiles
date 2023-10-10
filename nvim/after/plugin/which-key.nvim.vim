@@ -19,7 +19,7 @@ lua << EOF
   wk.register({
     ["<leader>f"] = {
       name = "+find files and buffers",
-      p = { ":lua require'telescope-config'.project_files()<cr>", "Search project files" },
+      p = { ":lua require('fzflua-config').project_files()<cr>", "Search project files" },
       -- Telescope buffer list resets order when opening fern or lf, too bad...
       -- b = { "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<cr>", "Search open buffers" },
       b = { ":lua require('fzf-lua').buffers()<cr>", "Search open buffers" },
