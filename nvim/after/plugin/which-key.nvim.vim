@@ -54,7 +54,7 @@ lua << EOF
       b = { "<cmd>Lines!<cr>", "Line in open buffers" },
       g = { "<cmd>RgWithHidden<cr>", "Line in git repo" },
       a = { "<cmd>RgAll<cr>", "Line in all files" },
-      s = { "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", "Find symbol of current document" },
+      s = { ":FzfLua lsp_document_symbols<cr>", "Find symbol in current buffer" },
       r = { "<cmd>lua require('telescope.builtin').lsp_references()<cr>", "References" },
       t = { "<cmd>lua require('telescope.builtin').treesitter()<cr>", "Treesitter" },
       d = { "<cmd>lua require('telescope.builtin').diagnostics()<cr>", "Diagnostics" },
