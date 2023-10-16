@@ -1,1 +1,1 @@
-autocmd BufWritePre *.json lua vim.lsp.buf.formatting()
+autocmd BufWritePre *.json lua vim.lsp.buf.format()
