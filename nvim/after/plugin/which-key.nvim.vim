@@ -130,8 +130,8 @@ lua << EOF
       name = "+notes",
       n = { ":NotesNew<cr>", "New note" },
       d = { ":NotesDaily<cr>", "Daily note" },
-      s = { ":NotesSearch<cr>", "Search in notes" },
-      f = { ":NotesFiles<cr>", "Search notes files" },
+      s = { "<cmd>lua require'fzf-lua'.grep_project({ cmd = 'rg --column --line-number --no-heading --color=always --smart-case --glob \"!.git\"', cwd = '~/.notes'})<cr>", "Search in notes" },
+      f = { "<cmd>lua require'fzf-lua'.files({ cmd = 'fd --exclude .git', cwd = '~/.notes'})<cr>", "Search notes files" },
     },
     ["<leader>r"] = {
       name = "+request",
