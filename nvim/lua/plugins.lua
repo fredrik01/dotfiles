@@ -63,7 +63,6 @@ return require('packer').startup(function(use)
     end
   }
 
-  use 'editorconfig/editorconfig-vim'
   use 'tommcdo/vim-exchange'
 
   use 'fredrik01/notes.vim'
