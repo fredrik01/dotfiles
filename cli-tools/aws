@@ -4,5 +4,6 @@ docker run --rm -it \
 	-e AWS_SECRET_ACCESS_KEY \
 	-e AWS_SESSION_TOKEN \
 	-e AWS_DEFAULT_REGION \
+	-e AWS_PROFILE \
 	-v ~/.aws:/root/.aws \
 	-v $(pwd):/aws amazon/aws-cli:2.1.13 "$@"
