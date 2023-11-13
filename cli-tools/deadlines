@@ -1,0 +1,115 @@
+#!/usr/bin/env php
+
+<?php
+
+# See if there are any deadlines approaching
+# Searches path for lines containing "DEADLINE:" followed by a date on the format "Y-m-d"
+# Also supports a description on the same line after the date
+#
+# Example lines:
+#   DEADLINE: 2025-01-01
+#   DEADLINE: 2025-01-01 this has to be done
+#   Very important that we do this thing. DEADLINE: 2025-01-01
+#
+# Requirements: ripgrep (rg)
+#
+# Usage:
+#   deadlines ~/.folder
+#   deadlines --interval 10years ~/.folder
+#   deadlines --count ~/.folder
+
+$restIndex = null;
+$options = getopt('c', ['count', 'interval:'], $restIndex);
+
+$posArgs = array_slice($argv, $restIndex);
+
+// Examples: 1day, 2weeks, 10years
+$warningInterval = $options['interval'] ?? '1week';
+
+if (empty($posArgs)) {
+    die('No path specified');
+}
+
+$path = $posArgs[0];
+
+function shouldPrintCount(array $options): bool
+{
+    if (isset($options['c']) || isset($options['count'])) {
+        return true;
+    }
+    return false;
+}
+
+function extractDeadlineInfo($inputString) {
+    $pattern = '/^(.*?):(.*?)DEADLINE:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})\s*$/';
+
+    preg_match($pattern, $inputString, $matches);
+
+    $result = [
+        'path' => trim($matches[1] ?? ''),
+        'description' => trim($matches[2] ?? ''),
+        'date' => trim($matches[3] ?? ''),
+    ];
+
+    return $result;
+}
+
+function parseLines(array $lines, DateTimeZone $tz): array
+{
+    $parsed = [];
+    foreach ($lines as $line) {
+        $parts = extractDeadlineInfo($line);
+
+        if (empty($parts['date'])) {
+            continue;
+        }
+
+        $date = DateTime::createFromFormat('Y-m-d', $parts['date'], $tz);
+
+        if (! $date) {
+            continue;
+        }
+
+        $parsed[] = [
+            'date' => $date, 
+            'description' => $parts['description']
+        ];
+    }
+    return $parsed;
+}
+
+function linesWithinWarningInterval(array $lines, DateTime $deadlineDate): array
+{
+    $response = [];
+    foreach ($lines as $line) {
+        if ($line['date'] < $deadlineDate) {
+            $response[] = $line;
+        }
+    }
+    return $response;
+}
+
+function printLines(array $lines): void
+{
+    foreach ($lines as $line) {
+        echo $line['date']->format('Y-m-d');
+        if ($line['description']) {
+            echo ' ' . $line['description'];
+        }
+        echo PHP_EOL;
+    }
+}
+
+$lines = [];
+exec("rg DEADLINE $path", $lines);
+$tz = new DateTimeZone('Europe/Stockholm');
+$deadlineDate = new DateTime("+ $warningInterval", $tz);
+
+$lines = parseLines($lines, $tz);
+$linesWithinWarningInterval = linesWithinWarningInterval($lines, $deadlineDate);
+
+if (shouldPrintCount($options)) {
+    echo count($linesWithinWarningInterval);
+} else {
+    printLines($linesWithinWarningInterval);
+}
