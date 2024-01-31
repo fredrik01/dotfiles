@@ -1,0 +1,12 @@
+{
+  "test …": {
+    "prefix": "test",
+    "body": [
+      "func Test${1:TestName}(t *testing.T) {",
+      "\t$0",
+      "}",
+      ""
+    ],
+    "description": "Test function"
+  }
+}
