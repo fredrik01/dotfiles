@@ -1,12 +1,17 @@
+#!/usr/bin/env bash
+
 # Inspired by: https://github.com/bluz71/dotfiles/blob/master/bashrc
+
+# Make it possible to use this in a sub directory
+cd "$(git root)" || exit
 
 previewPosition="right"
 
-if [ $(tput cols) -lt 140 ]; then
+if [ "$(tput cols)" -lt 140 ]; then
 	previewPosition="top"
 fi
 
-local selections=$(
+selections=$(
 		git status --porcelain | \
 		fzf --ansi --multi --preview-window "$previewPosition" \
 			--preview 'if [ ! -f {2} ]; then
