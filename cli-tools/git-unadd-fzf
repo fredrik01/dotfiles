@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Make it possible to use this in a sub directory
+cd "$(git root)" || exit
+
+files=$(git diff --name-only --cached | fzf --ansi)
+if [[ -n $files ]]; then
+		git restore --staged "$files"
+fi
