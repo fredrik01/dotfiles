@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# hurl helper
+
+if [ "$#" -eq 0 ]; then
+	path=$(fd -g '*.hurl' "." | fzf)
+	echo "Running $path"
+else
+	path="$1"
+fi
+
+dir=$(dirname "$path")
+filename=$(basename "$path")
+
+cd "$dir" || exit
+
+if [ -f "vars.env" ]; then
+	data=$(hurl -i --variables-file vars.env "$filename")
+else
+	data=(hurl -i "$filename")
+fi
+
+# Extract regular text until the json part
+# The second aws part makes the first line green, and makes text before a colon blue
+echo -e "$data" | awk '/{/{exit} {print}' | awk -F: 'NR==1 {print "\033[1;32m"$0"\033[0m"; next} {if (NF>1) {print "\033[1;34m"$1"\033[0m:"$2} else {print $0}}'
+
+# Extract json and run through jq
+echo -e "$data" | awk '/{/{flag=1} flag; /}/{flag=0}' | jq .
