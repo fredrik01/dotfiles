@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+file=$1
+outfile=$2
+
+if [ -z "${file}" ]; then
+    echo "File to convert is missing"
+    exit 1
+fi
+
+if [ -z "${outfile}" ]; then
+    echo "Output filename is missing"
+    exit 1
+fi
+
+docker run --rm \
+       --volume "$(pwd):/data" \
+       --user $(id -u):$(id -g) \
+       pandoc/latex -V geometry:margin=1in "$file" -o "$outfile"
