@@ -52,21 +52,10 @@ return require('packer').startup(function(use)
 
   use 'bluz71/vim-moonfly-colors'
   use 'bluz71/vim-nightfly-guicolors'
-  -- use 'B4mbus/oxocarbon-lua.nvim'
-  -- vim.g.oxocarbon_lua_alternative_telescope = true
 
-  use {
-    "rest-nvim/rest.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("rest-nvim").setup()
-    end
-  }
+  use({ "jellydn/hurl.nvim", requires = { "MunifTanjim/nui.nvim" }, { "nvim-treesitter/nvim-treesitter" } })
 
   use 'tommcdo/vim-exchange'
-
-  use 'fredrik01/notes.vim'
-  vim.g.notes_path = '~/.notes'
 
   use {
     "luukvbaal/statuscol.nvim", config = function()
@@ -111,11 +100,12 @@ return require('packer').startup(function(use)
 
   use {
     'lewis6991/gitsigns.nvim',
-    tag = 'v0.5'
+    tag = 'v0.6'
   }
 
   -- Show marks
   use {'kshenoy/vim-signature', commit = '6bc3dd1294a22e897f0dcf8dd72b85f350e306bc'}
+  -- use {'chentoast/marks.nvim', commit = '76aca5069c5ce5c0099e30168649e6393e494f26'}
 
   -- Cache file stored in ~/.cache/nvim
   use {'ii14/exrc.vim', commit = 'ae734ae2c087b370d869e41a2706a128d8f3fc37'}
@@ -148,9 +138,6 @@ return require('packer').startup(function(use)
 
   use {'mhinz/vim-grepper', commit = '2b93535752ffcb312f9fab73d90e80dc9f2e60fc'}
 
-  use {'junegunn/fzf', run = function() vim.fn["fzf#install"]() end}
-  use 'junegunn/fzf.vim'
-  -- brew install bat <- Enable syntax highlight in preview
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() require('fzf-lua').setup({ fzf_opts = {['--layout'] = 'default'}, winopts = { height=1, width=1 }}) end
@@ -174,13 +161,21 @@ return require('packer').startup(function(use)
 
   use 'rhysd/conflict-marker.vim'
 
-  use 'mfussenegger/nvim-dap'
-  use 'rcarriga/nvim-dap-ui'
-
   use {'anuvyklack/hydra.nvim', commit = 'fa41a971765d4cce9c39185289f5a10894f66dbd'}
   use {'mrjones2014/smart-splits.nvim', commit = 'c8d80d90f3c783ac0ea21f256c74d541a7b66a72'}
 
-  use {'gaoDean/autolist.nvim', config = function() require('autolist').setup() end}
+  use 'dkarter/bullets.vim'
+  vim.g.bullets_enabled_file_types = {'markdown'}
+
+  use {
+    'gaoDean/autolist.nvim',
+    ft = {
+      "markdown",
+    },
+    config = function()
+      require('autolist').setup()
+    end
+  }
 
   use {'https://gitlab.com/madyanov/svart.nvim', config = function() require('svart').configure({ label_location = 1 }) end}
   vim.keymap.set({ "n", "x", "o" }, "s", "<Cmd>Svart<CR>")        -- begin exact search
@@ -190,9 +185,11 @@ return require('packer').startup(function(use)
       "kwkarlwang/bufjump.nvim",
       config = function()
           require("bufjump").setup({
-              forward = "<tab>",
-              backward = "<s-tab>",
-              on_success = nil
+              forward = "]b",
+              backward = "[b",
+              on_success = function()
+                  vim.cmd([[execute "normal! g`\"zz"]]) -- Go to last cursor position after exiting the buffer
+              end,
           })
       end,
   })
@@ -288,6 +285,51 @@ return require('packer').startup(function(use)
       require("debugprint").setup(opts)
     end,
   })
+
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup({
+        popup_input = {
+          submit = "<Enter>",
+          submit_n = "<Enter>",
+          max_visible_lines = 20
+        },
+      })
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+
+      "folke/trouble.nvim",
+      "nvim-tree/nvim-web-devicons"
+    }
+  })
+
+  use({
+    "utilyre/sentiment.nvim",
+    tag = "*",
+    config = function()
+      require("sentiment").setup({
+        -- config
+      })
+    end,
+  })
+
+  -- Requires yarn and node
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
+  use {
+    "folke/zen-mode.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  }
+
+  use 'terrastruct/d2-vim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
