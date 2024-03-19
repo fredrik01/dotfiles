@@ -20,21 +20,17 @@ lua << EOF
     ["<leader>f"] = {
       name = "+find files and buffers",
       p = { ":lua require('fzflua-config').project_files()<cr>", "Search project files" },
-      -- Telescope buffer list resets order when opening fern or lf, too bad...
-      -- b = { "<cmd>lua require('telescope.builtin').buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<cr>", "Search open buffers" },
+      f = { "<cmd>lua require'fzf-lua'.files({ cmd = 'fd --hidden --exclude .git'})<cr>", "Files" }, -- Can be useful in some cases. Works with rooter plugin and ignores gitignored files
       b = { ":lua require('fzf-lua').buffers()<cr>", "Search open buffers" },
       e = { ":FzfLua git_status<cr>", "Search edited file" },
-      -- e = { "<cmd>lua require('telescope.builtin').git_status()<cr>", "Search edited file" },
 
       d = { ":FzfLuaDiffAgainsMainBranch<cr>", "Files that diff from the main branch" },
 			-- Another attempt, with Telescope
       -- d = { "<cmd>Telescope find_files find_command=git,diff,--name-only,master<cr>", "Files that diff from the main branch (WIP)" },
 
-      h = { "<cmd>lua require('telescope.builtin').oldfiles()<cr>", "File history" },
-      a = { "<cmd>lua require'fzf-lua'.files({ cmd = 'rg --smart-case --hidden --no-ignore-vcs --glob !.git --files'})<cr>", "All files" },
-      -- Nicer than :Files but stopped working at some point :shrug
-      -- a = { "<cmd>Telescope find_files find_command=rg,--smart-case,--hidden,--no-ignore-vcs,--glob,!.git,--files<cr>", "All files" },
-      -- a = { :Files!<CR>", "All files" },
+      h = { ":FzfLua oldfiles<cr>", "File history" },
+      a = { "<cmd>lua require'fzf-lua'.files({ cmd = 'fd --hidden --no-ignore --exclude .git'})<cr>", "All files" },
+      l = { ":FzfLua resume<cr>", "FzfLua resume/last" },
     },
     ["<leader>b"] = {
       name = "+buffer",
@@ -46,26 +42,30 @@ lua << EOF
     ["<leader>q"] = {
       name = "+quickfix",
       q = { ":call ToggleQuickFix()<cr>", "Toggle quickfix" },
-      s = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Search in quickfix list" },
       e = { ":lua require('replacer').run()<cr>", "Edit in quickfix list" },
+      s = { ":FzfLua quickfix_stack<cr>", "Quickfix stack" },
     },
     ["<leader>l"] = {
       name = "+line",
       f = { ":FzfLua blines<cr>", "Line in current buffer (file)" },
-      b = { "<cmd>Lines!<cr>", "Line in open buffers" },
-      g = { "<cmd>RgWithHidden<cr>", "Line in git repo" },
-      a = { "<cmd>RgAll<cr>", "Line in all files" },
+      b = { ":FzfLua lines<cr>", "Line in open buffers" },
+      -- Tried to make a command that is fuzzy and excludes the filename - RgWithHidden with no match on filename
+      g = { "<cmd>lua require'fzf-lua'.grep_project({ cmd = 'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob \"!.git\"'})<cr>", "Line in git repo" },
+      -- g = { "<cmd>RgWithHidden<cr>", "Line in git repo" },
+      a = { "<cmd>lua require'fzf-lua'.grep_project({ cmd = 'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob \"!.git\"'})<cr>", "Line in git repo" },
+      -- a = { "<cmd>RgAll<cr>", "Line in all files" },
       s = { ":FzfLua lsp_document_symbols<cr>", "Find symbol in current buffer" },
-      r = { "<cmd>lua require('telescope.builtin').lsp_references()<cr>", "References" },
+      r = { ":FzfLua lsp_references<cr>", "References" },
       t = { "<cmd>lua require('telescope.builtin').treesitter()<cr>", "Treesitter" },
-      d = { "<cmd>lua require('telescope.builtin').diagnostics()<cr>", "Diagnostics" },
-      m = { ":Marks<cr>", "Go to mark" },
-      w = { "<cmd>lua require('telescope.builtin').grep_string()<cr>", "Grep word under cursor" },
-      q = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Quickfix list in Telescope" },
+      d = { ":FzfLua lsp_document_diagnostics<cr>", "Diagnostics" },
+      m = { ":FzfLua marks<cr>", "Go to mark" },
+      w = { ":FzfLua grep_cword<cr>", "Grep word under cursor" },
+      t = { ":FzfLua tags_grep_cword<cr>", "Grep tag under cursor" },
+      l = { ":FzfLua live_grep<cr>", "Grep word under cursor" },
+      q = { ":FzfLua quickfix<cr>", "Fuzzy search quickfix list" },
     },
     ["<leader>g"] = {
       name = "+grep",
-      l = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Live grep" },
       g = { ":Grepper -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob '!.git'<cr>", "Git grep (rg)" },
       h = { ":Grepper -tool git -grepprg git grep -nGIi<cr>", "Git grep" },
       c = { ":Grepper -side -tool rg -grepprg rg --smart-case --hidden --vimgrep --glob '!.git'<cr>", "Grep with context" },
@@ -93,11 +93,6 @@ lua << EOF
       H = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
       c = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "List and checkout branch" },
     },
-    ["<leader>c"] = {
-      name = "+tags",
-      a = { ":lua require('fzf-lua').tags()<cr>", "Search all tags" },
-      b = { ":BTags<cr>", "Search tags in buffer" },
-    },
     ["<leader>s"] = {
       name = "+sessions",
       s = { ":OpenSessionFzf<cr>", "Search and open session" },
@@ -110,13 +105,14 @@ lua << EOF
       l = { ":TestLast<cr>", "Test last" },
       g = { ":TestVisit<cr>", "Go to last run test" },
       p = { ":vsplit<cr> :exec 'vertical resize '. string(&columns * 0.4)<cr> :lua require('harpoon.term').gotoTerminal(1)<cr> G<c-w>p", "Prepare for HarpoonStay strategy (open split with terminal)" },
-      -- r = { ":lua require('telescope').extensions.asynctasks.all()<cr>", "Find task to run" },
-      r = { ":lua require('telescope.builtin').resume()<cr>", "Telescope resume" },
       j = { "<c-w>wG<c-w>p", "Scroll down in test window" },
     },
     ["<leader>i"] = {
-      name = "+indent guides",
+      name = "+indent guides / insert debug",
       t = { ":call IndendGuidesToggle()<CR>", "Toggle indent guides" },
+      p = { function () return require('debugprint').debugprint() end, "Print debug line", expr=true },
+      v = { function () return require('debugprint').debugprint({ variable = true }) end, "Print debug line with variable", expr=true },
+      d = { ":DeleteDebugPrints<cr>", "Delete debug lines" },
     },
     ["<leader>z"] = {
       name = "+spelling",
@@ -129,16 +125,14 @@ lua << EOF
     },
     ["<leader>n"] = {
       name = "+notes",
-      n = { ":NotesNew<cr>", "New note" },
-      d = { ":NotesDaily<cr>", "Daily note" },
+      d = { ":JournalToday<cr>", "Todays journal" },
       s = { "<cmd>lua require'fzf-lua'.grep_project({ cmd = 'rg --column --line-number --no-heading --color=always --smart-case --glob \"!.git\"', cwd = '~/.notes'})<cr>", "Search in notes" },
       f = { "<cmd>lua require'fzf-lua'.files({ cmd = 'fd --exclude .git', cwd = '~/.notes'})<cr>", "Search notes files" },
     },
     ["<leader>r"] = {
       name = "+request",
-      r = { "<Plug>RestNvim", "Make request under cursor" },
-      p = { "<Plug>RestNvimPreview", "Preview request" },
-      l = { "<Plug>RestNvimLast", "Run previous request" },
+      r = { ':call VimuxRunCommand("clear; hurlh " . expand("%:p"))<CR>', "Run requests" },
+      l = { ":VimuxRunLastCommand<cr>", "Run last (command)" },
     },
     ["<leader>j"] = {
       name = "jump to files / terminals",
@@ -150,15 +144,11 @@ lua << EOF
       e = { ":lua require('harpoon.ui').toggle_quick_menu()<cr>", "Edit files" }, 
       w = { ":lua require('harpoon.mark').add_file()<cr>", "Add file" }, 
     },
-    ["<leader>a"] = {
-      name = "add debug stuff",
-      p = { function () return require('debugprint').debugprint() end, "Print debug line", expr=true },
-      v = { function () return require('debugprint').debugprint({ variable = true }) end, "Print debug line with variable", expr=true },
-      d = { ":DeleteDebugPrints<cr>", "Delete debug lines" },
-    },
 	  ["<leader>k"] = {
       name = "LSP / formatting",
       j = { ":lua require('trevj').format_at_cursor()<cr>", "Opposite of join-line (J) of arguments" },
+      r = { ":lua vim.lsp.buf.rename()<cr>", "Rename" },
+      a = { ":FzfLua lsp_code_actions<cr>", "Code actions" },
     },
     ["<leader>v"] = {
       name = "+vimux",
@@ -167,6 +157,21 @@ lua << EOF
       c = { ":VimuxClearTerminalScreen<cr>", "Clear terminal" },
       i = { ":VimuxInspectRunner<cr>", "Inspect runner pane" },
     },
+    ["<leader>a"] = {
+      name = "ChatGPT / AI",
+      c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
+      e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction", mode = { "n", "v" } },
+      g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction", mode = { "n", "v" } },
+      t = { "<cmd>ChatGPTRun translate<CR>", "Translate", mode = { "n", "v" } },
+      k = { "<cmd>ChatGPTRun keywords<CR>", "Keywords", mode = { "n", "v" } },
+      d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring", mode = { "n", "v" } },
+      a = { "<cmd>ChatGPTRun add_tests<CR>", "Add Tests", mode = { "n", "v" } },
+      o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code", mode = { "n", "v" } },
+      s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize", mode = { "n", "v" } },
+      f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs", mode = { "n", "v" } },
+      x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code", mode = { "n", "v" } },
+      l = { "<cmd>ChatGPTRun code_readability_analysis<CR>", "Code Readability Analysis", mode = { "n", "v" } },
+      },
   })
 EOF
 
