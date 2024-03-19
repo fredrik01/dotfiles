@@ -13,4 +13,6 @@ require('telescope').setup{
   }
 }
 
-require('telescope').load_extension('fzf')
+local t = require('telescope')
+t.load_extension('fzf')
+t.load_extension("grapple")

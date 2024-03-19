@@ -226,10 +226,9 @@ return require('packer').startup(function(use)
 
   use {
     "cbochs/grapple.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    commit = '219aa410851d6e21b3c0ee9c1195c9b34f2276b3',
-    -- git_branch: tags are scoped to the current git repository and branch (async), fallback: static
-    config = function () require("grapple").setup({ scope = require("grapple").resolvers.git_branch }) end
+    requires = { "nvim-tree/nvim-web-devicons" },
+    commit = '6dc1bad1f67d2984d942ef43d87b98ef34447ab9',
+    config = function () require("grapple").setup({ scope = "git_branch", icons = false }) end
   }
 
   use {
