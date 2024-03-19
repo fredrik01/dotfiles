@@ -1,0 +1,14 @@
+dir=$(pwd)
+
+echo "Trash $dir ?"
+read -k1 pick
+echo
+
+if [[ $pick != "y" && $pick != "Y" ]]; then
+    return
+fi
+
+cd ~
+trash "$dir"
+
+echo "Moved $dir to trash"
