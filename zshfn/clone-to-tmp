@@ -1,0 +1,5 @@
+remoteUrl=$(git remote -v | grep origin | grep fetch | awk '{print $2}')
+
+tmp=$(mktemp -d) && git clone "$remoteUrl" "$tmp"
+
+cd "$tmp"

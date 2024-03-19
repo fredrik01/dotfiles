@@ -1,0 +1,3 @@
+tmp=$(mktemp -d)
+cp -r . "$tmp"
+cd "$tmp"
