@@ -53,8 +53,6 @@ return require('packer').startup(function(use)
   use 'bluz71/vim-moonfly-colors'
   use 'bluz71/vim-nightfly-guicolors'
 
-  use({ "jellydn/hurl.nvim", requires = { "MunifTanjim/nui.nvim" }, { "nvim-treesitter/nvim-treesitter" } })
-
   use 'tommcdo/vim-exchange'
 
   use {
