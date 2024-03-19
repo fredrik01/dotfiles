@@ -38,8 +38,9 @@ lua << EOF
     },
     ["<leader>b"] = {
       name = "+buffer",
-      n = { ":enew<CR>", "New buffer" },
-      d = { ":bd<CR>", "Delete buffer" },
+      s = { ":Grapple toggle<CR>", "Toggle bookmark (star)" },
+      e = { ":Grapple open_tags<CR>", "Show bookmarks (edit)" },
+      f = { ":Telescope grapple tags<CR>", "Search bookmarks" },
       dt = { ":bd! term://<C-a><CR><CR>", "Delete all terminal buffers" },
     },
     ["<leader>q"] = {
