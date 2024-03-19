@@ -1,0 +1,21 @@
+#!/bin/bash
+
+dir="$1"
+
+# This is to be able to get main/master automatically
+# https://stackoverflow.com/a/17100946
+git remote set-head origin -a
+mainBranch="$(git -C "$dir" symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4)"
+
+echo 'Downloading...'
+git -C "$dir" checkout "$mainBranch"
+git -C "$dir" pull
+
+if [[ $(git -C "$dir" status --porcelain) ]]; then
+    echo "Has local changes in $dir, will auto commit and push..."
+    git -C "$dir" add .
+    git -C "$dir" commit -m "Auto commit"
+    git -C "$dir" push
+else
+    echo "No local changes in $dir"
+fi
