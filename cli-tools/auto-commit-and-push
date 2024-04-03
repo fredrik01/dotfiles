@@ -7,7 +7,7 @@ dir="$1"
 git remote set-head origin -a
 mainBranch="$(git -C "$dir" symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4)"
 
-echo 'Downloading...'
+echo "Downloading in $dir..."
 git -C "$dir" checkout "$mainBranch"
 git -C "$dir" pull
 
