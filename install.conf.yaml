@@ -42,6 +42,9 @@
       path: .tigrc
     ~/.config/helix:
       path: helix
+    ~/.myclirc:
+      path: .myclirc
+
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
