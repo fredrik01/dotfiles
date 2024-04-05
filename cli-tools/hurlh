@@ -24,5 +24,13 @@ fi
 # The second aws part makes the first line green, and makes text before a colon blue
 echo -e "$data" | awk '/{/{exit} {print}' | awk -F: 'NR==1 {print "\033[1;32m"$0"\033[0m"; next} {if (NF>1) {print "\033[1;34m"$1"\033[0m:"$2} else {print $0}}'
 
-# Extract json and run through jq
-echo -e "$data" | awk '/{/{flag=1} flag; /}/{flag=0}' | jq .
+
+json=$(echo -e "$data" | awk '/{/{flag=1} flag; /}/{flag=0}' | jq . 2>/dev/null)
+exit_code=$?
+
+if [ $exit_code -eq 0 ]; then
+  echo "$json"
+else
+  echo "Failed to parse json. Exit code: $exit_code"
+	echo -e "$data" | awk '/{/{flag=1} flag; /}/{flag=0}'
+fi
