@@ -93,6 +93,13 @@ lua << EOF
       H = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
       c = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "List and checkout branch" },
     },
+    ["<leader>x"] = {
+      name = "debug",
+      p = { ":execute 'normal g?p'<cr>", "Print debug line" },
+      v = { ":execute 'normal g?v'<cr>", "Print debug line with variable" },
+      t = { ":ToggleCommentDebugPrints<cr>", "Toggle debug lines" },
+      d = { ":DeleteDebugPrints<cr>", "Delete debug lines" },
+    },
     ["<leader>s"] = {
       name = "+sessions",
       s = { ":OpenSessionFzf<cr>", "Search and open session" },
@@ -108,11 +115,8 @@ lua << EOF
       j = { "<c-w>wG<c-w>p", "Scroll down in test window" },
     },
     ["<leader>i"] = {
-      name = "+indent guides / insert debug",
+      name = "+indent guides",
       t = { ":call IndendGuidesToggle()<CR>", "Toggle indent guides" },
-      p = { function () return require('debugprint').debugprint() end, "Print debug line", expr=true },
-      v = { function () return require('debugprint').debugprint({ variable = true }) end, "Print debug line with variable", expr=true },
-      d = { ":DeleteDebugPrints<cr>", "Delete debug lines" },
     },
     ["<leader>z"] = {
       name = "+spelling",

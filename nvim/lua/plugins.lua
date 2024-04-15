@@ -277,11 +277,23 @@ return require('packer').startup(function(use)
     "andrewferrier/debugprint.nvim",
     config = function()
       local opts = {
-        create_keymaps = false,
-        create_commands = true
+        keymaps = {
+            normal = {
+            },
+            visual = {
+            },
+        },
+        commands = {
+            toggle_comment_debug_prints = "ToggleCommentDebugPrints",
+            delete_debug_prints = "DeleteDebugPrints",
+        },
       }
       require("debugprint").setup(opts)
     end,
+    requires = {
+      "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+    },
+    commit = 'ff44034c8f52feb252bd88311f91b8c9b9abe0f0'
   })
 
   use({
