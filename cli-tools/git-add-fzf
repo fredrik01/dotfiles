@@ -13,7 +13,7 @@ fi
 
 selections=$(
 		git status --porcelain | \
-		fzf --ansi --multi --preview-window "$previewPosition" \
+		fzf --header "Git add" --ansi --multi --preview-window "$previewPosition" \
 			--preview 'if [ ! -f {2} ]; then
 				echo "File not found"
 			elif (git ls-files --error-unmatch {2} &>/dev/null); then
