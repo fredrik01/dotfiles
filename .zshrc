@@ -84,6 +84,9 @@ alias nd='notes-daily-edit'
 alias nn='notes-new'
 alias ns='notes-search-content'
 alias nsf='notes-search-file'
+# Open
+alias od='open "$(most_recent_file_in_dir ~/Downloads)"'
+alias o='open $(fd | fzf)' # Search for a file with fzf and open it
 # Taskwarrior
 alias tt="taskwarrior-tui"
 # Jira
