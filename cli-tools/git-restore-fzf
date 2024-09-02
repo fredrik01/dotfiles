@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Make it possible to use this in a sub directory
+cd "$(git root)" || exit
+
+previewPosition="right"
+
+if [ "$(tput cols)" -lt 140 ]; then
+	previewPosition="top"
+fi
+
+selections=$(
+		git status --porcelain | \
+		fzf --header "Git restore" --ansi --multi --preview-window "$previewPosition" \
+			--preview 'if [ ! -f {2} ]; then
+				echo "File not found"
+			elif (git ls-files --error-unmatch {2} &>/dev/null); then
+				git diff --color=always {2} | delta
+			else
+				bat --color=always --line-range :500 {2}
+			fi'
+		)
+
+if [[ -n $selections ]]; then
+	echo "$selections"
+	read -p "Restore these files?" -n 1 -r
+	echo
+
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+		exit 0
+	fi
+
+	echo "$selections" | cut -c 4- | tr '\n' ' ' | xargs git restore
+	echo "File(s) was restored"
+fi
