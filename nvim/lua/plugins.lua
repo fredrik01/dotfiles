@@ -96,9 +96,23 @@ return require('packer').startup(function(use)
 
   use {'ThePrimeagen/harpoon', requires = 'nvim-lua/plenary.nvim', commit = 'f4aff5bf9b512f5a85fe20eb1dcf4a87e512d971'}
 
-  use {
-    'lewis6991/gitsigns.nvim',
-    tag = 'v0.6'
+  -- use {
+  --   'lewis6991/gitsigns.nvim',
+  --   tag = 'v0.6'
+  -- }
+
+  use {'echasnovski/mini.diff',
+    commit = 'd052bf31cc01bb1dde0afd129d8dcdd9f36b9d35',
+    config = function()
+      require('mini.diff').setup()
+      vim.cmd [[
+        highlight MiniDiffSignAdd guifg=#26c978 " Add sign color
+        highlight MiniDiffSignChange guifg=#0096FF " Change sign color
+        highlight MiniDiffSignDelete guifg=#de4949 " Delete sign color
+        highlight MiniDiffOverContext guibg=#33487d " Change overlay bg color
+        highlight MiniDiffOverDelete guibg=#6b2d37 " Delete overlay bg color
+      ]]
+    end
   }
 
   -- Show marks

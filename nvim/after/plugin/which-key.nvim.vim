@@ -92,6 +92,7 @@ lua << EOF
       h = { "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", "Buffer commits" },
       H = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Project commits" },
       c = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "List and checkout branch" },
+      p = { ":lua MiniDiff.toggle_overlay()<cr>", "Toggle diff overlay" },
     },
     ["<leader>x"] = {
       name = "debug",
