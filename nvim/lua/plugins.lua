@@ -55,26 +55,6 @@ return require('packer').startup(function(use)
 
   use 'tommcdo/vim-exchange'
 
-  use {
-    "luukvbaal/statuscol.nvim", config = function()
-      local builtin = require("statuscol.builtin")
-      require("statuscol").setup({
-        segments = {
-          { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-          {
-            sign = { name = { "Diagnostic" }, maxwidth = 1, auto = false },
-            click = "v:lua.ScSa"
-          },
-          { text = { builtin.lnumfunc }, click = "v:lua.ScLa", },
-          {
-            sign = { name = { ".*" }, maxwidth = 2, colwidth = 1, auto = false, wrap = true },
-            click = "v:lua.ScSa"
-          },
-        }
-      })
-    end,
-  }
-
   -- Requires: universal-ctags
   -- brew install --HEAD universal-ctags/universal-ctags/universal-ctags
   use 'ludovicchabant/vim-gutentags'
@@ -152,7 +132,12 @@ return require('packer').startup(function(use)
 
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function() require('fzf-lua').setup({ fzf_opts = {['--layout'] = 'default'}, winopts = { height=1, width=1 }}) end
+    config = function()
+      require('fzf-lua').setup({
+        fzf_opts = {['--layout'] = 'default'},
+        winopts = { height=1, width=1 }
+      })
+    end
   }
 
   use 'vim-test/vim-test'
@@ -163,11 +148,16 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-    commit = 'bc52938ddde0ff6b3d51ff215d2c66f2e39b7099'
+    run = ':TSUpdate',
+    commit = 'cc0e29727a9651e27869b7444e835c44fb1e7b4c'
   }
-  use {'nvim-treesitter/nvim-treesitter-textobjects', commit = '9e519b6146512c8e2e702faf8ac48420f4f5deec'}
-  use {'nvim-treesitter/nvim-treesitter-context', commit = '3d4ab25056dcaf6dd11ebacf1da8525c8df6550f'}
+  use({
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+    commit = 'acffd3476eb340faef0ec07e48060b817386b973'
+  })
+  use {'nvim-treesitter/nvim-treesitter-context', commit = 'f19766163c18515fb4d3c12d572bf9cba6cdb990'}
   use {'AckslD/nvim-trevJ.lua', commit = '7f401543b5cd5496b6120dddcab394c29983a55c'}
   use "IndianBoy42/tree-sitter-just"
 
@@ -236,7 +226,7 @@ return require('packer').startup(function(use)
   use {
     "cbochs/grapple.nvim",
     requires = { "nvim-tree/nvim-web-devicons" },
-    commit = '6dc1bad1f67d2984d942ef43d87b98ef34447ab9',
+    commit = '7aedc261b05a6c030397c4bc26416efbe746ebf1',
     config = function () require("grapple").setup({ scope = "git_branch", icons = false }) end
   }
 
@@ -251,28 +241,6 @@ return require('packer').startup(function(use)
       require('neoclip').setup({
         default_register = '*',
         keys = {
-          telescope = {
-            i = {
-              select = '<cr>',
-              paste = '<c-p>',
-              paste_behind = '<c-b>',
-              replay = '<c-q>',  -- replay a macro
-              delete = '<c-d>',  -- delete an entry
-              edit = '<c-e>',  -- edit an entry
-              custom = {},
-            },
-            n = {
-              select = '<cr>',
-              paste = 'p',
-              --- It is possible to map to more than one key.
-              -- paste = { 'p', '<c-p>' },
-              paste_behind = 'P',
-              replay = 'q',
-              delete = 'd',
-              edit = 'e',
-              custom = {},
-            },
-          },
           fzf = {
             select = 'default',
             paste = 'ctrl-p',
@@ -298,15 +266,15 @@ return require('packer').startup(function(use)
             },
         },
         commands = {
-            toggle_comment_debug_prints = "ToggleCommentDebugPrints",
+            -- toggle_comment_debug_prints = "ToggleCommentDebugPrints",
             delete_debug_prints = "DeleteDebugPrints",
         },
       }
       require("debugprint").setup(opts)
     end,
-    requires = {
-      "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
-    },
+    -- requires = {
+    --   "echasnovski/mini.nvim" -- Needed to enable :ToggleCommentDebugPrints
+    -- },
     commit = 'ff44034c8f52feb252bd88311f91b8c9b9abe0f0'
   })
 
@@ -354,6 +322,24 @@ return require('packer').startup(function(use)
   }
 
   use 'terrastruct/d2-vim'
+
+  use({
+    "folke/todo-comments.nvim",
+    config = function()
+      require("todo-comments").setup({
+        signs = false,
+        highlight = {
+          comments_only = false,
+        },
+        keywords = {
+          DONE = { color = "default" },
+        }
+      })
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+    }
+  })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
