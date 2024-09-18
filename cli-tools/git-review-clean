@@ -38,4 +38,5 @@ fi
 reviewBranch="$(git branch --show-current)"
 originalBranch=${reviewBranch%%-review}
 git checkout "$originalBranch"
-git branch -D "$reviewBranch"
+# git branch -D "$reviewBranch"
+git branch | grep '\-review$' | xargs -n 1 git branch -D
