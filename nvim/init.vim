@@ -5,6 +5,11 @@ let mapleader = ","
 " Save all edited buffers
 nmap <Space> :wa<CR>
 
+nnoremap <silent> [s :Grapple cycle backward<cr>
+nnoremap <silent> ]s :Grapple cycle forward<cr>
+" nnoremap <silent> <c-s> :GrappleToggle<cr>
+" nnoremap <silent> <c-m> :GrapplePopup tags<cr>
+
 " https://github.com/L3MON4D3/LuaSnip#keymaps
 " press <Tab> to expand or jump in a snippet. These can also be mapped separately
 " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
@@ -17,7 +22,7 @@ snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 " Terminal maps
 " Go back to previous buffer
-tnoremap <silent><leader>. <C-\><C-n><c-6><cr>
+" tnoremap <silent><leader>. <C-\><C-n><c-6><cr>
 " Exit terminal mode
 tnoremap <C-o> <C-\><C-n>
 
@@ -46,6 +51,8 @@ nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 
 " Switch to previous buffer
 nnoremap <Backspace> <C-^>
+" c-6 is the same as c-^ => go to previous buffer
+" nnoremap <silent>§ <c-^><cr>
 
 " Search for a term and replace it
 nnoremap <Leader>r :%s///g<left><left><left>
@@ -63,7 +70,7 @@ xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
 " Use PHPs date function to get date and time
 " Example: next tuesday 17:00
-nnoremap <Leader>di :execute ':r !php -r ''echo date("Y-m-d H:i:s", strtotime(""));'''<left><left><left><left><left><left><left>
+nnoremap <Leader>ic :execute ':r !php -r ''echo date("Y-m-d", strtotime(""));'''<left><left><left><left><left><left><left>
 
 " Phpunit test :p (requires "af" text object)
 xnoremap ay :normal vafok<cr>
@@ -72,11 +79,23 @@ onoremap ay :normal vafok<cr>
 " Don't yank with these
 nnoremap x "_x
 vnoremap x "_x
-nnoremap c "_c
-nnoremap C "_C
-vnoremap c "_c
+
 " replace currently selected text with default register without yanking it
-vnoremap p "_dP
+" vnoremap p "_dP
+
+lua << EOF
+-- greatest remap ever
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- next greatest remap ever : asbjornHaland
+-- vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+-- vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({"n", "v"}, "<leader>D", [["_D]])
+vim.keymap.set({"n", "v"}, "<leader>c", [["_c]])
+vim.keymap.set({"n", "v"}, "<leader>C", [["_C]])
+EOF
 
 " Yank to the end of the line
 nnoremap Y y$
@@ -91,6 +110,7 @@ set ignorecase                  " Case-insensitive searching
 set smartcase                   " But case-sensitive if expression contains a capital letter
 set number                      " Regular line numbers since relative are slow
 set nohlsearch                  " Don't highlight search matches
+set cursorline
 set laststatus=2                " make lightline work with single window
 set noshowmode                  " hide mode since lightline handles that
 set autoread                    " Automatically re-read files changed outside Vim
@@ -131,8 +151,8 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 packadd! Cfilter
 
 " Examples: gsw or gsiW or gsi' (case sensitive)
-nmap gf  <plug>(GrepperOperator)
-xmap gf  <plug>(GrepperOperator)
+nmap gs  <plug>(GrepperOperator)
+xmap gs  <plug>(GrepperOperator)
 
 " To scroll in test results
 if has('nvim')
@@ -158,10 +178,11 @@ hi VertSplit ctermbg=NONE guibg=NONE
 " Highlight current line: https://vimtricks.com/p/highlight-specific-lines/
 " define line highlight color
 highlight LineHighlight ctermbg=darkgrey guibg=#222222
+
 " highlight the current line
-nnoremap <silent> <Leader>ll :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
+" nnoremap <silent> <Leader>ll :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
 " clear all the highlighted lines
-nnoremap <silent> <Leader>lc :call clearmatches()<CR>
+" nnoremap <silent> <Leader>lc :call clearmatches()<CR>
 
 if has('persistent_undo')
     let target_path = expand('~/.config/vim-persisted-undo/')
@@ -189,6 +210,8 @@ augroup autocmds
       \ endif
   " Override background color
   " autocmd ColorScheme * highlight Normal ctermbg=NONE guifg=lightgrey guibg=black
+  " Adjust quickfix window height automatically
+  au FileType qf call AdjustWindowHeight(1, 10)
 augroup END
 
 command! -bar -nargs=* Jump cexpr system('git jump ' . expand(<q-args>))
@@ -253,16 +276,16 @@ command! -bar -bang Trash
   \ unlet s:file
 
 " rg including hidden files (but not .git folder), respects .gitignore
-command! -bang -nargs=* RgWithHidden
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob "!.git" -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>1)
+" command! -bang -nargs=* RgWithHidden
+"   \ call fzf#vim#grep(
+"   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --glob "!.git" -- '.shellescape(<q-args>), 1,
+"   \   fzf#vim#with_preview(), <bang>1)
 
 " rg including hidden files (not .git folder), ignores .gitignore
-command! -bang -nargs=* RgAll
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob "!.git" -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>1)
+" command! -bang -nargs=* RgAll
+"   \ call fzf#vim#grep(
+"   \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --no-ignore-vcs --glob "!.git" -- '.shellescape(<q-args>), 1,
+"   \   fzf#vim#with_preview(), <bang>1)
 
 " https://stackoverflow.com/questions/42905008/quickfix-list-how-to-add-and-remove-entries
 " When using `dd` in the quickfix list, remove the item from the quickfix list.
@@ -275,3 +298,76 @@ function! RemoveQFItem()
   :copen
 endfunction
 :command! RemoveQFItem :call RemoveQFItem()
+
+" Adjust quickfix height
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
+function! s:defaultGrepPrg()
+  set grepprg=grep\ -n\ $*\ /dev/null
+  set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m
+endfunction
+
+function! s:Rg(args)
+  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow\ --glob\ \"!.git\"
+  set grepformat^=%f:%l:%c:%m
+  execute 'silent grep! ' . a:args
+  :cwindow
+  call s:defaultGrepPrg()
+endfunction
+command! -nargs=1 -complete=file Rg call s:Rg(<f-args>)
+
+function! s:RgAll(args)
+  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --no-ignore-vcs\ --follow\ --glob\ \"!.git\"
+  set grepformat^=%f:%l:%c:%m
+  execute 'silent grep! ' . a:args
+  :cwindow
+  call s:defaultGrepPrg()
+endfunction
+command! -nargs=1 -complete=file RgAll call s:RgAll(<f-args>)
+
+command! JournalToday :execute 'edit journal/'.strftime("%F").'.md'
+
+function! s:NotesModeEnable()
+  " :lua require("zen-mode").open()
+  set linespace=6 " Seems to work in Neovide but not in the terminal
+  " set nonumber
+  set linebreak " Do not break line in the middle of a word
+  if exists("g:neovide")
+    let g:neovide_padding_top = 20
+  endif
+endfunction
+command! NotesModeEnable call s:NotesModeEnable()
+
+function! s:NotesModeDisable()
+  " Have to close zen mode first, otherwise the other settings will be set on
+  " the ZenMode window only
+  set linespace=0
+  " set number
+  set linebreak!
+  if exists("g:neovide")
+    let g:neovide_padding_top = 0
+  endif
+  " :lua require("zen-mode").close()
+endfunction
+command! NotesModeDisable call s:NotesModeDisable()
+
+if exists("g:neovide")
+  " Make paste work in insert mode with cmd-v
+  " https://github.com/neovide/neovide/issues/113#issuecomment-826091133
+  inoremap <D-v> <c-r>+
+  cnoremap <D-v> <c-r>+
+endif
+
+" :e -> Show file list
+" :cd -> Make it possible to search for files in the notes dir directly
+command! -bar -bang Notes
+  \ call s:NotesModeEnable() |
+  \ :e ~/.notes |
+  \ :cd ~/.notes
+
+command! -bar -bang NotesPrivate
+  \ call s:NotesModeEnable() |
+  \ :e ~/.private |
+  \ :cd ~/.private
