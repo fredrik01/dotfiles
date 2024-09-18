@@ -2,11 +2,24 @@
 
 set -euo pipefail
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# TODO: What about moved files? They appear as deleted right now
+# TODO: Use some other suffix than -review?
+
 branch=$1
+targetBranch=${2:-}
 
 if [ -z "${branch}" ]; then
     echo "Branch is missing"
     exit 1
+fi
+
+if [ -z "${targetBranch}" ]; then
+  # So that we can get main/master automatically: https://stackoverflow.com/a/17100946
+  git remote set-head origin -a
+  targetBranch="$(git main-branch)"
 fi
 
 if [ "$(git status --porcelain)" ]; then
@@ -14,27 +27,22 @@ if [ "$(git status --porcelain)" ]; then
 	exit 1
 fi
 
-# This is to be able to get main/master automatically
-# https://stackoverflow.com/a/17100946
-git remote set-head origin -a
-mainBranch="$(git main-branch)"
+echo "Target branch: $targetBranch"
+git checkout "$targetBranch"
 
-git fetch origin "$branch"
+# Create a version of the target branch so that we don't have to reset it
+echo "Creating review version of target branch"
+git branch -C "$targetBranch" "$targetBranch-review"
+git checkout "$targetBranch-review"
+git pull
 
-# TODO: What about moved files? They appear as deleted right now
-
+# Because we might not have it locally
+echo "Pulling branch to review"
 git checkout "$branch"
 git pull
-# git pull origin "$branch:$branch"
-# git branch -C "$mainBranch" "$branch-review"
-# git checkout -b "$branch-review" "$mainBranch"
 
-# git fetch "$(git main-branch)"
-# Update master without checking it out
-# git pull origin "$mainBranch:$mainBranch" --rebrse
-# git branch "$mainBranch" "$branch-review"
-git checkout -b "$branch-review" "$mainBranch"
-git reset --hard origin/"$mainBranch"
+# Use target branch to create a review branch
+git checkout -b "$branch-review" "$targetBranch-review"
 
 # Merge without commit
 git merge origin/"$branch" --no-commit --no-ff
@@ -43,7 +51,16 @@ git merge origin/"$branch" --no-commit --no-ff
 git reset
 
 # Show deleted files as diff
-git diff --diff-filter=D
+# git diff --diff-filter=D | less -RFX
+# git difftool --diff-filter=D
+# t=$(git ls-files --deleted | fzf --preview="git show :{}")
+deletedFiles=$(git ls-files --deleted)
+if [ -n "${deletedFiles}" ]; then
+  echo ""
+  echo -e "${RED}Deleted files${NC}"
+  echo "$deletedFiles"
+  read -p "Press any key" -n 1 -r
+fi
 
 # Open editor with populated quickfix
 trap 'rm -f "$tmp"' 0 1 2 3 15
