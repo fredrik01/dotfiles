@@ -1,0 +1,9 @@
+file=$(fd -e env | fzf)
+
+if [[ -z $file ]]; then
+  exit
+fi
+
+filename=${file##*/}
+echo "Set hurl vars file to $filename"
+export HURL_VARS_FILE="$filename"
