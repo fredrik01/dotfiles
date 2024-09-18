@@ -1,4 +1,3 @@
-lua <<EOF
 -- Install with :TSInstall http
 local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
 parser_configs.http = {
@@ -19,15 +18,15 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true,
   },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
+  -- incremental_selection = {
+  --   enable = true,
+  --   keymaps = {
       -- init_selection = '<CR>',
       -- scope_incremental = '<CR>',
       -- node_incremental = '<TAB>',
       -- node_decremental = '<S-TAB>'
-    }
-  },
+    -- }
+  -- },
   textobjects = {
     select = {
       enable = true,
@@ -57,4 +56,3 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
-EOF
