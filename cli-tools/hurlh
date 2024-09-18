@@ -11,11 +11,13 @@ fi
 
 dir=$(dirname "$path")
 filename=$(basename "$path")
+variablesFile="${HURL_VARS_FILE:-vars.env}"
+echo "Using $variablesFile"
 
 cd "$dir" || exit
 
-if [ -f "vars.env" ]; then
-	data=$(hurl -i --variables-file vars.env "$filename")
+if [ -f "$variablesFile" ]; then
+	data=$(hurl -i --variables-file "$variablesFile" "$filename")
 else
 	data=(hurl -i "$filename")
 fi
