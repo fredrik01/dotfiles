@@ -10,7 +10,8 @@
 
 URL=$1
 SLEEP=${2:-10}
-MAX_LOOP_COUNT=${3:-999999}
+TIMEOUT=${3:-120}
+MAX_LOOP_COUNT=${4:-999999}
 COUNTER=1
 
 RED='\033[0;31m'
@@ -30,6 +31,7 @@ while [ "${COUNTER}" -le "${MAX_LOOP_COUNT}" ]; do
     output=$(curl \
         --silent \
         --location \
+        --max-time "$TIMEOUT" \
         --output /dev/null \
         --write-out "%{http_code} | %{time_total}s | ${NOW} | ${COUNTER}/${MAX_LOOP_COUNT}\n" "${URL}")
 
