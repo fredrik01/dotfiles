@@ -46,7 +46,7 @@ nvm
 
 Install plugins with
 
-	:PackerInstall
+	:Lazy
 
 rg
 

@@ -10,7 +10,7 @@ parser_configs.http = {
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all", -- "all" or a list of languages
-	ignore_install = { "phpdoc" },
+	ignore_install = { "phpdoc", "wing" },
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { "gitcommit" }
