@@ -23,6 +23,9 @@ vim.g.mapleader = ","
 
 vim.g.polyglot_disabled = {'php', 'vue', 'javascript', 'typescript', 'json', 'python', 'yaml', 'bash', 'dart', 'html', 'css', 'ruby', 'rust', 'go'}
 
+-- One statusbar at the bottom showing the current window’s status
+vim.opt.laststatus = 3
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
