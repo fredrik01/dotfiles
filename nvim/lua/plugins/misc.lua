@@ -32,7 +32,7 @@ return {
     },
   },
   {
-    'nvim-telescope/telescope-fzf-native.nvim', 
+    'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make'
   },
   {
@@ -253,6 +253,7 @@ return {
       },
       keywords = {
         DONE = { color = "default" },
+        SKIP = { color = "warning" },
       }
     },
     dependencies = {
