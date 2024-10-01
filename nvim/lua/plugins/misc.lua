@@ -254,6 +254,7 @@ return {
       keywords = {
         DONE = { color = "default" },
         SKIP = { color = "warning" },
+        DUE = { color = "error" },
       }
     },
     dependencies = {
