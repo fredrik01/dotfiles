@@ -1,4 +1,6 @@
 lua require("config.lazy")
+lua require("config.colors")
+lua require("config.avante-colors")
 
 " Save all edited buffers
 nmap <Space> :wa<CR>
@@ -163,24 +165,10 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-syntax on
-colorscheme nightfly
-" colorscheme github_dark_default
+lua require('avante_lib').load()
 
-let g:moonflyCursorColor = 1
-let g:moonflyUnderlineMatchParen = 1
-
-" Thin border on vertical splits
-hi VertSplit ctermbg=NONE guibg=NONE
-
-" Highlight current line: https://vimtricks.com/p/highlight-specific-lines/
-" define line highlight color
-highlight LineHighlight ctermbg=darkgrey guibg=#222222
-
-" highlight the current line
-" nnoremap <silent> <Leader>ll :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
-" clear all the highlighted lines
-" nnoremap <silent> <Leader>lc :call clearmatches()<CR>
+lua << EOF
+EOF
 
 if has('persistent_undo')
     let target_path = expand('~/.config/vim-persisted-undo/')
