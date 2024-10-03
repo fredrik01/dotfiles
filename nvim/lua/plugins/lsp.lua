@@ -7,13 +7,6 @@ return {
   {'hrsh7th/cmp-path', commit = '91ff86cd9c29299a64f968ebb45846c485725f23'},
   {'hrsh7th/cmp-cmdline', commit = '23c51b2a3c00f6abc4e922dbd7c3b9aca6992063'},
   {'hrsh7th/nvim-cmp', commit = 'c49ad26e894e137e401b1d294948c46327877eaf'},
-  -- {"L3MON4D3/LuaSnip", tag = "v1.*",
-  --   after = 'nvim-cmp',
-  --   config = function() 
-  --     require("luasnip.loaders.from_vscode").lazy_load({paths = "./snippets/vscode"})
-  --     require("luasnip.loaders.from_lua").load({paths = "./snippets/lua"})
-  --   end
-  -- },
   {
     "L3MON4D3/LuaSnip",
     -- follow latest release.

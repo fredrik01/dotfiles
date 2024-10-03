@@ -3,8 +3,6 @@ lua require("config.lazy")
 " Save all edited buffers
 nmap <Space> :wa<CR>
 
-" TODO: Snippets does not work
-
 nnoremap <silent> [s :Grapple cycle backward<cr>
 nnoremap <silent> ]s :Grapple cycle forward<cr>
 " nnoremap <silent> <c-s> :GrappleToggle<cr>

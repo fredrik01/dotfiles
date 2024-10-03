@@ -1,6 +1,7 @@
 lua << EOF
 
-require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load({paths = "./snippets/vscode"})
+require("luasnip.loaders.from_lua").load({paths = "./snippets/lua"})
 
 require("mason").setup()
 mason_lspconfig = require("mason-lspconfig")
