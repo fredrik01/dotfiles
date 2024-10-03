@@ -70,7 +70,7 @@ xnoremap <Leader>s* "sy:let @/=@s<CR>cgn
 
 " Use PHPs date function to get date and time
 " Example: next tuesday 17:00
-nnoremap <Leader>ic :execute ':r !php -r ''echo date("Y-m-d", strtotime(""));'''<left><left><left><left><left><left><left>
+nnoremap <Leader>ic :execute 'normal! a' . system('php -r ''echo date("Y-m-d", strtotime(""));''')<left><left><left><left><left><left><left><left>
 
 " Phpunit test :p (requires "af" text object)
 xnoremap ay :normal vafok<cr>
