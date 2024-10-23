@@ -91,7 +91,7 @@ alias o='open $(fd | fzf)' # Search for a file with fzf and open it
 # Taskwarrior
 alias tt="taskwarrior-tui"
 # Jira
-alias jo='jira issue list -q "project IS NOT EMPTY and status not in (Released, Done)" -a$(jira me)' # Ongoing issues in all projects
+alias jo='jira issue list -q "project IS NOT EMPTY and status not in (Released, \"🤝 Released\", Closed, Done, \"Done ✅\")" -a$(jira me)' # Ongoing issues in all projects
 alias jm='jira issue list -q "project IS NOT EMPTY" -a$(jira me)' # All mine
 # Bookmarks
 alias b="bookmarks ~/.config/.bookmarks"
