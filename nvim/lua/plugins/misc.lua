@@ -261,4 +261,15 @@ return {
       "nvim-lua/plenary.nvim",
     }
   },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    lazy = false,
+    opts = {
+      heading = {
+        -- TODO: Change color on h3-h6
+        position = 'inline',
+      },
+    }
+  },
 }
