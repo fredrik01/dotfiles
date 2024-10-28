@@ -73,7 +73,10 @@ mason_lspconfig.setup_handlers({
 				intelephense = { 
 					environment = { 
 						includePaths = {"~/intelephense/licence.txt"} 
-					} 
+					},
+					files = {
+						exclude = {"**/cdk/**"}
+					}
 				} 
 			}
     }
