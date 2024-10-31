@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -e
+
+branch=$1
+targetBranch=${2:-}
+
+if [ -z "${branch}" ]; then
+    echo "Branch is missing"
+    exit 1
+fi
+
+if [ -z "${targetBranch}" ]; then
+  # So that we can get main/master automatically: https://stackoverflow.com/a/17100946
+  # Should have been used by the git review script already
+  # git remote set-head origin -a
+
+  targetBranch="$(git main-branch)"
+fi
+
+git clean -nfd
+
+read -p "Remove all changes and delete branches "$branch-review" and "$targetBranch-review"? " -n 1 -r
+echo ""
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo "Aborting"
+  exit 0
+fi
+
+# Remove changes
+git checkout .
+git clean -fd
+
+git remote set-head origin -a
+changeToBranch="$(git main-branch)"
+
+git checkout "$changeToBranch"
+
+git branch -D "$branch-review"
+git branch -D "$targetBranch-review"
+
+echo "Done"
