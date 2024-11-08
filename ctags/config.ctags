@@ -27,3 +27,4 @@
 --exclude=test
 --exclude=tests
 --exclude=vendor
+--exclude=cdk.out
