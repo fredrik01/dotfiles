@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+checkInternetConnection=$(tmux show -gv @checkInternetConnection)
+
+if [ "$checkInternetConnection" -eq 0 ]; then
+    tmux set -g @checkInternetConnection 1
+else
+    tmux set -g @checkInternetConnection 0
+fi
