@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+cmd="$1"                # Command to run
+cache_file="$2"         # Where to store the cache
+cache_time="${3:-60}"   # How long the cache will be valid (seconds, default: 60)
+
+# If the cache file exists and is newer than cache_time seconds, return it
+if [ -f "$cache_file" ] && [ "$(find "$cache_file" -mmin -$((cache_time / 60)) 2>/dev/null)" ]; then
+    cat "$cache_file"
+    exit 0
+fi
+
+# Run the command and cache the output
+output=$(eval "$cmd" 2>/dev/null)
+if [ $? -eq 0 ]; then
+    echo "$output" > "$cache_file"
+    echo "$output"
+else
+    echo "Error running command" >&2
+    exit 1
+fi
