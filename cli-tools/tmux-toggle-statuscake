@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+countStatusCakeFails=$(tmux show -gv @countStatusCakeFails)
+
+if [ "$countStatusCakeFails" -eq 0 ]; then
+    tmux set -g @countStatusCakeFails 1
+else
+    tmux set -g @countStatusCakeFails 0
+fi
