@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+current_session=$(tmux display-message -p '#S')
+
+if [[ "$current_session" == *-popup ]]; then
+  tmux-scratch "$current_session"
+else
+  window_index=$(tmux display-message -p '#I')
+  base_name="${current_session}-${window_index}"
+  tmux-scratch "${base_name}-popup"
+fi
