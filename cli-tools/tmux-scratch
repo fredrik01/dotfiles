@@ -7,5 +7,5 @@ name=${1:-scratch}
 if [ "$(tmux display-message -p '#S')" = "$name" ];then
     tmux detach-client
 else
-    tmux display-popup -d '#{pane_current_path}' -xC -yC -w90% -h90% -E "tmux attach -t $name || tmux new -s $name 'tmux set status off; $SHELL'" 
+    tmux display-popup -d '#{pane_current_path}' -xC -yC -w90% -h90% -E "tmux attach -t $name || tmux new -s $name 'tmux set status off; zsh'"
 fi
