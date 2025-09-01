@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+show_help() {
+    echo "Usage: move_most_recent_file_in_dir <from_dir> <to_dir> [new_name]"
+    echo
+    echo "Move the most recent file from one directory to another"
+    echo
+    echo "Arguments:"
+    echo "  from_dir   Source directory containing the file to move"
+    echo "  to_dir     Destination directory"
+    echo "  new_name   Optional new filename (defaults to original name)"
+    echo
+    echo "Examples:"
+    echo "  move_most_recent_file_in_dir ~/Downloads ~/Documents"
+    echo "  move_most_recent_file_in_dir ~/Downloads ~/Documents renamed_file.txt"
+}
+
+if [[ $# -lt 2 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    show_help
+    exit 1
+fi
+
 from=${1%/}
 to=${2%/}
 newName=$3
