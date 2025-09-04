@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Function to show usage
+show_usage() {
+    echo -e "${BLUE}Usage:${NC}"
+    echo "  $0 <url> [interval_seconds]"
+    echo ""
+    echo -e "${YELLOW}Arguments:${NC}"
+    echo "  url               - Full URL to monitor (required)"
+    echo "  interval_seconds  - Check interval in seconds (default: 5)"
+    echo ""
+    echo -e "${YELLOW}Examples:${NC}"
+    echo "  $0 https://api.example.com/status"
+    echo "  $0 https://api.example.com/health 10"
+    echo "  $0 http://localhost:3000/ping 2"
+    echo ""
+}
+
+# Parse arguments
+if [[ "$1" == "--help" || "$1" == "-h" || $# -eq 0 ]]; then
+    show_usage
+    exit 0
+fi
+
+# Validate URL argument
+if [[ ! "$1" =~ ^https?:// ]]; then
+    echo -e "${RED}Error: First argument must be a valid URL starting with http:// or https://${NC}"
+    echo ""
+    show_usage
+    exit 1
+fi
+
+ENDPOINT="$1"
+INTERVAL="${2:-5}"
+TEMP_DIR="/tmp/url-monitor-$$"
+
+echo -e "${BLUE}Monitoring URL: ${ENDPOINT}${NC}"
+echo -e "${BLUE}Check interval: ${INTERVAL} seconds${NC}"
+echo -e "${YELLOW}Press Ctrl+C to stop monitoring${NC}"
+echo ""
+
+# Create temp directory for storing responses
+mkdir -p "$TEMP_DIR"
+CURRENT_FILE="$TEMP_DIR/current.json"
+PREVIOUS_FILE="$TEMP_DIR/previous.json"
+
+# Function to cleanup on exit
+cleanup() {
+    echo -e "\n${YELLOW}Cleaning up...${NC}"
+    rm -rf "$TEMP_DIR"
+    exit 0
+}
+
+# Trap cleanup on script exit
+trap cleanup EXIT INT TERM
+
+# Function to format JSON nicely
+format_json() {
+    if command -v jq &> /dev/null; then
+        jq '.' "$1" 2>/dev/null || cat "$1"
+    else
+        cat "$1"
+    fi
+}
+
+# Function to show diff
+show_diff() {
+    echo -e "${RED}CHANGE DETECTED!${NC}"
+    echo ""
+    
+    if command -v diff &> /dev/null && command -v jq &> /dev/null; then
+        echo -e "${YELLOW}Formatted diff:${NC}"
+        echo "--- Previous response"
+        echo "+++ Current response"
+        diff -u <(jq -S '.' "$PREVIOUS_FILE" 2>/dev/null || cat "$PREVIOUS_FILE") \
+                <(jq -S '.' "$CURRENT_FILE" 2>/dev/null || cat "$CURRENT_FILE") || true
+    else
+        echo -e "${YELLOW}Previous response:${NC}"
+        format_json "$PREVIOUS_FILE"
+        echo ""
+        echo -e "${YELLOW}Current response:${NC}"
+        format_json "$CURRENT_FILE"
+    fi
+    
+    echo ""
+    echo -e "${GREEN}Monitoring stopped due to detected change.${NC}"
+    exit 0
+}
+
+# Initial fetch
+echo -e "${BLUE}Fetching initial state...${NC}"
+if curl -s --fail --max-time 10 "$ENDPOINT" > "$CURRENT_FILE" 2>/dev/null; then
+    echo -e "${GREEN}Initial state captured:${NC}"
+    format_json "$CURRENT_FILE"
+    echo ""
+    cp "$CURRENT_FILE" "$PREVIOUS_FILE"
+else
+    echo -e "${RED}Failed to fetch from endpoint: $ENDPOINT${NC}"
+    echo "Please check:"
+    echo "1. The endpoint URL is correct"
+    echo "2. The service is running"
+    echo "3. You have network connectivity"
+    exit 1
+fi
+
+# Start monitoring loop
+echo -e "${BLUE}Starting monitoring...${NC}"
+echo ""
+
+while true; do
+    sleep "$INTERVAL"
+    
+    # Fetch current state
+    if curl -s --fail --max-time 10 "$ENDPOINT" > "$CURRENT_FILE" 2>/dev/null; then
+        # Compare with previous state
+        if ! cmp -s "$CURRENT_FILE" "$PREVIOUS_FILE"; then
+            show_diff
+        else
+            echo -n "."
+        fi
+        
+        # Update previous state
+        cp "$CURRENT_FILE" "$PREVIOUS_FILE"
+    else
+        echo -e "\n${RED}Failed to fetch endpoint ($(date))${NC}"
+        echo -n "!"
+    fi
+done
