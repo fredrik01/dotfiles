@@ -12,38 +12,92 @@ NC='\033[0m' # No Color
 # Function to show usage
 show_usage() {
     echo -e "${BLUE}Usage:${NC}"
-    echo "  $0 <url> [interval_seconds] [max_runtime_seconds]"
+    echo "  $0 [options] <url>"
     echo ""
-    echo -e "${YELLOW}Arguments:${NC}"
-    echo "  url                   - Full URL to monitor (required)"
-    echo "  interval_seconds      - Check interval in seconds (default: 5)"
-    echo "  max_runtime_seconds   - Maximum runtime in seconds (default: 43200 = 12 hours, 0 = unlimited)"
+    echo -e "${YELLOW}Options:${NC}"
+    echo "  -i, --interval <seconds>    Check interval in seconds (default: 10)"
+    echo "  -t, --timeout <seconds>     Maximum runtime in seconds (default: 43200 = 12 hours, 0 = unlimited)"
+    echo "  -s, --stop-on-change        Stop monitoring on first change detected (default: continue monitoring)"
+    echo "  -h, --help                  Show this help message"
     echo ""
     echo -e "${YELLOW}Examples:${NC}"
     echo "  $0 https://api.example.com/status"
-    echo "  $0 https://api.example.com/health 10"
-    echo "  $0 http://localhost:3000/ping 2 3600"
-    echo "  $0 http://localhost:3000/ping 5 0    # unlimited runtime"
+    echo "  $0 --interval 10 https://api.example.com/health"
+    echo "  $0 -i 2 -t 3600 https://api.example.com/status"
+    echo "  $0 --stop-on-change https://api.example.com/status"
+    echo "  $0 -i 5 -t 0 -s https://api.example.com/status    # unlimited runtime, stop on change"
     echo ""
 }
 
-# Parse arguments
-if [[ "$1" == "--help" || "$1" == "-h" || $# -eq 0 ]]; then
-    show_usage
-    exit 0
-fi
+# Default values
+INTERVAL=10
+MAX_RUNTIME=43200  # Default: 12 hours
+STOP_ON_CHANGE=false
+ENDPOINT=""
 
-# Validate URL argument
-if [[ ! "$1" =~ ^https?:// ]]; then
-    echo -e "${RED}Error: First argument must be a valid URL starting with http:// or https://${NC}"
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            show_usage
+            exit 0
+            ;;
+        -i|--interval)
+            if [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
+                INTERVAL="$2"
+                shift 2
+            else
+                echo -e "${RED}Error: --interval requires a numeric value${NC}"
+                exit 1
+            fi
+            ;;
+        -t|--timeout)
+            if [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
+                MAX_RUNTIME="$2"
+                shift 2
+            else
+                echo -e "${RED}Error: --timeout requires a numeric value${NC}"
+                exit 1
+            fi
+            ;;
+        -s|--stop-on-change)
+            STOP_ON_CHANGE=true
+            shift
+            ;;
+        -*)
+            echo -e "${RED}Error: Unknown option $1${NC}"
+            show_usage
+            exit 1
+            ;;
+        *)
+            if [[ -z "$ENDPOINT" ]]; then
+                ENDPOINT="$1"
+                shift
+            else
+                echo -e "${RED}Error: Multiple URLs provided. Only one URL is allowed.${NC}"
+                show_usage
+                exit 1
+            fi
+            ;;
+    esac
+done
+
+# Check if URL was provided
+if [[ -z "$ENDPOINT" ]]; then
+    echo -e "${RED}Error: URL is required${NC}"
     echo ""
     show_usage
     exit 1
 fi
 
-ENDPOINT="$1"
-INTERVAL="${2:-5}"
-MAX_RUNTIME="${3:-43200}"  # Default: 12 hours
+# Validate URL argument
+if [[ ! "$ENDPOINT" =~ ^https?:// ]]; then
+    echo -e "${RED}Error: URL must start with http:// or https://${NC}"
+    echo ""
+    show_usage
+    exit 1
+fi
+
 TEMP_DIR="/tmp/url-monitor-$$"
 
 echo -e "${BLUE}Monitoring URL: ${ENDPOINT}${NC}"
@@ -52,6 +106,11 @@ if [[ "$MAX_RUNTIME" == "0" ]]; then
     echo -e "${BLUE}Maximum runtime: unlimited${NC}"
 else
     echo -e "${BLUE}Maximum runtime: ${MAX_RUNTIME} seconds ($((MAX_RUNTIME/3600))h $((MAX_RUNTIME%3600/60))m)${NC}"
+fi
+if [[ "$STOP_ON_CHANGE" == "true" ]]; then
+    echo -e "${BLUE}Stop on change: yes${NC}"
+else
+    echo -e "${BLUE}Stop on change: no${NC}"
 fi
 echo -e "${YELLOW}Press Ctrl+C to stop monitoring${NC}"
 echo ""
@@ -64,6 +123,9 @@ PREVIOUS_FILE="$TEMP_DIR/previous.json"
 # Function to cleanup on exit
 cleanup() {
     echo -e "\n${YELLOW}Cleaning up...${NC}"
+    if [[ ${CHANGE_COUNT:-0} -gt 0 ]]; then
+        echo -e "${BLUE}Total changes detected: ${CHANGE_COUNT}${NC}"
+    fi
     rm -rf "$TEMP_DIR"
     exit 0
 }
@@ -82,7 +144,8 @@ format_json() {
 
 # Function to show diff
 show_diff() {
-    echo -e "${RED}CHANGE DETECTED at $(date)!${NC}"
+    CHANGE_COUNT=$((CHANGE_COUNT + 1))
+    echo -e "\n${RED}CHANGE DETECTED #${CHANGE_COUNT} at $(date)!${NC}"
     echo ""
     
     if command -v diff &> /dev/null && command -v jq &> /dev/null; then
@@ -100,8 +163,14 @@ show_diff() {
     fi
     
     echo ""
-    echo -e "${GREEN}Monitoring stopped due to detected change.${NC}"
-    exit 0
+    
+    if [[ "$STOP_ON_CHANGE" == "true" ]]; then
+        echo -e "${GREEN}Monitoring stopped due to detected change.${NC}"
+        exit 0
+    else
+        echo -e "${BLUE}Continuing to monitor for additional changes...${NC}"
+        echo ""
+    fi
 }
 
 # Initial fetch
@@ -120,6 +189,9 @@ else
     exit 1
 fi
 
+# Initialize change counter
+CHANGE_COUNT=0
+
 # Start monitoring loop
 echo -e "${BLUE}Starting monitoring...${NC}"
 echo ""
@@ -137,7 +209,11 @@ while true; do
         
         if [[ $ELAPSED -ge $MAX_RUNTIME ]]; then
             echo -e "\n${YELLOW}Maximum runtime reached (${MAX_RUNTIME} seconds / $((MAX_RUNTIME/3600))h $((MAX_RUNTIME%3600/60))m)${NC}"
-            echo -e "${BLUE}No changes detected during monitoring period.${NC}"
+            if [[ $CHANGE_COUNT -eq 0 ]]; then
+                echo -e "${BLUE}No changes detected during monitoring period.${NC}"
+            else
+                echo -e "${BLUE}Total changes detected: ${CHANGE_COUNT}${NC}"
+            fi
             exit 2
         fi
     fi
