@@ -12,16 +12,18 @@ NC='\033[0m' # No Color
 # Function to show usage
 show_usage() {
     echo -e "${BLUE}Usage:${NC}"
-    echo "  $0 <url> [interval_seconds]"
+    echo "  $0 <url> [interval_seconds] [max_runtime_seconds]"
     echo ""
     echo -e "${YELLOW}Arguments:${NC}"
-    echo "  url               - Full URL to monitor (required)"
-    echo "  interval_seconds  - Check interval in seconds (default: 5)"
+    echo "  url                   - Full URL to monitor (required)"
+    echo "  interval_seconds      - Check interval in seconds (default: 5)"
+    echo "  max_runtime_seconds   - Maximum runtime in seconds (default: 43200 = 12 hours, 0 = unlimited)"
     echo ""
     echo -e "${YELLOW}Examples:${NC}"
     echo "  $0 https://api.example.com/status"
     echo "  $0 https://api.example.com/health 10"
-    echo "  $0 http://localhost:3000/ping 2"
+    echo "  $0 http://localhost:3000/ping 2 3600"
+    echo "  $0 http://localhost:3000/ping 5 0    # unlimited runtime"
     echo ""
 }
 
@@ -41,10 +43,16 @@ fi
 
 ENDPOINT="$1"
 INTERVAL="${2:-5}"
+MAX_RUNTIME="${3:-43200}"  # Default: 12 hours
 TEMP_DIR="/tmp/url-monitor-$$"
 
 echo -e "${BLUE}Monitoring URL: ${ENDPOINT}${NC}"
 echo -e "${BLUE}Check interval: ${INTERVAL} seconds${NC}"
+if [[ "$MAX_RUNTIME" == "0" ]]; then
+    echo -e "${BLUE}Maximum runtime: unlimited${NC}"
+else
+    echo -e "${BLUE}Maximum runtime: ${MAX_RUNTIME} seconds ($((MAX_RUNTIME/3600))h $((MAX_RUNTIME%3600/60))m)${NC}"
+fi
 echo -e "${YELLOW}Press Ctrl+C to stop monitoring${NC}"
 echo ""
 
@@ -74,7 +82,7 @@ format_json() {
 
 # Function to show diff
 show_diff() {
-    echo -e "${RED}CHANGE DETECTED!${NC}"
+    echo -e "${RED}CHANGE DETECTED at $(date)!${NC}"
     echo ""
     
     if command -v diff &> /dev/null && command -v jq &> /dev/null; then
@@ -116,8 +124,23 @@ fi
 echo -e "${BLUE}Starting monitoring...${NC}"
 echo ""
 
+# Record start time for timeout checking
+START_TIME=$(date +%s)
+
 while true; do
     sleep "$INTERVAL"
+    
+    # Check timeout if not unlimited (0)
+    if [[ "$MAX_RUNTIME" != "0" ]]; then
+        CURRENT_TIME=$(date +%s)
+        ELAPSED=$((CURRENT_TIME - START_TIME))
+        
+        if [[ $ELAPSED -ge $MAX_RUNTIME ]]; then
+            echo -e "\n${YELLOW}Maximum runtime reached (${MAX_RUNTIME} seconds / $((MAX_RUNTIME/3600))h $((MAX_RUNTIME%3600/60))m)${NC}"
+            echo -e "${BLUE}No changes detected during monitoring period.${NC}"
+            exit 2
+        fi
+    fi
     
     # Fetch current state
     if curl -s --fail --max-time 10 "$ENDPOINT" > "$CURRENT_FILE" 2>/dev/null; then
