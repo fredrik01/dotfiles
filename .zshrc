@@ -5,6 +5,14 @@ export TERM=xterm-kitty
 
 ZSH_THEME=""
 
+# https://www.soberkoder.com/better-zsh-history/
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+export HISTFILE=~/.zsh_history
+setopt HIST_FIND_NO_DUPS
+# following should be turned off, if sharing history via setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+
 # cd without "cd" :P
 setopt auto_cd
 
@@ -36,10 +44,11 @@ alias gcm='git checkout $(git main-branch)'
 alias ga='git-add-fzf'
 alias gaa='git add .'
 alias gu='git-unadd-fzf'
-alias gd='git diff'
-alias gds='git diff --staged'
+alias gd='git difftool'
+alias gds='git difftool --staged'
 alias gdf='fzf_git_diff'
-alias gcb='fzf_git_change_branch'
+alias gcb='git checkout-branch'
+alias gc-='git checkout -'
 alias gbd='fzf_git_delete_branch'
 alias gw='fzf_git_change_worktree'
 alias gwd='fzf_git_delete_worktree'
@@ -52,17 +61,18 @@ alias gc='git commit -v'
 alias greflog='fzf_git_reflog'
 alias gpull='git pull'
 alias gr='git-restore-fzf'
-alias gr='git review'
-alias grc='git review-clean'
+# Fungerar inte
+# alias gr='tmux new-window && tmux select-window -t :"$(tmux list-windows | awk -F: '{print $1}' | tail -n1)" && copy-to-tmp && git review'
 alias gg='git log --graph --abbrev-commit --decorate --date=relative --all'
 # Gitlab
-alias gps='NO_PROMPT=1 glab pipe status'
-alias gpsf='glab pipe status --live'
+alias gps='glab pipe status --live'
+alias gpsw='sleep 10; glab pipe status --live'
 alias gmo='glab mr list --author=@me'
 # Docker
 alias d='docker'
 alias dc='docker compose'
 alias dcuf='fzf_docker_compose_up'
+alias dcul='docker-compose-up-and-log'
 alias de='fzf_docker_exec'
 alias deg='docker_exec_grep'
 alias dl='docker_logs_all'
@@ -87,17 +97,32 @@ alias ns='notes-search-content'
 alias nsf='notes-search-file'
 # Open
 alias od='open "$(most_recent_file_in_dir ~/Downloads)"'
-alias o='open $(fd | fzf)' # Search for a file with fzf and open it
+alias o='open $(fd --no-ignore | fzf)' # Search for a file with fzf and open it
 # Taskwarrior
 alias tt="taskwarrior-tui"
 # Jira
-alias jo='jira issue list -q "project IS NOT EMPTY and status not in (Released, \"🤝 Released\", Closed, Done, \"Done ✅\")" -a$(jira me)' # Ongoing issues in all projects
+alias jo='jira issue list -q "project IS NOT EMPTY and status not in (Released, \"🤝 Released\", Closed, Done, \"Done\", \"❌ Closed\")" -a$(jira me)' # Ongoing issues in all projects
 alias jm='jira issue list -q "project IS NOT EMPTY" -a$(jira me)' # All mine
 # Bookmarks
 alias b="bookmarks ~/.config/.bookmarks"
 alias be="nvim ~/.config/.bookmarks"
 # Laravel
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+# Ripgrep
+alias rgf='rg --files --no-ignore | rg --no-ignore' # Search for file by filename (incl ignored by git)
+# Just
+alias jf='just --choose'
+# Neovide
+alias nv='open -n -a Neovide --args ' # Use this to open neovide
+# Hurl
+alias hurlenvfile='export HURL_VARS_FILE=$(fd "\.env$" --no-ignore --exclude "cdk" --exec basename {} | fzf)'
+# Codex
+alias codex-gemini='codex --auto-edit --provider gemini --model gemini-2.5-pro-exp-03-25'
+alias codex-openai='codex --auto-edit --provider openai --model o4-mini'
+# Aider
+alias a='aider --no-gitignore --no-auto-commits --notifications --yes'
+# Claude
+# alias claude="/Users/fredrik/.claude/local/claude"
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
@@ -107,6 +132,9 @@ current-branch() {
 }
 gpush() {
     git push -u origin $(current-branch);
+}
+gshow() {
+    GIT_EXTERNAL_DIFF=difft DFT_DISPLAY=inline git show $1 --ext-diff
 }
 gpush-ci-skip() {
     git push -u origin $(current-branch) --push-option=ci.skip;
@@ -162,3 +190,10 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+. "$HOME/.local/bin/env"
+
