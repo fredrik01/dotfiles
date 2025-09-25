@@ -6,13 +6,13 @@ checkInternetConnection=$(tmux show -gv @checkInternetConnection)
 
 if [ "$checkInternetConnection" -eq 1 ]; then
 	if [[ $(has-internet-connection) == "1" ]]; then
-		status+="Connected"
+		status+="OK"
 		color="green"
 	else
-		status+="Disconnected"
+		status+="FAIL"
 		color="red"
 	fi
-	output+="#[fg=$color]$status#[default] "
+	output+="Net:#[fg=$color]$status#[default] "
 fi
 
 countStatusCakeFails=$(tmux show -gv @countStatusCakeFails)
@@ -28,7 +28,7 @@ if [ "$countStatusCakeFails" -eq 1 ]; then
 	else
 			color="yellow"
 	fi
-	output+="StatusCake:#[fg=$color]$fails#[default] "
+	output+="SC:#[fg=$color]$fails#[default] "
 fi
 
 output+="$(tracked-time)"
