@@ -120,10 +120,17 @@ main() {
             tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" C-c
             tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" "clear" Enter
             tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" "$monitor_cmd" Enter
+
+            # Store the target pane spec for Enter key navigation
+            tmux set-option -p -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" @claude_target "$pane_spec"
             first=false
         else
             # Create new panes for additional monitors
             tmux split-window -t "$CURRENT_SESSION:$CURRENT_WINDOW" "$monitor_cmd"
+
+            # Store the target pane spec for the newly created pane
+            new_pane=$(tmux display-message -p '#{pane_index}')
+            tmux set-option -p -t "$CURRENT_SESSION:$CURRENT_WINDOW.$new_pane" @claude_target "$pane_spec"
         fi
 
         # Set pane title
@@ -138,6 +145,9 @@ main() {
     # Enable pane borders with titles
     tmux set-window-option -t "$CURRENT_SESSION:$CURRENT_WINDOW" pane-border-status top
 
+    # Bind Ctrl+b Enter to jump to Claude session
+    tmux bind-key -T prefix Enter run-shell 'tmux-claude-jump'
+
     # Rename the window
     tmux rename-window -t "$CURRENT_SESSION:$CURRENT_WINDOW" "claude-monitor"
 
@@ -146,6 +156,7 @@ main() {
     echo "Showing current view of each Claude session with colors"
     echo
     echo "Controls:"
+    echo "  • Ctrl+b Enter: Jump to the Claude session being monitored"
     echo "  • Ctrl+b arrows: Navigate between panes"
     echo "  • Ctrl+b z: Zoom in/out of current pane"
     echo "  • Ctrl+b x: Close a pane"

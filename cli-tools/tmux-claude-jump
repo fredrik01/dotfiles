@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#
+# tmux-claude-jump - Jump to the Claude session being monitored in current pane
+# Used by tmux-monitor-claude when Enter is pressed
+
+set -e
+
+# Check if we're in a tmux session
+if [ -z "$TMUX" ]; then
+    echo "Error: This script must be run from within a tmux session"
+    exit 1
+fi
+
+# Get the target session/window/pane from current pane's user option
+target_spec=$(tmux show-options -p @claude_target 2>/dev/null | cut -d' ' -f2- || echo "")
+
+if [ -z "$target_spec" ]; then
+    echo "No Claude target set for this pane"
+    exit 1
+fi
+
+# Extract session, window, and pane from the spec (format: session:window.pane)
+session=$(echo "$target_spec" | cut -d: -f1)
+window_pane=$(echo "$target_spec" | cut -d: -f2)
+window=$(echo "$window_pane" | cut -d. -f1)
+pane=$(echo "$window_pane" | cut -d. -f2)
+
+# Check if the target session/window/pane still exists
+if ! tmux has-session -t "$session" 2>/dev/null; then
+    echo "Target session '$session' no longer exists"
+    exit 1
+fi
+
+if ! tmux list-windows -t "$session" -F '#{window_index}' | grep -q "^${window}$"; then
+    echo "Target window '$session:$window' no longer exists"
+    exit 1
+fi
+
+if ! tmux list-panes -t "$session:$window" -F '#{pane_index}' | grep -q "^${pane}$"; then
+    echo "Target pane '$target_spec' no longer exists"
+    exit 1
+fi
+
+# Switch to the target session and select the specific window and pane
+tmux switch-client -t "$session"
+tmux select-window -t "$session:$window"
+tmux select-pane -t "$session:$window.$pane"
