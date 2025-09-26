@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+#
+# tmux-monitor-claude - Monitor all Claude Code instances in a single window
+# Creates a grid of panes that continuously display Claude sessions with color
+
+set -e
+
+# Get current session and window
+CURRENT_SESSION=$(tmux display-message -p '#S')
+CURRENT_WINDOW=$(tmux display-message -p '#I')
+
+# Debug mode
+DEBUG=${DEBUG:-false}
+
+# Update interval (in seconds)
+UPDATE_INTERVAL=${UPDATE_INTERVAL:-1}
+
+# Function to find all Claude processes and their tmux panes
+find_claude_panes() {
+    # Find all claude processes and trace back to tmux panes
+    pgrep "claude" 2>/dev/null | while read claude_pid; do
+        if [ "$DEBUG" = true ]; then
+            echo "Found claude PID: $claude_pid" >&2
+        fi
+
+        # Walk up the process tree to find tmux pane
+        local current_pid=$claude_pid
+        local max_depth=10
+
+        while [ $max_depth -gt 0 ]; do
+            # Get parent PID
+            local parent_pid=$(ps -p "$current_pid" -o ppid= 2>/dev/null | tr -d ' ' || true)
+
+            if [ -z "$parent_pid" ] || [ "$parent_pid" = "1" ]; then
+                break
+            fi
+
+            # Check if parent is a tmux pane
+            local pane_info=$(tmux list-panes -a -F '#S:#I.#P:#{pane_pid}' 2>/dev/null | grep ":${parent_pid}$" || true)
+
+            if [ -n "$pane_info" ]; then
+                # Extract the pane spec (everything before the last colon)
+                local spec=$(echo "$pane_info" | sed 's/:[^:]*$//')
+                local session=$(echo "$spec" | cut -d: -f1)
+                local window_pane=$(echo "$spec" | cut -d: -f2)
+                local window=$(echo "$window_pane" | cut -d. -f1)
+
+                # Skip current window to avoid recursion
+                if [ "$session" = "$CURRENT_SESSION" ] && [ "$window" = "$CURRENT_WINDOW" ]; then
+                    if [ "$DEBUG" = true ]; then
+                        echo "  Skipping current window" >&2
+                    fi
+                    break
+                fi
+
+                if [ "$DEBUG" = true ]; then
+                    echo "  Found in pane: $spec" >&2
+                fi
+                echo "$spec"
+                break
+            fi
+
+            current_pid=$parent_pid
+            ((max_depth--))
+        done
+    done | sort -u
+}
+
+# Main function
+main() {
+    # Check if we're in a tmux session
+    if [ -z "$TMUX" ]; then
+        echo "Error: This script must be run from within a tmux session"
+        exit 1
+    fi
+
+    echo "Searching for Claude sessions..."
+
+    # Find all Claude panes
+    claude_panes=()
+    while IFS= read -r pane_spec; do
+        if [ -n "$pane_spec" ]; then
+            claude_panes+=("$pane_spec")
+            if [ "$DEBUG" = true ]; then
+                echo "Added pane: $pane_spec" >&2
+            fi
+        fi
+    done < <(find_claude_panes)
+
+    if [ ${#claude_panes[@]} -eq 0 ]; then
+        echo "No Claude sessions found."
+        echo "Active claude processes:"
+        ps aux | grep "claude " | grep -v grep | grep -v "tmux-monitor" | head -5
+        echo ""
+        echo "Try: DEBUG=true tmux-monitor-claude"
+        exit 0
+    fi
+
+    echo "Found ${#claude_panes[@]} Claude session(s): ${claude_panes[*]}"
+    echo "Setting up monitor view (updates every ${UPDATE_INTERVAL}s)..."
+
+    # Kill all existing panes except the current one
+    current_pane=$(tmux display-message -p '#{pane_index}')
+    tmux list-panes -t "$CURRENT_SESSION:$CURRENT_WINDOW" -F '#{pane_index}' | grep -v "^${current_pane}$" | while read -r pane; do
+        tmux kill-pane -t "$CURRENT_SESSION:$CURRENT_WINDOW.$pane" 2>/dev/null || true
+    done
+
+    # Create monitoring panes
+    first=true
+
+    for pane_spec in "${claude_panes[@]}"; do
+        session_name=$(echo "$pane_spec" | cut -d: -f1)
+
+        # Change detection approach - only update when content actually changes:
+        # Use a simple script that compares content hashes before updating
+        monitor_cmd='printf "\\033[2J\\033[H"; echo "═══ Monitoring: '$session_name' ═══"; echo ""; content=$(tmux capture-pane -t "'$pane_spec'" -e -p); echo "$content"; prev_hash=$(echo "$content" | cksum | cut -d" " -f1); while true; do content=$(tmux capture-pane -t "'$pane_spec'" -e -p); current_hash=$(echo "$content" | cksum | cut -d" " -f1); if [ "$current_hash" != "$prev_hash" ]; then printf "\\033[3;1H"; echo "$content"; printf "\\033[J"; prev_hash="$current_hash"; fi; sleep '$UPDATE_INTERVAL'; done'
+
+        if [ "$first" = true ]; then
+            # Use the current pane for the first monitor
+            tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" C-c
+            tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" "clear" Enter
+            tmux send-keys -t "$CURRENT_SESSION:$CURRENT_WINDOW.0" "$monitor_cmd" Enter
+            first=false
+        else
+            # Create new panes for additional monitors
+            tmux split-window -t "$CURRENT_SESSION:$CURRENT_WINDOW" "$monitor_cmd"
+        fi
+
+        # Set pane title
+        tmux select-pane -t "$CURRENT_SESSION:$CURRENT_WINDOW" -T "$session_name"
+    done
+
+    # Arrange in tiled layout if we have multiple panes
+    if [ ${#claude_panes[@]} -gt 1 ]; then
+        tmux select-layout -t "$CURRENT_SESSION:$CURRENT_WINDOW" tiled
+    fi
+
+    # Enable pane borders with titles
+    tmux set-window-option -t "$CURRENT_SESSION:$CURRENT_WINDOW" pane-border-status top
+
+    # Rename the window
+    tmux rename-window -t "$CURRENT_SESSION:$CURRENT_WINDOW" "claude-monitor"
+
+    echo
+    echo "Claude monitor active with ${#claude_panes[@]} panes"
+    echo "Showing current view of each Claude session with colors"
+    echo
+    echo "Controls:"
+    echo "  • Ctrl+b arrows: Navigate between panes"
+    echo "  • Ctrl+b z: Zoom in/out of current pane"
+    echo "  • Ctrl+b x: Close a pane"
+    echo "  • To stop monitoring in a pane: Ctrl+c"
+    echo "  • To close entire monitor: Ctrl+b &"
+    echo
+    echo "Tip: For different update speeds, use:"
+    echo "  UPDATE_INTERVAL=0.5 tmux-monitor-claude  # Faster updates"
+    echo "  UPDATE_INTERVAL=2 tmux-monitor-claude    # Slower updates"
+}
+
+main "$@"
