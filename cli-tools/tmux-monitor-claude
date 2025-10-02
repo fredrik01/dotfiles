@@ -83,12 +83,19 @@ find_claude_panes() {
 create_monitor_pane() {
     local pane_spec=$1
     local session_name=$(echo "$pane_spec" | cut -d: -f1)
+    local pane_count=$2
 
     # Change detection approach - only update when content actually changes
-    local monitor_cmd='printf "\\033[2J\\033[H"; echo "═══ Monitoring: '$session_name' ═══"; echo ""; content=$(tmux capture-pane -t "'$pane_spec'" -e -p); echo "$content"; prev_hash=$(echo "$content" | cksum | cut -d" " -f1); while true; do content=$(tmux capture-pane -t "'$pane_spec'" -e -p); current_hash=$(echo "$content" | cksum | cut -d" " -f1); if [ "$current_hash" != "$prev_hash" ]; then printf "\\033[3;1H"; echo "$content"; printf "\\033[J"; prev_hash="$current_hash"; fi; sleep '$UPDATE_INTERVAL'; done'
+    local monitor_cmd='content=$(tmux capture-pane -t "'$pane_spec'" -e -p); printf "\\033[2J\\033[H"; echo "$content"; prev_hash=$(echo "$content" | cksum | cut -d" " -f1); while true; do content=$(tmux capture-pane -t "'$pane_spec'" -e -p); current_hash=$(echo "$content" | cksum | cut -d" " -f1); if [ "$current_hash" != "$prev_hash" ]; then printf "\\033[2J\\033[H"; echo "$content"; prev_hash="$current_hash"; fi; sleep '$UPDATE_INTERVAL'; done'
+
+    # Alternate between horizontal and vertical splits for better grid layout
+    local split_flag=""
+    if [ $((pane_count % 2)) -eq 0 ]; then
+        split_flag="-h"
+    fi
 
     # Always create a new pane (never use pane 0 since that's where the main loop runs)
-    tmux split-window -t "$CURRENT_SESSION:$CURRENT_WINDOW" "$monitor_cmd"
+    tmux split-window $split_flag -t "$CURRENT_SESSION:$CURRENT_WINDOW" "$monitor_cmd"
     local new_pane=$(tmux display-message -p '#{pane_index}')
     tmux set-option -p -t "$CURRENT_SESSION:$CURRENT_WINDOW.$new_pane" @claude_target "$pane_spec"
 
@@ -140,6 +147,7 @@ update_monitor_layout() {
     done
 
     # Find panes to add (in new list but not currently monitored)
+    local pane_index=0
     for new_pane in "${new_panes[@]}"; do
         local found=false
         for monitored in "${current_panes[@]}"; do
@@ -153,7 +161,8 @@ update_monitor_layout() {
             if [ "$DEBUG" = true ]; then
                 echo "Adding pane monitoring: $new_pane" >&2
             fi
-            create_monitor_pane "$new_pane"
+            create_monitor_pane "$new_pane" "$pane_index"
+            ((pane_index++))
         fi
     done
 
@@ -180,8 +189,9 @@ main() {
     local -a previous_panes=()
     local initial_run=true
 
-    # Enable pane borders with titles
+    # Enable pane borders with titles and make them bright
     tmux set-window-option -t "$CURRENT_SESSION:$CURRENT_WINDOW" pane-border-status top
+    tmux set-window-option -t "$CURRENT_SESSION:$CURRENT_WINDOW" pane-border-format "#{?pane_active,#[reverse],}#[fg=brightmagenta,bold]#{pane_title}#[default]"
 
     # Bind Ctrl+b Enter to jump to Claude session
     tmux bind-key -T prefix Enter run-shell 'tmux-claude-jump'
