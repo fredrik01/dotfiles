@@ -50,13 +50,6 @@ return {
           signs = { add = '|', change = '|', delete = '|' },
         }
       })
-      vim.cmd [[
-        highlight MiniDiffSignAdd guifg=#26c978 " Add sign color
-        highlight MiniDiffSignChange guifg=#0096FF " Change sign color
-        highlight MiniDiffSignDelete guifg=#de4949 " Delete sign color
-        highlight MiniDiffOverContext guibg=#33487d " Change overlay bg color
-        highlight MiniDiffOverDelete guibg=#6b2d37 " Delete overlay bg color
-      ]]
     end
   },
     -- Show marks
@@ -118,8 +111,8 @@ return {
       "kwkarlwang/bufjump.nvim",
       config = function()
           require("bufjump").setup({
-              forward = "]b",
-              backward = "[b",
+              -- forward = "]b",
+              -- backward = "[b",
               on_success = function()
                   vim.cmd([[execute "normal! g`\"zz"]]) -- Go to last cursor position after exiting the buffer
               end,
@@ -147,7 +140,18 @@ return {
         -- Show files and directories that start with "."
         show_hidden = true,
       },
+      win_options = {
+        -- For "refractalize/oil-git-status.nvim to work"
+        signcolumn = "yes:2",
+      },
     }) end
+  },
+  {
+    "refractalize/oil-git-status.nvim",
+    dependencies = {
+      "stevearc/oil.nvim",
+    },
+    config = true,
   },
   {'preservim/vimux'},
   {
@@ -221,18 +225,18 @@ return {
       "nvim-tree/nvim-web-devicons"
     }
   },
-  {
-    "utilyre/sentiment.nvim",
-    version = "*",
-    event = "VeryLazy", -- keep for lazy loading
-    opts = {
-      -- config
-    },
-    init = function()
-      -- `matchparen.vim` needs to be disabled manually in case of lazy loading
-      vim.g.loaded_matchparen = 1
-    end,
-  },
+  -- {
+  --   "utilyre/sentiment.nvim",
+  --   version = "*",
+  --   event = "VeryLazy", -- keep for lazy loading
+  --   opts = {
+  --     -- config
+  --   },
+  --   init = function()
+  --     -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+  --     vim.g.loaded_matchparen = 1
+  --   end,
+  -- },
   -- Requires yarn and node
   -- { "iamcco/markdown-preview.nvim", build = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, },
   {
@@ -243,7 +247,10 @@ return {
       -- refer to the configuration section below
     }
   },
-  { 'terrastruct/d2-vim' },
+  {
+    "terrastruct/d2-vim",
+    ft = { "d2" },
+  },
   {
     "folke/todo-comments.nvim",
     opts = {
