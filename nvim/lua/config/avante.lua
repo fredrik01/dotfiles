@@ -95,7 +95,7 @@ You are an excellent programming expert.
   behaviour = {
     auto_suggestions = false, -- Experimental stage
     auto_set_highlight_group = true,
-    auto_set_keymaps = true,
+    auto_set_keymaps = false,
     auto_apply_diff_after_generation = false,
     support_paste_from_clipboard = false,
   },
@@ -168,7 +168,11 @@ You are an excellent programming expert.
     },
     edit = {
       border = "rounded",
+      start_insert = false, -- Start insert mode when opening the ask window
     },
+    ask = {
+      start_insert = false, -- Start insert mode when opening the ask window
+    }
   },
   --- @class AvanteConflictConfig
   diff = {
@@ -176,7 +180,7 @@ You are an excellent programming expert.
   },
   --- @class AvanteHintsConfig
   hints = {
-    enabled = true,
+    enabled = false,
   },
 }
 
