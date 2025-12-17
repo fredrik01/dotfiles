@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+
+if [ $# -lt 2 ]; then
+  echo "Usage: $0 <input.md> <output.pdf>"
+  exit 1
+fi
+
+INPUT="$1"
+OUTPUT="$2"
+
+if [ ! -f "$INPUT" ]; then
+  echo "Error: Input file '$INPUT' not found"
+  exit 1
+fi
+
+# Create temporary header file
+HEADER_FILE=$(mktemp /tmp/header.XXXXXX.tex)
+cat > "$HEADER_FILE" << 'EOF'
+\usepackage[default]{sourceserifpro}
+\usepackage{titlesec}
+\titleformat{\paragraph}[hang]{\normalfont\small\bfseries\itshape}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{2.5ex plus 1ex minus .2ex}{0.5em}
+EOF
+
+docker run --rm --platform linux/amd64 \
+  -v "$(pwd):/data" \
+  -v "$HEADER_FILE:/header.tex:ro" \
+  pandoc/extra \
+  "/data/$INPUT" -o "/data/$OUTPUT" \
+  -V geometry:margin=1in \
+  -V fontsize:11pt \
+  -V colorlinks:true \
+  --highlight-style=tango \
+  -H /header.tex
+
+rm -f "$HEADER_FILE"
+
+echo "Created $OUTPUT"
