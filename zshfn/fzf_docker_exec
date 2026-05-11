@@ -4,14 +4,17 @@ if [[ -z $container ]]; then
   return
 fi
 
-# Try running bash, if exit code 126 then try running sh
+# Try running bash, falling back to sh if unavailable
+# Exit code 126 = command found but not executable
+# Exit code 127 = command not found
 for shell in bash sh
 do
   clear
   echo -e "$container - $shell"
   echo  " "
   docker exec -it $container $shell
-  if [ $? -ne 126 ]; then
+  local rc=$?
+  if [ $rc -ne 126 ] && [ $rc -ne 127 ]; then
     break
   fi
 done
