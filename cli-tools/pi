@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
-# Per-repo Pi launcher with a Docker fallback.
-#
-# Walks up from $PWD (stopping at the git repo root) looking for an executable
-# .pi-tool/run and delegates to it (repo-specific launch details live there). If
-# none is found, runs pi in Docker against the current directory.
+# Pi launcher: runs pi in Docker against the current project (git repo root if in
+# one, else the current dir), mounted as the workspace.
 #
 #   pi [args...]    run a pi session (args forwarded to pi)
-#   pi rebuild      rebuild the fallback Docker image (args go to docker build)
+#   pi rebuild      rebuild the Docker image (args go to docker build)
 #
 # Resuming sessions (sessions are stored per project under the mounted ~/.pi, so
 # they survive between runs; run these from the same directory as before):
@@ -16,18 +13,6 @@
 #   pi --session <id>   resume a specific session by id
 
 root="$(git rev-parse --show-toplevel 2>/dev/null)"
-dir="$PWD"
-while :; do
-  if [ -x "$dir/.pi-tool/run" ]; then
-    exec "$dir/.pi-tool/run" "$@"
-  fi
-  [ "$dir" = "$root" ] && break   # reached the git repo root; don't climb past it
-  [ "$dir" = "/" ] && break       # not in a repo (or hit fs root); stop
-  dir="$(dirname "$dir")"
-done
-
-# No .pi-tool/run found anywhere up the tree — fall back to running pi in
-# Docker, mounting the current directory as the workspace.
 image="pi-coding-agent"
 
 # The `RUN printf` line bakes a container-local git excludesfile into the image
