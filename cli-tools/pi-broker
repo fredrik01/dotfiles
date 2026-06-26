@@ -1,0 +1,151 @@
+#!/bin/sh
+# pi-broker — host side of pi's whitelisted host-command mechanism.
+#
+# Started by `pi` for the duration of a Docker-fallback session and torn down on
+# exit. It watches a bind-mounted requests dir, and for each request runs ONLY a
+# command defined in the repo's .pi-tool/host-commands whitelist, in the repo
+# dir, on the host — streaming output back to the container's `host-run` client.
+#
+#   pi-broker BROKER_DIR REPO_ROOT WHITELIST_FILE
+#
+# Safety model:
+#   * pi sends a command NAME plus literal ARGs, never a command string. ARGs are
+#     passed to the trusted whitelist entry as POSITIONAL PARAMETERS ("$1".."$n"
+#     / "$@"), never interpolated into it — so shell metacharacters in pi's input
+#     can't inject commands.
+#   * By default ARGs are validated against a safe charset and may not start with
+#     "-" (so pi can't smuggle flags). An entry whose key is prefixed `raw:`
+#     skips that check — use it only with a disposable container target.
+#   * The whitelist is re-read live on every request, so host-side edits take
+#     effect immediately. This stays safe because pi can't tamper with it — the
+#     file is mounted read-only in the container, and only the host can write it.
+#
+# IMPORTANT — docker entries are host-root-equivalent:
+#   The safety model above protects PLAIN host commands. It does NOT contain a
+#   command that invokes `docker`/`docker compose`, because docker can mount any
+#   host path into a container, and pi has read-write access to the repo. Given a
+#   whitelist entry like `docker compose run --rm app "$@"`, pi can edit the
+#   repo's compose file (or a .env / override / build context it reads) to add a
+#   volume such as `/:/hostroot`, run a command that reads or writes it, then
+#   revert the file. The positional-param/validation rules above stop flag and
+#   shell injection, but NOT editing the files docker reads — so a docker-backed
+#   entry effectively hands pi the host. Reserve such entries for repos where you
+#   trust pi with host access. To limit exposure: bring the stack up yourself with
+#   a trusted compose and whitelist only `docker compose exec app "$@"` (never
+#   run/up/down/build) — pi cannot change a running container's mounts; or keep
+#   the compose file (and its .env/override/build context) outside the repo so pi
+#   cannot edit it. Otherwise, for a true sandbox, do not whitelist docker.
+set -u
+
+brokerdir="$1"
+root="$2"
+whitelist="$3"
+
+req="$brokerdir/requests"
+resp="$brokerdir/responses"
+mkdir -p "$req" "$resp"
+
+trim() {
+  s="$1"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
+# A pi-supplied ARG is allowed only if it is non-empty, contains nothing outside
+# the safe charset, and does not start with "-" (which would let it act as a
+# flag). `raw:` entries bypass this.
+valid_arg() {
+  case "$1" in
+    '' | -*) return 1 ;;
+  esac
+  LC_ALL=C printf '%s' "$1" | grep -q '^[A-Za-z0-9_./:@=,\-]*$'
+}
+
+# Find NAME in the (live) whitelist. On success prints two lines (RAW then ENTRY).
+lookup() {
+  want="$1"
+  while IFS= read -r line || [ -n "$line" ]; do
+    case "$(trim "$line")" in '' | \#*) continue ;; esac
+    key=$(trim "${line%%=*}")
+    entry=$(trim "${line#*=}")
+    raw=0
+    case "$key" in raw:*) raw=1; key=$(trim "${key#raw:}") ;; esac
+    if [ "$key" = "$want" ]; then
+      printf '%s\n%s' "$raw" "$entry"
+      return 0
+    fi
+  done < "$whitelist"
+  return 1
+}
+
+list_commands() {
+  while IFS= read -r line || [ -n "$line" ]; do
+    case "$(trim "$line")" in '' | \#*) continue ;; esac
+    key=$(trim "${line%%=*}")
+    entry=$(trim "${line#*=}")
+    printf '%s = %s\n' "$key" "$entry"
+  done < "$whitelist"
+}
+
+# Handle one request file. Runs in a background subshell, so `set --` here only
+# affects this request's positional parameters.
+run_request() {
+  reqfile="$1"
+  id="$2"
+  out="$resp/$id.out"
+  exitf="$resp/$id.exit"
+
+  set --
+  first=1
+  name=""
+  while IFS= read -r field || [ -n "$field" ]; do
+    if [ "$first" = 1 ]; then name="$field"; first=0; else set -- "$@" "$field"; fi
+  done < "$reqfile"
+  rm -f "$reqfile"
+
+  if [ "$name" = "__list__" ]; then
+    list_commands > "$out" 2>&1
+    printf '0' > "$exitf"
+    return
+  fi
+
+  if ! info=$(lookup "$name"); then
+    printf 'host-run: unknown command: %s\n' "$name" > "$out"
+    printf '127' > "$exitf"
+    return
+  fi
+  raw=$(printf '%s\n' "$info" | head -n 1)
+  entry=$(printf '%s\n' "$info" | tail -n +2)
+
+  if [ "$raw" != 1 ]; then
+    for a in "$@"; do
+      if ! valid_arg "$a"; then
+        printf 'host-run: argument rejected by validation: %s\n' "$a" > "$out"
+        printf '126' > "$exitf"
+        return
+      fi
+    done
+  fi
+
+  # Run the whitelisted command in the repo dir. The trusted ENTRY is the script;
+  # pi's ARGs are the positional parameters — never part of the script text.
+  ( cd "$root" && sh -c "$entry" host-run "$@" ) > "$out" 2>&1
+  printf '%s' "$?" > "$exitf"
+}
+
+trap 'pkill -P $$ 2>/dev/null; exit 0' TERM INT
+
+# Poll for requests (macOS has no inotify; a short sleep is plenty). Each request
+# is atomically claimed by renaming it to a hidden name before it is handled, so
+# it is never picked up twice.
+while :; do
+  for f in "$req"/*; do
+    [ -e "$f" ] || continue
+    id=$(basename "$f")
+    claim="$req/.$id.proc"
+    mv "$f" "$claim" 2>/dev/null || continue
+    run_request "$claim" "$id" &
+  done
+  sleep 0.1
+done

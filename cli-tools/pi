@@ -8,6 +8,12 @@
 #
 #   pi [args...]    run a pi session (args forwarded to pi)
 #   pi rebuild      rebuild the fallback Docker image (args go to docker build)
+#
+# Resuming sessions (sessions are stored per project under the mounted ~/.pi, so
+# they survive between runs; run these from the same directory as before):
+#   pi -c           continue this project's most recent session
+#   pi -r           pick a session of this project's to resume
+#   pi --session <id>   resume a specific session by id
 
 root="$(git rev-parse --show-toplevel 2>/dev/null)"
 dir="$PWD"
@@ -52,18 +58,85 @@ if ! docker image inspect "$image" >/dev/null 2>&1; then
   printf '%s\n' "$dockerfile" | docker build -t "$image" - || exit 1
 fi
 
+# The "project root": the git repo root when in one, otherwise the current dir.
+# Everything below (the workspace mount, per-project sessions, the host-command
+# whitelist) keys off this, so it all works the same in non-git directories.
+base="${root:-$PWD}"
+workspace="$base"
+
 # Carry the host git identity into the container so commits made inside it are
 # attributed to the same author as on the host, and point core.excludesfile at
 # the container-local ignore list baked into the image (mirrors .pi-tool/run).
-exec docker run --rm -it \
-  -v "$PWD":/workspace \
-  -v "$HOME/.pi":/root/.pi \
-  -w /workspace \
-  -e GIT_CONFIG_COUNT=3 \
-  -e GIT_CONFIG_KEY_0=user.name \
-  -e GIT_CONFIG_VALUE_0="$(git config user.name 2>/dev/null || true)" \
-  -e GIT_CONFIG_KEY_1=user.email \
-  -e GIT_CONFIG_VALUE_1="$(git config user.email 2>/dev/null || true)" \
-  -e GIT_CONFIG_KEY_2=core.excludesfile \
-  -e GIT_CONFIG_VALUE_2=/etc/pi-gitignore-global \
-  "$image" "$@"
+run_args=(
+  --rm -it
+  -v "$workspace":/workspace
+  -v "$HOME/.pi":/root/.pi
+  -w /workspace
+  -e GIT_CONFIG_COUNT=3
+  -e GIT_CONFIG_KEY_0=user.name
+  -e GIT_CONFIG_VALUE_0="$(git config user.name 2>/dev/null || true)"
+  -e GIT_CONFIG_KEY_1=user.email
+  -e GIT_CONFIG_VALUE_1="$(git config user.email 2>/dev/null || true)"
+  -e GIT_CONFIG_KEY_2=core.excludesfile
+  -e GIT_CONFIG_VALUE_2=/etc/pi-gitignore-global
+)
+
+# If this repo defines a host-command whitelist, run a per-session broker so pi
+# can invoke those commands on the host via `host-run`. The whitelist is mounted
+# read-only so pi (which has the repo rw) cannot tamper with what it may run.
+broker_pid=""
+broker_dir=""
+pi_args=()   # extra arguments passed to pi itself (before the user's)
+
+# Give each project its own session store under the persisted ~/.pi mount, so
+# `pi -c` / `pi -r` resume THIS project's sessions. pi otherwise keys sessions by
+# cwd, which is always /workspace in the container — so without this every
+# project would share (and clobber) one session bucket.
+session_key="$(printf '%s' "${base#/}" | sed 's#[^A-Za-z0-9._-]#-#g')"
+pi_args+=(--session-dir "/root/.pi/agent/sessions/$session_key")
+
+whitelist="$base/.pi-tool/host-commands"
+hostrun="$(command -v host-run || true)"
+if [ -f "$whitelist" ]; then
+  if [ -z "$hostrun" ]; then
+    echo "pi: found $whitelist but 'host-run' is not on PATH; host commands disabled" >&2
+  elif broker_dir="$(mktemp -d /tmp/pi-broker.XXXXXX)" && [ -d "$broker_dir" ]; then
+    pi-broker "$broker_dir" "$base" "$whitelist" &
+    broker_pid=$!
+    run_args+=(
+      -v "$broker_dir":/pi-broker
+      -v "$hostrun":/usr/local/bin/host-run:ro
+      -v "$whitelist":/workspace/.pi-tool/host-commands:ro
+      -e PI_BROKER=/pi-broker
+    )
+
+    # Tell pi (via its system prompt) that host-run exists and which commands
+    # this repo allows, so awareness is automatic and the repo stays config-free
+    # apart from the whitelist itself. Names are parsed from the whitelist.
+    names="$(awk -F= '
+      /^[[:space:]]*#/ { next }
+      /=/ {
+        n = $1
+        sub(/^[[:space:]]*(raw:)?[[:space:]]*/, "", n)
+        sub(/[[:space:]]*$/, "", n)
+        if (n != "") { printf "%s%s", sep, n; sep = ", " }
+      }' "$whitelist")"
+    pi_args+=(--append-system-prompt "You are running inside a locked-down container.
+Some commands can be run on the host machine via the \`host-run\` tool, on your PATH:
+- \`host-run\` with no arguments lists the commands this project allows.
+- \`host-run <name> [args...]\` runs one. Output streams live and the call returns
+  the command's exit code; commands may take several minutes.
+You cannot run arbitrary host commands — only these named ones.
+Available in this project: ${names:-(run host-run with no arguments to see)}")
+  else
+    broker_dir=""
+    echo "pi: could not create broker temp dir; host commands disabled" >&2
+  fi
+fi
+
+# Stop the broker on exit. The temp dir under /tmp is left for the OS to reap
+# (macOS clears stale /tmp entries), which also leaves its request/response logs
+# around for debugging a session.
+trap '[ -n "$broker_pid" ] && kill "$broker_pid" 2>/dev/null' EXIT
+
+docker run "${run_args[@]}" "$image" "${pi_args[@]}" "$@"
