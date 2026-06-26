@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+# Per-repo Pi launcher with a Docker fallback.
+#
+# Walks up from $PWD (stopping at the git repo root) looking for an executable
+# .pi-tool/run and delegates to it (repo-specific launch details live there). If
+# none is found, runs pi in Docker against the current directory.
+#
+#   pi [args...]    run a pi session (args forwarded to pi)
+#   pi rebuild      rebuild the fallback Docker image (args go to docker build)
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)"
+dir="$PWD"
+while :; do
+  if [ -x "$dir/.pi-tool/run" ]; then
+    exec "$dir/.pi-tool/run" "$@"
+  fi
+  [ "$dir" = "$root" ] && break   # reached the git repo root; don't climb past it
+  [ "$dir" = "/" ] && break       # not in a repo (or hit fs root); stop
+  dir="$(dirname "$dir")"
+done
+
+# No .pi-tool/run found anywhere up the tree — fall back to running pi in
+# Docker, mounting the current directory as the workspace.
+image="pi-coding-agent"
+
+# The `RUN printf` line bakes a container-local git excludesfile into the image
+# (wired up via core.excludesfile in the `docker run` below): one quoted pattern
+# per arg. It keeps pi's own artifacts out of `git status` without touching the
+# project's real .gitignore. Add/remove patterns, then run `pi rebuild`.
+dockerfile='FROM node:24-bookworm-slim
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends bash ca-certificates git ripgrep \
+  && rm -rf /var/lib/apt/lists/*
+RUN npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+RUN printf "%s\n" ".pi-tool/" "tags" > /etc/pi-gitignore-global
+WORKDIR /workspace
+ENTRYPOINT ["pi"]'
+
+# `pi rebuild` rebuilds the fallback image without starting a session, e.g.
+# after bumping the pi version. --no-cache forces a fresh npm install; extra
+# args are forwarded to `docker build`.
+if [ "$1" = "rebuild" ]; then
+  shift
+  echo "pi: rebuilding Docker image '$image'..." >&2
+  printf '%s\n' "$dockerfile" | docker build --no-cache -t "$image" "$@" -
+  exit
+fi
+
+if ! docker image inspect "$image" >/dev/null 2>&1; then
+  echo "pi: building Docker image '$image'..." >&2
+  printf '%s\n' "$dockerfile" | docker build -t "$image" - || exit 1
+fi
+
+# Carry the host git identity into the container so commits made inside it are
+# attributed to the same author as on the host, and point core.excludesfile at
+# the container-local ignore list baked into the image (mirrors .pi-tool/run).
+exec docker run --rm -it \
+  -v "$PWD":/workspace \
+  -v "$HOME/.pi":/root/.pi \
+  -w /workspace \
+  -e GIT_CONFIG_COUNT=3 \
+  -e GIT_CONFIG_KEY_0=user.name \
+  -e GIT_CONFIG_VALUE_0="$(git config user.name 2>/dev/null || true)" \
+  -e GIT_CONFIG_KEY_1=user.email \
+  -e GIT_CONFIG_VALUE_1="$(git config user.email 2>/dev/null || true)" \
+  -e GIT_CONFIG_KEY_2=core.excludesfile \
+  -e GIT_CONFIG_VALUE_2=/etc/pi-gitignore-global \
+  "$image" "$@"
