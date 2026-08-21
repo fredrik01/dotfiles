@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Show deleted files as diff
+# git diff --diff-filter=D | less -RFX
+# git difftool --diff-filter=D
+# t=$(git ls-files --deleted | fzf --preview="git show :{}")
+deletedFiles=$(git ls-files --deleted)
+if [ -n "${deletedFiles}" ]; then
+  echo ""
+  echo -e "${RED}Deleted files:${NC}"
+  echo "$deletedFiles"
+  echo ""
+  read -p "Press any key" -n 1 -r
+fi
+
+# Open editor with populated quickfix
+trap 'rm -f "$tmp"' 0 1 2 3 15
+tmp=`mktemp -t git-review.XXXXXX` || exit 1
+
+# Exclude deleted files from "list-changes"
+git list-changes | grep -v /dev/null:0: > "$tmp"
+test -s "$tmp" || exit 0
+editor=`git var GIT_EDITOR`
+eval "$editor -q $tmp"
