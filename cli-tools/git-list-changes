@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# List changes and new files
+
+# Get list of all changes
+changes=$(git diff --no-prefix --relative "$@" |
+	perl -ne '
+	if (m{^\+\+\+ (.*)}) { $file = $1; next }
+	defined($file) or next;
+	if (m/^@@ .*?\+(\d+)/) { $line = $1; next }
+	defined($line) or next;
+	if (/^ /) { $line++; next }
+	if (/^[-+]\s*(.*)/) {
+		print "$file:$line: $1\n";
+		$line = undef;
+	}
+	' 2>&1)
+
+# Get list of all new files
+newFiles=$(git ls-files -o --exclude-standard | while read line; do echo "$line:1:1:NEW FILE"; done 2>&1)
+
+# combined="$changes\n$newFiles"
+combined=$(printf "%s\n%s" "$changes" "$newFiles")
+
+echo "$combined"
